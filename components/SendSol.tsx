@@ -43,13 +43,18 @@ export const SendSol: FC = () => {
 
     return (
         <div>
+            <div className={styles.standard}>
+                <h1>
+                    Welcome to XX Protocol
+                </h1>
+            </div>
             <div>
-                <h1>{publicKey ? 'Send ANY wallet some SOL' : ""} </h1>
+                <h3>{publicKey ? 'Send ANY wallet some SOL' : ""} </h3>
             </div>
             <div>
                 <p>{publicKey ? `Your  Balance: ${balance / web3.LAMPORTS_PER_SOL} SOL` : ''}</p>
             </div>
-            <div>
+            <div className={styles.standard}>
                 {
                     publicKey ?
                         <form onSubmit={sendSol} className={styles.form}>
@@ -60,7 +65,7 @@ export const SendSol: FC = () => {
                             <input id="recipient" type="text" className={styles.formField} placeholder="e.g. 4Zw1fXuYuJhWhu9KLEYMhiPEiqcpKd6akw3WRZCv84HA" required />
                             <button type="submit" className={styles.formButton}>Send</button>
                         </form> :
-                        <span>Connect Your Wallet</span>
+                        <h2 style={{ color: 'grey', textAlign: 'center' }} >Connect Your Wallet</h2>
                 }
                 {
                     txSig ?
@@ -71,6 +76,6 @@ export const SendSol: FC = () => {
                         null
                 }
             </div>
-        </div>
+        </div >
     )
 }
