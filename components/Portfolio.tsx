@@ -41,7 +41,7 @@ export const Portfolio: FC = () => {
         // Filter for token accounts with non-zero balances
         const currentTokenAccounts = accountInfo.filter(e => e.amount > 0)
 
-        // Print the balance, mintAuthority, name and symbol of each token
+        // Print the mintAuthority, name, symbol and balance of each token
         for (let i = 0; i < currentTokenAccounts.length; i++) {
 
             const mintAddress = new PublicKey(currentTokenAccounts[i].mint).toString()
@@ -53,10 +53,11 @@ export const Portfolio: FC = () => {
             console.log('Token name is ' + tokenMeta['name'])
             console.log('Token symbol is ' + tokenMeta['abbreviation'])
 
-            const balance = currentTokenAccounts[i].amount
-            console.log(`Balance: ` + balance)
-            console.log(balance)
+            const tokenBalanceData = (await connection.getTokenAccountBalance(tokenAccounts[i].pubkey)).value
+            console.log(`Balance: ` + tokenBalanceData.uiAmountString)
+            // console.log(tokenBalanceData)
 
+            console.log("------------------------------------")
         }
 
     }
