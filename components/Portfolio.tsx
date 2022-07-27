@@ -10,7 +10,9 @@ import { clusterApiUrl, PublicKey } from "@solana/web3.js";
 export const Portfolio: FC = () => {
 
     async function getTokenAccount() {
-        const connection = new Connection(clusterApiUrl('mainnet-beta'));
+        const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/"
+        const connection = new Connection(rpcEndpoint);
+        // const connection = new Connection(clusterApiUrl('mainnet-beta'));
 
         // Fetch all the token accounts owned by the specified account 
         // returns RpcResponseAndContext<Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}>>
@@ -64,9 +66,13 @@ export const Portfolio: FC = () => {
 
     // Send GET request to solanafm endpoint
     async function getTokenName(mintName: String): Promise<any> {
-        const request = 'https://hyper.solana.fm/v2/search/tokens/' + mintName
+        const url = 'https://hyper.solana.fm/v2/search/tokens/' + mintName
         try {
-            const response = await fetch(request)
+            const response = await fetch(url, {
+                method: "GET",
+                mode: "no-cors",
+                headers: {}
+            })
             const result = await response.json()
             // Return tokens name, abbreviation, network, hash, etc
             return result.Tokens[0]

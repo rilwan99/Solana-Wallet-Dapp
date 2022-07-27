@@ -7,6 +7,7 @@ import { PingButton } from '../components/PingButton'
 import { SendSol } from '../components/SendSol'
 import { Portfolio } from '../components/Portfolio'
 import { PriceFeed } from '../components/PriceFeed'
+import BasicTable from '../components/Table'
 
 const Home: NextPage = (props) => {
 
@@ -24,6 +25,7 @@ const Home: NextPage = (props) => {
         <div className={styles.AppBody}>
           <Portfolio />
           <PriceFeed />
+          <BasicTable />
           {/* <SendSol /> */}
         </div>
       </WalletContextProvider >

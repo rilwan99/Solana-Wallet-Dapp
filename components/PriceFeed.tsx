@@ -1,35 +1,41 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import styles from '../styles/Home.module.css'
-import { Connection } from '@solana/web3.js'
-import { getPythClusterApiUrl, getPythProgramKeyForCluster, PythCluster } from '@pythnetwork/client/lib/cluster'
-import { PriceStatus, PythHttpClient } from '@pythnetwork/client'
 
 
 export const PriceFeed: FC = () => {
 
-    const SOLANA_CLUSTER_NAME: PythCluster = 'mainnet-beta'
-    const connection = new Connection(getPythClusterApiUrl(SOLANA_CLUSTER_NAME))
-    const pythPublicKey = getPythProgramKeyForCluster(SOLANA_CLUSTER_NAME)
+    const [tokenList, setTokenList] = useState(0)
 
-    async function runQuery(token: String): Promise<void> {
-        const pythClient = new PythHttpClient(connection, pythPublicKey)
-        const data = await pythClient.getData()
+    //1. Import coingecko-api
+    const CoinGecko = require('coingecko-api');
 
-        for (const symbol of data.symbols) {
-            const price = data.productPrice.get(symbol)
+    //2. Initiate the CoinGecko API Client
+    const CoinGeckoClient = new CoinGecko();
 
-            if (price.price && price.confidence) {
-                // tslint:disable-next-line:no-console
-                console.log(`${symbol}: $${price.price} \xB1$${price.confidence}`)
-            } else {
-                // tslint:disable-next-line:no-console
-                console.log(`${symbol}: price currently unavailable. status is ${PriceStatus[price.status]}`)
-            }
-        }
-    }
+    async function getTokenList() {
+        // Sending request using coingecko API
+        const data = await CoinGeckoClient.coins.list()
 
-    runQuery('USDC/USD')
+        // Extracting id, name and symbol for all tokens listed
+        // Returns array of objects with properties: id, name & symbol
+        const coingeckoList = data.data
 
+        // Filtering through array to find the desired token
+        const requiredTokenObject = coingeckoList.find(element => element.symbol === "msol")
+        // Finding the coingecko ID of the desired token
+        const requiredTokenId = requiredTokenObject.id;
+
+        // Fetching token information using coingecko API
+        const tokenInfo = await CoinGeckoClient.coins.fetch(requiredTokenId, { tickers: false, community_data: false, developer_data: false, localization: false })
+        // Retrieving market data of the desired token
+        const priceInfo = tokenInfo.data.market_data
+
+        // Fetching Price(USD) of the desired token
+        const priceInfoUsd = priceInfo.current_price.usd
+        console.log(JSON.stringify(priceInfoUsd))
+        console.log(priceInfoUsd)
+        setTokenList(priceInfoUsd)
+    };
 
     return (
         <div>
@@ -37,7 +43,10 @@ export const PriceFeed: FC = () => {
                 <h2>
                     Prices
                 </h2>
-
+                <p>Token Price: {tokenList}</p>
+                <button onClick={async () => await getTokenList()}>
+                    Call Function
+                </button>
             </div>
         </div >
     )
