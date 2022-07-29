@@ -49,11 +49,11 @@ export const Portfolio: FC = () => {
             const mintAddress = new PublicKey(currentTokenAccounts[i].mint).toString()
             console.log(`Mint: ` + mintAddress)
 
-            const tokenMeta: Object = await getTokenName(mintAddress)
-            // const tokenInfo = JSON.stringify(tokenMeta)
-            // console.log(tokenInfo)
-            console.log('Token name is ' + tokenMeta['name'])
-            console.log('Token symbol is ' + tokenMeta['abbreviation'])
+            const tokenMeta = await getTokenName(mintAddress)
+            const tokenInfo = JSON.stringify(tokenMeta)
+            // console.log("Token Info is " + tokenInfo)
+            console.log('Token name is ' + tokenMeta.name)
+            console.log('Token symbol is ' + tokenMeta.abbreviation)
 
             const tokenBalanceData = (await connection.getTokenAccountBalance(tokenAccounts[i].pubkey)).value
             console.log(`Balance: ` + tokenBalanceData.uiAmountString)

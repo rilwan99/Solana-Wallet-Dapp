@@ -63,3 +63,8 @@
   text-align: center;
   align-items: center;
 }
+
+.Title {
+  font-family: "Roboto", Arial;
+  color: rgb(168, 198, 255);
+}
