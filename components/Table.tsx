@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,40 +16,22 @@ import * as web3 from '@solana/web3.js'
 
 import { AccountLayout } from "@solana/spl-token";
 import { clusterApiUrl, PublicKey } from "@solana/web3.js";
-
-import * as axios from 'axios'
-
-const proxy = require("http-proxy-middleware");
+import { getTokenPrices } from '../lib/getPrice';
 
 export const BasicTable: FC = () => {
 
     const [addressSubmitted, setAddressSubmitted] = useState(false)
+    const [rows, setRows] = useState([])
 
     function createData(
-        name: string,
-        calories: number,
-        fat: number,
-        carbs: number,
-        protein: number,
+        assetName: string,
+        symbol: string,
+        balance: number,
+        price: number,
+        value: number
     ) {
-        return { name, calories, fat, carbs, protein };
+        return { assetName, symbol, balance, price, value };
     }
-
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
-
-    // type tokenDisplay {
-    //     assetName: string,
-    //     symbol: string,
-    //     balance: string,
-    //     price: string,
-    //     value: string
-    // }
 
     async function submitAddress(event) {
 
@@ -68,6 +50,11 @@ export const BasicTable: FC = () => {
         const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
 
         await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
+
+        // Need to debug how to differentiate between tokens of the same symbol
+        await getPrices();
+
+        getTokenValue();
 
         setAddressSubmitted(true)
     }
@@ -108,7 +95,6 @@ export const BasicTable: FC = () => {
         tokenAccounts.forEach((e) => {
             tokenMetaList.push(AccountLayout.decode(e.account.data))
         })
-
         return tokenMetaList;
     }
 
@@ -117,28 +103,39 @@ export const BasicTable: FC = () => {
         // Filter for token accounts with non-zero balances
         const currentTokenAccounts = tokenMetaList.filter(e => e.amount > 0)
 
-        // Print the mintAuthority, name, symbol and balance of each token
+        // Ierate through list of token accounts with non-zero balances
         for (let i = 0; i < currentTokenAccounts.length; i++) {
 
+            // Find the mint address
             const mintAddress = new PublicKey(currentTokenAccounts[i].mint).toString()
-            console.log(`Mint: ` + mintAddress)
+            // console.log(`Mint: ` + mintAddress)
 
+            // Find the token name, symbol using the mint address
+            // const tokenMeta = await getTokenName(mintAddress)
             const tokenMeta = await getTokenName(mintAddress)
-            console.log("Token Meta is " + tokenMeta)
-            const tokenInfo = JSON.stringify(tokenMeta)
-            console.log("Token info is " + tokenInfo)
-            // console.log('Token name is ' + tokenMeta.name)
-            // console.log('Token symbol is ' + tokenMeta.abbreviation)
+            console.log('Token name is ' + tokenMeta.name)
+            console.log('Token symbol is ' + tokenMeta.abbreviation)
 
+            // Find the token account balance 
+            // getTokenAccountBalance() -> Return inconsistent values for amount & decimals
+            // currentTokenAccounts.amount -> Returns only amount(n) w/o decimals
             const tokenPubKey = tokenAccounts.value[i].pubkey
-            const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey)).value
-            console.log(`Balance: ` + tokenBalanceData.uiAmountString)
+            const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey, "finalized")).value
+            const decimals = Math.pow(10, tokenBalanceData.decimals)
+            const balance = Number(currentTokenAccounts[i].amount) / decimals
+            console.log(`Decimals: ` + tokenBalanceData.decimals)
+            console.log(`Amount: ` + currentTokenAccounts[i].amount)
+            console.log('Balance: ' + balance)
 
             console.log("------------------------------------")
+            const existingRows = rows
+            existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0))
+            setRows(existingRows)
         }
 
     }
 
+    // Call Solanafm's endpoint to retrieve token name, symbol, etc
     async function getTokenName(mintName: String): Promise<any> {
         const url = 'https://hyper.solana.fm/v2/search/tokens/' + mintName
         try {
@@ -149,7 +146,6 @@ export const BasicTable: FC = () => {
             })
             const result = await response.json()
             // Return tokens name, abbreviation, network, hash, etc
-            console.log("api call is " + result.Tokens)
             return result.Tokens[0]
         }
         catch (error) {
@@ -157,27 +153,23 @@ export const BasicTable: FC = () => {
         }
     }
 
-    // async function getTokenName(mintName: String): Promise<any> {
-    //     const url = 'https://hyper.solana.fm/v2/search/tokens/' + mintName
-    //     const myHeader = new Headers();
-    //     const myRequest = new Request(url, {
-    //         method: 'GET',
-    //         headers: myHeader,
-    //         mode: 'cors',
-    //         cache: 'default',
-    //     });
-    //     fetch(myRequest)
-    //         .then((response) => {
-    //             if (!response.ok) {
-    //                 console.log(response)
-    //                 throw new Error('Network response was not OK');
-    //             }
-    //             return response.json();
-    //         })
-    //         .catch((error) => {
-    //             console.error('There has been a problem with your fetch operation:', error);
-    //         });
-    // }
+    async function getPrices() {
+        let tokenSymbols: string[] = []
+        rows.forEach(tokenInfo => tokenSymbols.push(tokenInfo.symbol))
+        const tokenPrices: Number[] = await getTokenPrices(tokenSymbols)
+        for (let i = 0; i < tokenPrices.length; i++) {
+            rows[i].price = tokenPrices[i]
+        }
+    }
+
+    function getTokenValue() {
+
+        rows.forEach(token => {
+            if (token.balance !== 0 && token.price !== 0) {
+                token.value = token.balance * token.price
+            }
+        })
+    }
 
     return (
         <div>
@@ -207,16 +199,14 @@ export const BasicTable: FC = () => {
                             <TableBody>
                                 {rows.map((row) => (
                                     <TableRow
-                                        key={row.name}
+                                        key={row.assetName}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell align="center">{row.calories}</TableCell>
-                                        <TableCell align="center">{row.fat}</TableCell>
-                                        <TableCell align="center">{row.carbs}</TableCell>
-                                        <TableCell align="center">{row.protein}</TableCell>
+                                        <TableCell>{row.assetName}</TableCell>
+                                        <TableCell align="center">{row.symbol}</TableCell>
+                                        <TableCell align="center">{row.balance !== 0 ? row.balance : "-"}</TableCell>
+                                        <TableCell align="center">{row.price !== 0 ? row.price : "-"}</TableCell>
+                                        <TableCell align="center">{row.value !== 0 ? "$ " + row.value : "-"}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
