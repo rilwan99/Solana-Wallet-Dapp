@@ -68,3 +68,10 @@
   font-family: "Roboto", Arial;
   color: rgb(168, 198, 255);
 }
+
+.loading {
+  max-width: 20%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

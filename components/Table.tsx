@@ -22,6 +22,7 @@ export const BasicTable: FC = () => {
 
     const [addressSubmitted, setAddressSubmitted] = useState(false)
     const [rows, setRows] = useState([])
+    const [loading, setLoading] = useState(false)
 
     function createData(
         assetName: string,
@@ -36,6 +37,7 @@ export const BasicTable: FC = () => {
     async function submitAddress(event) {
 
         event.preventDefault()
+        setLoading(true)
 
         const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/"
         const connection = new Connection(rpcEndpoint);
@@ -57,6 +59,7 @@ export const BasicTable: FC = () => {
         getTokenValue();
 
         setAddressSubmitted(true)
+        setLoading(false)
     }
 
     async function getTokenAccount(connection: Connection, walletAddress: string) {
@@ -183,6 +186,8 @@ export const BasicTable: FC = () => {
                 </form>
             </div>
 
+            {loading ? <img className={styles.loading} src="/loading.gif" /> : " "}
+
             {
                 addressSubmitted ?
                     <TableContainer component={Paper} sx={{ maxWidth: 1000, backgroundColor: "rgb(182, 195, 224)", marginTop: 2, marginBottom: 5 }}>
@@ -212,7 +217,7 @@ export const BasicTable: FC = () => {
                             </TableBody>
                         </Table>
                     </TableContainer> :
-                    <h3 style={{ color: 'grey', textAlign: 'center' }} >Submit your address</h3>
+                    <h3 style={{ color: 'grey', textAlign: 'center' }} > </h3>
             }
 
         </div >
