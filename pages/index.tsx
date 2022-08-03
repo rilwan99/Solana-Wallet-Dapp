@@ -1,30 +1,24 @@
 import { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 import WalletContextProvider from '../components/WalletContextProvider'
-import { AppBar } from '../components/AppBar'
 import Head from 'next/head'
-import { PingButton } from '../components/PingButton'
-import { SendSol } from '../components/SendSol'
-import { Portfolio } from '../components/Portfolio'
-import { PriceFeed } from '../components/PriceFeed'
-import { BasicTable } from '../components/Table'
+import Dashboard from './dashboard'
+import Homepage from './homePage'
 
 const Home: NextPage = (props) => {
 
   return (
     <div className={styles.App}>
       <Head>
-        <title>Solana summer Camp </title>
+        <title>TableFi: One stop platform</title>
         <meta
           name="description"
-          content="Frontend-Boilerplate Example"
+          content="One stop platform for you to track your Solana assets"
         />
       </Head>
+
       <WalletContextProvider>
-        <AppBar />
-        <div className={styles.AppBody}>
-          <BasicTable />
-        </div>
+        <Homepage />
       </WalletContextProvider >
     </div>
   );

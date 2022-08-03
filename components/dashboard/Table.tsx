@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 
 import { Connection } from "@solana/web3.js";
 import { RawAccount, TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -16,7 +16,7 @@ import * as web3 from '@solana/web3.js'
 
 import { AccountLayout } from "@solana/spl-token";
 import { clusterApiUrl, PublicKey } from "@solana/web3.js";
-import { getTokenPrices } from '../lib/getPrice';
+import { getTokenPrices } from '../../lib/getPrice';
 
 export const BasicTable: FC = () => {
 
