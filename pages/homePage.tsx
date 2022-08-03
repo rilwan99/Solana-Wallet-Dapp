@@ -15,7 +15,7 @@ const Homepage: React.FC = () => {
             </div>
             <div className={styles.div1}>
                 <div>
-                    <h1 className={styles.h1}>We give power to the individual</h1>
+                    <h1 className={styles.h1}>We give poweR to the individual</h1>
                     <p className={styles.para}>
                         Investing in cryptocurrencys is not easy, find out how this app will make your life easier.
                     </p>
