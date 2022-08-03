@@ -23,10 +23,7 @@ const Home: NextPage = (props) => {
       <WalletContextProvider>
         <AppBar />
         <div className={styles.AppBody}>
-          {/* <Portfolio /> */}
-          {/* <PriceFeed /> */}
           <BasicTable />
-          {/* <SendSol /> */}
         </div>
       </WalletContextProvider >
     </div>

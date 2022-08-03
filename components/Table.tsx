@@ -105,6 +105,7 @@ export const BasicTable: FC = () => {
 
         // Filter for token accounts with non-zero balances
         const currentTokenAccounts = tokenMetaList.filter(e => e.amount > 0)
+        console.log(currentTokenAccounts)
 
         // Ierate through list of token accounts with non-zero balances
         for (let i = 0; i < currentTokenAccounts.length; i++) {
@@ -116,6 +117,7 @@ export const BasicTable: FC = () => {
             // Find the token name, symbol using the mint address
             // const tokenMeta = await getTokenName(mintAddress)
             const tokenMeta = await getTokenName(mintAddress)
+            console.log('token meta is ' + JSON.stringify(tokenMeta))
             console.log('Token name is ' + tokenMeta.name)
             console.log('Token symbol is ' + tokenMeta.abbreviation)
 
@@ -177,6 +179,7 @@ export const BasicTable: FC = () => {
     return (
         <div>
             <div className={styles.standard}>
+                <img className={styles.loading} src="/logo.jpg" />
                 <form onSubmit={submitAddress}>
                     <h2>
                         Enter Account Address:
