@@ -1,10 +1,11 @@
 .App {
-  min-height: 100vh;
+  min-height: 150vh;
+  height: 150px;
   display: flex;
   flex-direction: column;
 
   text-align: left;
-  background-color: #282c34;
+  background-color: #2b3453;
 }
 
 .AppHeader {

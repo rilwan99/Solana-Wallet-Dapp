@@ -11,18 +11,57 @@
 }
 
 .wallet {
-  padding-left: 80%;
-  padding-top: 2 %;
+  margin-left: 2%;
+  padding-left: 85%;
+  padding-top: 2%;
+}
+
+/*.btngrp {
+} */
+.btn1n2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+
+  position: absolute;
+  width: 420px;
+  height: 48px;
+  left: 3.2%;
+  top: 100%;
 }
 
 .buttons {
   background: #5ec2b7;
-  /* Button Shadow */
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+  height: 48px;
+  margin-left: 20px;
+}
 
-  box-shadow: 49px 18px 21px rgba(0, 0, 0, 0.01),
-    27px 10px 17px rgba(0, 0, 0, 0.05), 12px 4px 13px rgba(0, 0, 0, 0.09),
-    3px 1px 7px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+.buttons2 {
+  background: #8b80f9;
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+  height: 48px;
+  margin-left: 20px;
+}
+
+.spanOr {
+  color: #ffffff;
+  position: absolute;
+  padding-left: 1%;
+  width: 22px;
+  height: 20px;
+  left: 238px;
+  top: 640px;
+
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 125%;
 }
 
 .h1 {
@@ -31,7 +70,7 @@
   width: 580px;
   height: 160px;
   left: 64px;
-  top: 188px;
+  top: 168px;
   font-weight: 700;
   font-size: 64px;
   line-height: 80%;
@@ -44,13 +83,20 @@
   width: 580px;
   height: 78px;
   left: 64px;
-  top: 368px;
+  top: 388px;
 
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   line-height: 150%;
 
+  color: #ffffff;
+}
+
+.para2 {
+  margin-bottom: 0px;
+  font-size: 24px;
+  font-weight: 600;
   color: #ffffff;
 }
 
@@ -79,24 +125,43 @@
 }
 
 .pic1 {
-  height: 10%;
-  width: 10%;
+  position: absolute;
+  width: 640px;
+  height: 640px;
+  left: 612px;
+  top: 205.64px;
+
+  /*filter: blur(2px);
+  transform: rotate(-15deg);*/
 }
 
 .pic2 {
-  height: 10%;
-  width: 10%;
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  left: 902.13px;
+  top: 204px;
+
+  /*filter: blur(5px);*/
+  /*transform: rotate(20deg);*/
 }
 
 .pic3 {
-  height: 10%;
-  width: 10%;
+  position: absolute;
+  width: 427.69px;
+  height: 427.69px;
+  left: 616.64px;
+  top: 50px;
+
+  /*filter: blur(5px);*/
+  /*transform: rotate(20deg);*/
 }
 
 .standard {
-  margin: auto;
-  text-align: center;
-  align-items: center;
+  position: absolute;
+  display: flex;
+  left: 5%;
+  top: 112%;
 }
 
 .loading {
@@ -107,7 +172,6 @@
 }
 
 .formField {
-  margin: 10px 0 10px 0;
   min-width: 500px;
   padding: 15px;
   font-size: 16px;
@@ -115,7 +179,11 @@
   font-family: "Roboto", sans-serif;
 }
 .formButton {
-  margin: 10px 0 10px 0;
+  background: #5ec2b7;
+  border: none;
+  border-radius: 5px;
+  margin: 2px 0 2px 0;
+  margin-left: 20px;
   padding: 15px;
   font-size: 16px;
   border: 0;
