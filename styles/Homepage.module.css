@@ -2,6 +2,58 @@
   background-color: #2b3453;
 }
 
+.tableFi {
+  position: absolute;
+  width: 142.52px;
+  height: 36px;
+  left: 36px;
+  top: 31px;
+}
+
+.wallet {
+  padding-left: 80%;
+  padding-top: 2 %;
+}
+
+.buttons {
+  background: #5ec2b7;
+  /* Button Shadow */
+
+  box-shadow: 49px 18px 21px rgba(0, 0, 0, 0.01),
+    27px 10px 17px rgba(0, 0, 0, 0.05), 12px 4px 13px rgba(0, 0, 0, 0.09),
+    3px 1px 7px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.h1 {
+  position: absolute;
+  color: white;
+  width: 580px;
+  height: 160px;
+  left: 64px;
+  top: 188px;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 80%;
+
+  text-transform: uppercase;
+}
+
+.para {
+  position: absolute;
+  width: 580px;
+  height: 78px;
+  left: 64px;
+  top: 368px;
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 150%;
+
+  color: #ffffff;
+}
+
 .AppHeader {
   height: 70px;
   display: flex;

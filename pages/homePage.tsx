@@ -8,21 +8,23 @@ const Homepage: React.FC = () => {
     return (
         <div className={styles.mainContainer}>
             <div className={styles.AppHeader}>
-                <Image src="/TableFi_Logo.svg" height={30} width={200} />
+                <img className={styles.tableFi} src="/TableFi_Logo.svg" alt="" />
+                <div className={styles.wallet}>
                 <WalletMultiButton />
+                </div>
             </div>
             <div className={styles.div1}>
                 <div>
-                    <h1>We give power to the individual</h1>
-                    <h3>
+                    <h1 className={styles.h1}>We give power to the individual</h1>
+                    <p className={styles.para}>
                         Investing in cryptocurrencys is not easy, find out how this app will make your life easier.
-                    </h3>
-                    <button> Connect Wallet</button>
+                    </p>
+                    <button className={styles.buttons}> Connect Wallet</button>
                     <button> Connect exchange</button>
                     <span> OR </span>
 
                     <div className={styles.standard}>
-                        <img className={styles.loading} src="/logo.jpg" />
+                        
                         <form>
                             <h3>
                                 Enter Account Address:
