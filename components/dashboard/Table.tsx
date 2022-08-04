@@ -18,6 +18,9 @@ import { AccountLayout } from "@solana/spl-token";
 import { clusterApiUrl, PublicKey } from "@solana/web3.js";
 import { getTokenPrices } from '../../lib/getPrice';
 
+import {RestClient} from require("ftx-api");
+
+
 export const BasicTable: FC = () => {
 
     const [addressSubmitted, setAddressSubmitted] = useState(false)
@@ -179,8 +182,8 @@ export const BasicTable: FC = () => {
     async function getExchangeBal (event) {
         event.preventDefault();
         console.log("test")
-        const key = 'pmifmOL7FE3vorsIIEj93KdJNmyyiwPfdKQVj1T_';
-        const secret = 'dq_kHcKIatP-O0r1WByAvSMr3tX7yhTix4R7P91I';
+        const key = '';//'pmifmOL7FE3vorsIIEj93KdJNmyyiwPfdKQVj1T_';
+        const secret = ''; //'dq_kHcKIatP-O0r1WByAvSMr3tX7yhTix4R7P91I';
         const client = new RestClient(key, secret);
         try{
             //console.log('getBalances: ',  await client.getBalances());
