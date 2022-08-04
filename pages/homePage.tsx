@@ -2,8 +2,72 @@ import styles from "../styles/Homepage.module.css";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Image from "next/image";
 import { style } from "@mui/system";
+import {useState} from 'react';
+import React from 'react';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+
+function someFunction(event,abc) {
+   console.log(event);
+   alert(event.className);
+}
+
+const handleClick = event => {
+    event.preventDefault();
+
+    // 👇️ value of input field
+    console.log('handleClick 👉️', message);
+  };
+
+function validateFormWithJS() {
+    const name = document.querySelector('#ApiKey').value
+    const rollNumber = document.querySelector('#ApiSecret').value
+
+    if (!name) {
+      alert('Please enter your API Key.')
+      return false
+    }
+
+    if (rollNumber.length < 3) {
+      alert('Roll Number should be at least 3 digits long.')
+      return false
+    }
+  }
+
 
 const Homepage: React.FC = () => {
+//     event.preventDefault()
+//     const data = {
+//         first: event.target.first.value,
+//         last: event.target.last.value,
+//       }
+//       const JSONdata = JSON.stringify(data);
+//       const endpoint = '/api/form';
+//       const options = {
+//         // The method is POST because we are sending data.
+//         method: 'POST',
+//         // Tell the server we're sending JSON.
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         // Body of the request is the JSON data we created above.
+//         body: JSONdata,
+//       }
+
+//       // Send the form data to our forms API on Vercel and get a response.
+//     const response = await fetch(endpoint, options)
+
+//     // Get the response data from server as JSON.
+//     // If server returns the name submitted, that means the form works.
+//     const result = await response.json()
+//     alert(`Is this your full name: ${result.data}`)
+//   }
+
+    
+// 👇️ value of input field
+// console.log('handleClick 👉️', message);
+// };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.AppHeader}>
@@ -22,7 +86,20 @@ const Homepage: React.FC = () => {
           <div className={styles.btngrp}>
             <div className={styles.btn1n2}>
               <button className={styles.buttons}> Connect Wallet</button>
-              <button className={styles.buttons2}> Connect exchange</button>
+              <Popup trigger={<button className={styles.buttons2}> Connect Exchange </button>} 
+                position="right center">
+                <div>
+                <form onSubmit={validateFormWithJS}>
+                    <label htmlFor="ApiKey">API Key:</label>
+                    <input type="text" name="ApiKey" id="ApiKey" />
+
+                    <label htmlFor="ApiSecret"> API Secret:</label>
+                    <input type="text" name="ApiSecret" id="ApiSecret" />
+
+                    <button type="submit">Submit</button>
+                </form>
+                </div>
+              </Popup>
             </div>
             <span className={styles.spanOr}> OR </span>
 
