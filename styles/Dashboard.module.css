@@ -57,6 +57,30 @@
   height: 532px;
 }
 
+.cardContainer1 {
+  position: absolute;
+  width: 310px;
+  height: 200px;
+  left: 17.5%;
+  top: 368px;
+}
+
+.cardContainer2 {
+  position: absolute;
+  width: 50px;
+  height: 200px;
+  left: 39%;
+  top: 368px;
+}
+
+.cardConainer3 {
+  position: absolute;
+  width: 533px;
+  height: 424px;
+  left: 53.5%;
+  top: 21%;
+}
+
 .totalAmount {
   color: #ffff;
   padding: 10px;
@@ -116,30 +140,6 @@
   font-weight: 900;
   font-size: 48px;
   line-height: 125%;
-}
-
-.cardConainer1 {
-  position: absolute;
-  width: 310px;
-  height: 200px;
-  left: 20.9%;
-  top: 368px;
-}
-
-.cardConainer2 {
-  position: absolute;
-  width: 50px;
-  height: 200px;
-  left: 46.6%;
-  top: 368px;
-}
-
-.cardConainer3 {
-  position: absolute;
-  width: 533px;
-  height: 424px;
-  left: 64%;
-  top: 27.2%;
 }
 
 .TableContainer {

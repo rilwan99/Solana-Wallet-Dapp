@@ -60,6 +60,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
+
       <Drawer
         sx={{
           width: drawerWidth,
@@ -76,6 +77,7 @@ export const Dashboard: React.FC = () => {
           <Image src="/TableFi_Logo.svg" height={50} width={200} />
           <br />
           <Divider />
+
           <List>
             {["DASHBOARD", "PORTFOLIO", "SETTING"].map((text, index) => (
               <ListItem key={text} disablePadding>
@@ -110,8 +112,7 @@ export const Dashboard: React.FC = () => {
               width: 532,
               height: 200,
               bgcolor: "#5EC2B7",
-            }}
-          >
+            }}>
             <CardContent>
               <Typography
                 sx={{
@@ -120,30 +121,23 @@ export const Dashboard: React.FC = () => {
                   color: "#ffff",
                 }}
                 variant="h5"
-                component="div"
-              >
+                component="div">
                 Total Assets
               </Typography>
-              <Typography variant="body2">
-                <div className={styles.totalAmount}>
-                  <span className={styles.dollarIcon}>$</span>1,234,567.90
-                  <span className={styles.currencyIcon}>USD</span>
-                </div>
-              </Typography>
+              <p> $ </p>
+              <p> 1,234,567.90 </p>
+              <p> USD </p>
             </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
           </Card>
         </div>
-        <div className={styles.cardConainer1}>
+
+        {/* <div className={styles.cardContainer1}>
           <Card
             sx={{
               minWidth: 275,
               height: 200,
               bgcolor: "#5D55A6",
-            }}
-          >
+            }}>
             <CardContent>
               <Typography
                 sx={{
@@ -152,8 +146,7 @@ export const Dashboard: React.FC = () => {
                   color: "#ffff",
                 }}
                 color="text.secondary"
-                gutterBottom
-              >
+                gutterBottom>
                 Tokens
               </Typography>
               <Typography variant="body2">
@@ -162,20 +155,17 @@ export const Dashboard: React.FC = () => {
                 </div>
               </Typography>
             </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
           </Card>
-        </div>
-        <div className={styles.cardConainer2}>
+        </div> */}
+
+        {/* <div className={styles.cardContainer2}>
           <Card
             sx={{
               width: 50,
               height: 200,
               bgcolor: "#E46E7E",
               minWidth: 205,
-            }}
-          >
+            }}>
             <CardContent>
               <Typography
                 sx={{
@@ -184,28 +174,24 @@ export const Dashboard: React.FC = () => {
                   color: "#ffff",
                 }}
                 color="text.secondary"
-                gutterBottom
-              >
+                gutterBottom>
                 Portfolios
               </Typography>
               <Typography variant="body2">
                 <div className={styles.portfolioFont}>10</div>
               </Typography>
             </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
           </Card>
-        </div>
-        <div className={styles.cardConainer3}>
+        </div> */}
+
+        {/* <div className={styles.cardConainer3}>
           <Card
             sx={{
               width: 208,
               height: 416,
               bgcolor: "#364652",
-              minWidth: 431,
-            }}
-          >
+              minWidth: 431
+            }}>
             <CardContent>
               <Typography
                 sx={{
@@ -214,10 +200,10 @@ export const Dashboard: React.FC = () => {
                   color: "#ffff",
                 }}
                 color="text.secondary"
-                gutterBottom
-              >
+                gutterBottom>
                 Assets Distributions
               </Typography>
+
               <div className={styles.piechartContainer}>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   <img
@@ -252,12 +238,11 @@ export const Dashboard: React.FC = () => {
                 </Typography>
               </div>
             </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
           </Card>
-        </div>
+        </div> */}
+
         <br />
+
         <div className={styles.TableContainer}>
           <TableContainer component={Paper}>
             <Table
