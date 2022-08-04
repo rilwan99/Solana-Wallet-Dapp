@@ -28,9 +28,12 @@ import Button from "@mui/material/Button";
 import { CenterFocusStrong, PieChart } from "@mui/icons-material";
 import { style } from "@mui/system";
 
+import { useRouter } from "next/router";
+
 const drawerWidth = 240;
 
 export const Dashboard: React.FC = () => {
+
   function createData(
     name: string,
     calories: number,
@@ -57,6 +60,10 @@ export const Dashboard: React.FC = () => {
       •
     </Box>
   );
+
+  const router = useRouter();
+  const query = router.query;
+  const address = query.address;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -103,7 +110,7 @@ export const Dashboard: React.FC = () => {
           height: 900,
         }}
       >
-        <h1 className={styles.text}>Good Morning John</h1>
+        <h1 className={styles.text}>Good Morning {address}</h1>
         <h3 className={styles.text}>Porfolio overview</h3>
         <div className={styles.cardContainer0}>
           <Card
@@ -131,7 +138,7 @@ export const Dashboard: React.FC = () => {
           </Card>
         </div>
 
-        {/* <div className={styles.cardContainer1}>
+        <div className={styles.cardContainer1}>
           <Card
             sx={{
               minWidth: 275,
@@ -156,9 +163,9 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div> */}
+        </div>
 
-        {/* <div className={styles.cardContainer2}>
+        <div className={styles.cardContainer2}>
           <Card
             sx={{
               width: 50,
@@ -182,9 +189,9 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div> */}
+        </div>
 
-        {/* <div className={styles.cardConainer3}>
+        <div className={styles.cardConainer3}>
           <Card
             sx={{
               width: 208,
@@ -239,7 +246,7 @@ export const Dashboard: React.FC = () => {
               </div>
             </CardContent>
           </Card>
-        </div> */}
+        </div>
 
         <br />
 

@@ -187,3 +187,13 @@
   border: 0;
   font-family: "Roboto", sans-serif;
 }
+
+.submitText {
+  color: white;
+  text-decoration: solid;
+}
+
+.submit {
+  color: white;
+  margin-top: 5%;
+}
