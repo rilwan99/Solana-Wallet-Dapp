@@ -1,5 +1,45 @@
 .div1 {
   background-color: #2b3453;
+  height: 100%;
+}
+
+.piechartContainer {
+  /* background: blue; */
+  margin-top: 50px;
+}
+
+.piechartImg {
+  width: 240px;
+  height: 240px;
+}
+
+.disDiscription {
+  position: absolute;
+  width: 125px;
+  height: 20px;
+  left: 275px;
+  top: 125px;
+
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 125%;
+}
+
+.solContainer {
+  /* background: green; */
+  display: flex;
+  padding-top: 5px;
+}
+
+.solImg {
+  width: 30px;
+  height: 30px;
+}
+
+.solFont {
+  margin-left: 10px;
+  margin-top: 6px;
+  /* background: red; */
 }
 
 .menuItem {
@@ -8,4 +48,106 @@
 
 .text {
   color: white;
+}
+
+.cardContainer0 {
+  position: absolute;
+  font-weight: 700;
+  width: 444px;
+  height: 532px;
+}
+
+.totalAmount {
+  color: #ffff;
+  padding: 10px;
+  padding-top: 20px;
+  width: 334px;
+  height: 70px;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 165%;
+  font-size: 50px;
+}
+
+.dollarIcon {
+  width: 14px;
+  height: 30px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 125%;
+}
+
+.currencyIcon {
+  width: 47px;
+  height: 30px;
+
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 125%;
+}
+
+.tokensAmount {
+  color: #ffff;
+  padding: 10px;
+  padding-top: 20px;
+  width: 123px;
+  height: 60px;
+
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 125%;
+}
+
+.tokensFont {
+  width: 78px;
+  height: 30px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 125%;
+}
+
+.portfolioFont {
+  color: #ffff;
+  padding: 10px;
+  padding-top: 20px;
+  width: 56px;
+  height: 60px;
+
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 125%;
+}
+
+.cardConainer1 {
+  position: absolute;
+  width: 310px;
+  height: 200px;
+  left: 20.9%;
+  top: 368px;
+}
+
+.cardConainer2 {
+  position: absolute;
+  width: 50px;
+  height: 200px;
+  left: 46.6%;
+  top: 368px;
+}
+
+.cardConainer3 {
+  position: absolute;
+  width: 533px;
+  height: 424px;
+  left: 64%;
+  top: 27.2%;
+}
+
+.TableContainer {
+  color: #ffff;
+  position: absolute;
+  top: 598px;
+}
+
+.tableRow {
+  color: #ffff;
 }
