@@ -1,25 +1,24 @@
-import { FC, useState } from 'react'
+import { FC, useState } from "react"
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-import styles from '../../styles/Home.module.css'
+import styles from "../../styles/Home.module.css"
 
 import { Connection } from "@solana/web3.js";
 import { RawAccount, TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import * as web3 from '@solana/web3.js'
+import * as web3 from "@solana/web3.js"
 
 import { AccountLayout } from "@solana/spl-token";
 import { clusterApiUrl, PublicKey } from "@solana/web3.js";
-import { getTokenPrices } from '../../lib/getPrice';
+import { getTokenPrices } from "../../lib/getPrice";
 
-import {RestClient} from require("ftx-api");
-
+const { RestClient } = require('ftx-api');
 
 export const BasicTable: FC = () => {
 
@@ -179,13 +178,13 @@ export const BasicTable: FC = () => {
         })
     }
 
-    async function getExchangeBal (event) {
+    async function getExchangeBal(event) {
         event.preventDefault();
         console.log("test")
         const key = '';//'pmifmOL7FE3vorsIIEj93KdJNmyyiwPfdKQVj1T_';
         const secret = ''; //'dq_kHcKIatP-O0r1WByAvSMr3tX7yhTix4R7P91I';
         const client = new RestClient(key, secret);
-        try{
+        try {
             //console.log('getBalances: ',  await client.getBalances());
             let a = await client.getBalances();
             console.log(a);
@@ -193,16 +192,16 @@ export const BasicTable: FC = () => {
             //     t_bool: boolean;
             //     t_res: string;
             // }
-            
+
             // let obj: MyObj = JSON.parse(a);
             // console.log(obj.t_bool);
             // console.log(obj.t_res);
             //console.log(obj); 
             //console.log('testing:',await a);
-//             console.log('testing: ', client.getBalances())
-//             arrayOfObjects.sort((a, b) => (a.propertyToSortBy > b.propertyToSortBy ? -1 : 1));
-//             test = tests.sort((a, b) => (a.nome > b.nome ? -1 : 1));
-// testsSortedByCognome = tests.sort((a, b) => (a.cognome > b.cognome ? -1 : 1));
+            //             console.log('testing: ', client.getBalances())
+            //             arrayOfObjects.sort((a, b) => (a.propertyToSortBy > b.propertyToSortBy ? -1 : 1));
+            //             test = tests.sort((a, b) => (a.nome > b.nome ? -1 : 1));
+            // testsSortedByCognome = tests.sort((a, b) => (a.cognome > b.cognome ? -1 : 1));
 
         } catch (e) {
             console.error('Get balance failed: ', e);

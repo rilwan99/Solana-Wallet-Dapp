@@ -13,31 +13,32 @@ import LoginIcon from '@mui/icons-material/Login';
 import * as web3 from '@solana/web3.js'
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
-function someFunction(event, abc) {
-  console.log(event);
-  alert(event.className);
-}
+// function someFunction(event, abc) {
+//   console.log(event);
+//   alert(event.className);
+// }
 
-const handleClick = event => {
-  event.preventDefault();
+// const handleClick = event => {
+//   event.preventDefault();
 
-  // 👇️ value of input field
-  console.log('handleClick 👉️', message);
-};
+//   // 👇️ value of input field
+//   console.log('handleClick 👉️', message);
+// };
 
 function validateFormWithJS() {
-  const name = document.querySelector('#ApiKey').value
-  const rollNumber = document.querySelector('#ApiSecret').value
+  // const name = document.querySelector('#ApiKey').value
+  // const rollNumber = document.querySelector('#ApiSecret').value
 
-  if (!name) {
-    alert('Please enter your API Key.')
-    return false
-  }
+  // if (!name) {
+  //   alert('Please enter your API Key.')
+  //   return false
+  // }
 
-  if (rollNumber.length < 3) {
-    alert('Roll Number should be at least 3 digits long.')
-    return false
-  }
+  // if (rollNumber.length < 3) {
+  //   alert('Roll Number should be at least 3 digits long.')
+  //   return false
+  // }
+  console.log("test")
 }
 
 
