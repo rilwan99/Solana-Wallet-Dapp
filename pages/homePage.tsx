@@ -32,6 +32,7 @@ const Homepage: React.FC = () => {
             <div className={styles.standard}>
               <form>
                 <p className={styles.para2}>Enter Account Address:</p>
+                <br />
                 <input
                   id="address"
                   type="text"
