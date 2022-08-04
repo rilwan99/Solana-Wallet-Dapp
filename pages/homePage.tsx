@@ -12,19 +12,22 @@ const Homepage: React.FC = () => {
           <WalletMultiButton />
         </div>
       </div>
+
       <div className={styles.div1}>
         <div>
-          <h1 className={styles.h1}>We give poweR to the individual</h1>
+          <h1 className={styles.h1}>We give power to the individual</h1>
           <p className={styles.para}>
-            Investing in cryptocurrencys is not easy, find out how this app will
+            Investing in cryptocurrency is not easy, find out how this app will
             make your life easier.
           </p>
-          <div className={styles.btngrp}>
+
+          <div>
             <div className={styles.btn1n2}>
               <button className={styles.buttons}> Connect Wallet</button>
               <button className={styles.buttons2}> Connect exchange</button>
             </div>
-            <span className={styles.spanOr}> OR </span>
+
+            <p className={styles.spanOr}> OR </p>
 
             <div className={styles.standard}>
               <form>
@@ -41,13 +44,16 @@ const Homepage: React.FC = () => {
                 </button>
               </form>
             </div>
+
           </div>
+
         </div>
 
         <img className={styles.pic3} src="/pic3.svg" />
         <img className={styles.pic2} src="/pic2.svg" />
         <img className={styles.pic1} src="/pic1.svg" />
       </div>
+
     </div>
   );
 };
