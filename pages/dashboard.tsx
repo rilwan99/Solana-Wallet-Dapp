@@ -1,4 +1,8 @@
 import * as React from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import styles from "../styles/Dashboard.module.css";
+
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -10,10 +14,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import Image from "next/image";
-import styles from "../styles/Dashboard.module.css";
-import { Card } from "@mui/material";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,49 +21,182 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import { CenterFocusStrong, PieChart } from "@mui/icons-material";
 import { style } from "@mui/system";
+import { Card } from "@mui/material";
 
-import { useRouter } from "next/router";
+
+import * as web3 from "@solana/web3.js"
+import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
+import { getTokenPrices } from "../lib/getPrice";
 
 const drawerWidth = 240;
 
 export const Dashboard: React.FC = () => {
 
-  function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number
-  ) {
-    return { name, calories, fat, carbs, protein };
-  }
-
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
-
-  const bull = (
-    <Box
-      component="span"
-      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    >
-      •
-    </Box>
-  );
+  const [rows, setRows] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
 
   const router = useRouter();
   const query = router.query;
   const address = query.address;
+
+  function createData(
+    assetName: string,
+    symbol: string,
+    balance: number,
+    price: number,
+    value: number
+  ) {
+    return { assetName, symbol, balance, price, value };
+  }
+
+  React.useEffect(() => {
+    submitAddress(address)
+  }, [])
+
+  async function submitAddress(address) {
+
+    setLoading(true)
+
+    const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/"
+    const connection = new web3.Connection(rpcEndpoint);
+    // const connection = new Connection(clusterApiUrl('mainnet-beta'));
+
+    // Check for a valid SOL address provided and store in userInput
+    // Fetch all the token accounts owned by the specified account 
+    const userInput = address
+    const tokenAccountArray = await getTokenAccount(connection, userInput);
+
+    // Deserialize token data in AccountInfo<Buffer> and store in tokenMetaList 
+    const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
+
+    await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
+
+    // Need to debug how to differentiate between tokens of the same symbol
+    await getPrices();
+
+    getTokenValue();
+
+    setLoading(false)
+  }
+
+  async function getTokenAccount(connection: web3.Connection, walletAddress: string) {
+
+    try {
+      // returns RpcResponseAndContext<Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}>>
+      const pubKey = new web3.PublicKey(walletAddress)
+      const tokenAccountArray = await connection.getTokenAccountsByOwner(
+        pubKey,
+        {
+          programId: TOKEN_PROGRAM_ID,
+        }
+      );
+      return tokenAccountArray
+    } catch (err) {
+      console.log(err)
+      window.alert(err)
+    }
+  }
+
+  function deserializeTokenAccounts(tokenAccountArray): RawAccount[] {
+
+    // type RPCResponseAndContext<T> = { context: Context, value: T}
+    // T: Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}
+    const tokenAccounts: { pubkey: web3.PublicKey; account: web3.AccountInfo<Buffer>; }[] = tokenAccountArray.value
+
+    // export interface RawAccount {
+    //     mint: PublicKey;
+    //     owner: PublicKey;
+    //     amount: bigint;
+    //     ...
+    // }
+    const tokenMetaList: RawAccount[] = []
+
+    // Deserialize token account and store in tokenMetaList
+    tokenAccounts.forEach((e) => {
+      tokenMetaList.push(AccountLayout.decode(e.account.data))
+    })
+    return tokenMetaList;
+  }
+
+  async function processTokenAccounts(connection: web3.Connection, tokenMetaList: RawAccount[], tokenAccounts) {
+
+    // Filter for token accounts with non-zero balances
+    const currentTokenAccounts = tokenMetaList.filter(e => e.amount > 0)
+    console.log(currentTokenAccounts)
+
+    const existingRows = []
+
+    // Ierate through list of token accounts with non-zero balances
+    for (let i = 0; i < currentTokenAccounts.length; i++) {
+
+      // Find the mint address
+      const mintAddress = new web3.PublicKey(currentTokenAccounts[i].mint).toString()
+      // console.log(`Mint: ` + mintAddress)
+
+      // Find the token name, symbol using the mint address
+      // const tokenMeta = await getTokenName(mintAddress)
+      const tokenMeta = await getTokenName(mintAddress)
+      // console.log('token meta is ' + JSON.stringify(tokenMeta))
+      // console.log('Token name is ' + tokenMeta.name)
+      // console.log('Token symbol is ' + tokenMeta.abbreviation)
+
+      // Find the token account balance 
+      // getTokenAccountBalance() -> Return inconsistent values for amount & decimals
+      // currentTokenAccounts.amount -> Returns only amount(n) w/o decimals
+      const tokenPubKey = tokenAccounts.value[i].pubkey
+      const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey, "finalized")).value
+      const decimals = Math.pow(10, tokenBalanceData.decimals)
+      const balance = Number(currentTokenAccounts[i].amount) / decimals
+      // console.log(`Decimals: ` + tokenBalanceData.decimals)
+      // console.log(`Amount: ` + currentTokenAccounts[i].amount)
+      // console.log('Balance: ' + balance)
+
+      console.log("------------------------------------")
+      existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0))
+    }
+
+    setRows(existingRows)
+    console.log(rows)
+  }
+
+  // Call Solanafm's endpoint to retrieve token name, symbol, etc
+  async function getTokenName(mintName: String): Promise<any> {
+    const url = 'https://hyper.solana.fm/v2/search/tokens/' + mintName
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        mode: "cors",
+        headers: {}
+      })
+      const result = await response.json()
+      // Return tokens name, abbreviation, network, hash, etc
+      return result.Tokens[0]
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function getPrices() {
+    let tokenSymbols: string[] = []
+    rows.forEach(tokenInfo => tokenSymbols.push(tokenInfo.symbol))
+    const tokenPrices: Number[] = await getTokenPrices(tokenSymbols)
+    for (let i = 0; i < tokenPrices.length; i++) {
+      rows[i].price = tokenPrices[i]
+    }
+  }
+
+  function getTokenValue() {
+    rows.forEach(token => {
+      if (token.balance !== 0 && token.price !== 0) {
+        token.value = token.balance * token.price
+      }
+    })
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -250,67 +383,50 @@ export const Dashboard: React.FC = () => {
 
         <br />
 
-        <div className={styles.TableContainer}>
-          <TableContainer component={Paper}>
-            <Table
-              sx={{
-                bgcolor: "#364652",
-                minWidth: 975,
-              }}
-              aria-label="simple table"
-            >
-              <TableHead>
-                <TableRow className={styles.tableRow}>
-                  <TableCell className={styles.tableRow}>
-                    Dessert (100g serving)
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Calories
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Fat&nbsp;(g)
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Carbs&nbsp;(g)
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Protein&nbsp;(g)
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell
-                      className={styles.tableRow}
-                      component="th"
-                      scope="row"
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell className={styles.tableRow} align="right">
-                      {row.calories}
-                    </TableCell>
-                    <TableCell className={styles.tableRow} align="right">
-                      {row.fat}
-                    </TableCell>
-                    <TableCell className={styles.tableRow} align="right">
-                      {row.carbs}
-                    </TableCell>
-                    <TableCell className={styles.tableRow} align="right">
-                      {row.protein}
-                    </TableCell>
+        {loading ? <img className={styles.loading} src="/loading.gif" /> :
+
+          <div className={styles.TableContainer}>
+            <TableContainer component={Paper}>
+              <Table
+                sx={{
+                  bgcolor: "#364652",
+                  minWidth: 975,
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow className={styles.tableRow}>
+                    <TableCell className={styles.tableRow}>Asset Name</TableCell>
+                    <TableCell className={styles.tableRow}>Symbol</TableCell>
+                    <TableCell className={styles.tableRow} align="right">Balance</TableCell>
+                    <TableCell className={styles.tableRow} align="right">Price (USD)</TableCell>
+                    <TableCell className={styles.tableRow} align="right">Value</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.assetName}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}
+                    >
+                      <TableCell
+                        className={styles.tableRow}
+                        component="th"
+                        scope="row"
+                      >
+                        {row.assetName}
+                      </TableCell>
+                      <TableCell className={styles.symbol} align="right">{row.symbol}</TableCell>
+                      <TableCell className={styles.tableRow} align="right">{row.balance !== 0 ? row.balance : "-"}</TableCell>
+                      <TableCell className={styles.tableRow} align="right">{row.price !== 0 ? row.price : "-"}</TableCell>
+                      <TableCell className={styles.tableRow} align="right">{row.value !== 0 ? "$ " + row.value : "-"}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        }
       </Box>
     </Box>
   );

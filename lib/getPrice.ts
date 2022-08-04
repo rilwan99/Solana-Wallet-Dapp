@@ -24,7 +24,7 @@ export async function getTokenPrices(symbols: string[]): Promise<number[]> {
 
     // Finding the coingecko ID of the desired token
     const requiredTokenId = requiredTokenObject.id;
-    console.log(requiredTokenId);
+    // console.log(requiredTokenId);
 
     // Fetching token information using coingecko API
     const tokenInfo = await CoinGeckoClient.coins.fetch(requiredTokenId, {
@@ -38,8 +38,8 @@ export async function getTokenPrices(symbols: string[]): Promise<number[]> {
 
     // Fetching Price(USD) of the desired token
     const priceInfoUsd = priceInfo.current_price.usd;
-    console.log(JSON.stringify(priceInfoUsd));
-    console.log(priceInfoUsd);
+    // console.log(JSON.stringify(priceInfoUsd));
+    // console.log(priceInfoUsd);
 
     tokenPrices.push(priceInfoUsd);
   }
