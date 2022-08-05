@@ -32,74 +32,33 @@ class inputForm {
     apisecret: string;
   }
 
-function validateFormWithJS() {
-    event.preventDefault()
-    const key = document.getElementById('ApiKey') as HTMLInputElement;
-    const secret = document.getElementById('ApiSecret') as HTMLInputElement;
-    console.log(key);
-    console.log(secret);
-
-    if (key.value.length ===0  ||  secret .value.length ===0) {
-        alert("Please Fill All Required Fields");
-        return false;
-    }
-    else {
-        let client = new inputForm();
-        client.apikey = key.value;
-        client.apisecret = secret.value;
-        console.log(client);
-        return client;
-    }
-
-  // if (!name) {
-  //   alert('Please enter your API Key.')
-  //   return false
-  // }
-
-  // if (rollNumber.length < 3) {
-  //   alert('Roll Number should be at least 3 digits long.')
-  //   return false
-  // }
-  console.log("test")
-}
-
 
 const Homepage: React.FC = () => {
 
+    // function validateFormWithJS(event) {
 
-  //     event.preventDefault()
-  //     const data = {
-  //         first: event.target.first.value,
-  //         last: event.target.last.value,
-  //       }
-  //       const JSONdata = JSON.stringify(data);
-  //       const endpoint = '/api/form';
-  //       const options = {
-  //         // The method is POST because we are sending data.
-  //         method: 'POST',
-  //         // Tell the server we're sending JSON.
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         // Body of the request is the JSON data we created above.
-  //         body: JSONdata,
-  //       }
+    //     event.preventDefault()
+    //     const key = event.target.ApiKey.value
+    //     const secret = event.target.ApiSecret.value
+    
+    //     if (key.length ===0  ||  secret.length ===0) {
+    //         alert("Please Fill All Required Fields");
+    //         return false;
+    //     }
+    //     else {
+    //         client.apikey = key.value;
+    //         client.apisecret = secret.value;
+    //         console.log(client);
+    //         return client;
+    //     }
 
-  //       // Send the form data to our forms API on Vercel and get a response.
-  //     const response = await fetch(endpoint, options)
-
-  //     // Get the response data from server as JSON.
-  //     // If server returns the name submitted, that means the form works.
-  //     const result = await response.json()
-  //     alert(`Is this your full name: ${result.data}`)
-  //   }
-
-
-  // 👇️ value of input field
-  // console.log('handleClick 👉️', message);
-  // };
+    //   console.log("test")
+    // }
 
   const [data, setData] = useState({ address: "" });
+  const [cexData1, setCexData1] = useState({ apiKey: ""});
+  const [cexData2, setCexData2] = useState({ apiSecret: "" });
+
   const [loading, setLoading] = useState(false)
 
   async function submitAddress(event) {
@@ -153,14 +112,39 @@ const Homepage: React.FC = () => {
               <Popup trigger={<button className={styles.buttons2}> Connect Exchange </button>}
                 position="right center">
                 <div>
-                  <form onSubmit={validateFormWithJS}>
+                  <form >
                     <label htmlFor="ApiKey">API Key:</label>
-                    <input type="text" name="ApiKey" id="ApiKey" />
+                    <input 
+                    type="text" 
+                    name="ApiKey" 
+                    id="ApiKey" 
+                    onChange={(event) =>
+                        setCexData1({
+                            apiKey: event.target.value,
+                        })
+                      }
+                      />
 
                     <label htmlFor="ApiSecret"> API Secret:</label>
-                    <input type="text" name="ApiSecret" id="ApiSecret" />
+                    <input 
+                    type="text"
+                     name="ApiSecret" 
+                     id="ApiSecret" 
+                     onChange={(event) =>
+                        setCexData2({
+                            apiSecret: event.target.value,
+                        })
+                      }
+                     />
 
-                    <button type="submit">Submit</button>
+                    {/* <button type="submit">Submit</button> */}
+                    <Link href={{
+                    pathname: "/dashboard",
+                    query: [cexData1, cexData2], // the data
+                  }} passHref >
+                    <a > Submit </a>
+                  </Link>
+
                   </form>
                 </div>
               </Popup>
