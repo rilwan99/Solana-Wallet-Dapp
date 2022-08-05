@@ -41,7 +41,11 @@ export const Dashboard: React.FC = () => {
 
   const router = useRouter();
   const query = router.query;
+
   const address = query.address;
+
+  const apiKey = query.apiKey;
+  const apiSecret = query.apiSecret
 
   function createData(
     assetName: string,
@@ -54,7 +58,15 @@ export const Dashboard: React.FC = () => {
   }
 
   React.useEffect(() => {
-    submitAddress(address)
+
+    if (address) {
+      submitAddress(address)
+    }
+
+    if (apiKey && apiSecret) {
+
+
+    }
   }, [])
 
   async function submitAddress(address) {
@@ -243,7 +255,8 @@ export const Dashboard: React.FC = () => {
           height: 900,
         }}
       >
-        <h1 className={styles.text}>Good Morning {address}</h1>
+        {address ? <h1 className={styles.text}>Good Morning {address}</h1> : <div></div>}
+        {apiSecret && apiKey ? <h1 className={styles.text}>Good Morning {apiSecret} {apiKey}</h1> : <div></div>}
         <h3 className={styles.text}>Porfolio overview</h3>
         <div className={styles.cardContainer0}>
           <Card

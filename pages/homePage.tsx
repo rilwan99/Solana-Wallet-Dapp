@@ -27,36 +27,36 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 // };
 
 class inputForm {
-    id = ''
-    apikey: string;
-    apisecret: string;
-  }
+  id = ''
+  apikey: string;
+  apisecret: string;
+}
 
 
 const Homepage: React.FC = () => {
 
-    // function validateFormWithJS(event) {
+  // function validateFormWithJS(event) {
 
-    //     event.preventDefault()
-    //     const key = event.target.ApiKey.value
-    //     const secret = event.target.ApiSecret.value
-    
-    //     if (key.length ===0  ||  secret.length ===0) {
-    //         alert("Please Fill All Required Fields");
-    //         return false;
-    //     }
-    //     else {
-    //         client.apikey = key.value;
-    //         client.apisecret = secret.value;
-    //         console.log(client);
-    //         return client;
-    //     }
+  //     event.preventDefault()
+  //     const key = event.target.ApiKey.value
+  //     const secret = event.target.ApiSecret.value
 
-    //   console.log("test")
-    // }
+  //     if (key.length ===0  ||  secret.length ===0) {
+  //         alert("Please Fill All Required Fields");
+  //         return false;
+  //     }
+  //     else {
+  //         client.apikey = key.value;
+  //         client.apisecret = secret.value;
+  //         console.log(client);
+  //         return client;
+  //     }
+
+  //   console.log("test")
+  // }
 
   const [data, setData] = useState({ address: "" });
-  const [cexData1, setCexData1] = useState({ apiKey: ""});
+  const [cexData1, setCexData1] = useState({ apiKey: "" });
   const [cexData2, setCexData2] = useState({ apiSecret: "" });
 
   const [loading, setLoading] = useState(false)
@@ -114,36 +114,36 @@ const Homepage: React.FC = () => {
                 <div>
                   <form >
                     <label htmlFor="ApiKey">API Key:</label>
-                    <input 
-                    type="text" 
-                    name="ApiKey" 
-                    id="ApiKey" 
-                    onChange={(event) =>
+                    <input
+                      type="text"
+                      name="ApiKey"
+                      id="ApiKey"
+                      onChange={(event) =>
                         setCexData1({
-                            apiKey: event.target.value,
+                          apiKey: event.target.value,
                         })
                       }
-                      />
+                    />
 
                     <label htmlFor="ApiSecret"> API Secret:</label>
-                    <input 
-                    type="text"
-                     name="ApiSecret" 
-                     id="ApiSecret" 
-                     onChange={(event) =>
+                    <input
+                      type="text"
+                      name="ApiSecret"
+                      id="ApiSecret"
+                      onChange={(event) =>
                         setCexData2({
-                            apiSecret: event.target.value,
+                          apiSecret: event.target.value,
                         })
                       }
-                     />
+                    />
 
                     {/* <button type="submit">Submit</button> */}
                     <Link href={{
-                    pathname: "/dashboard",
-                    query: [cexData1, cexData2], // the data
-                  }} passHref >
-                    <a > Submit </a>
-                  </Link>
+                      pathname: "/dashboard",
+                      query: { apiKey: cexData1.apiKey, apiSecret: cexData2.apiSecret }, // the data
+                    }} passHref >
+                      <a > Submit </a>
+                    </Link>
 
                   </form>
                 </div>
