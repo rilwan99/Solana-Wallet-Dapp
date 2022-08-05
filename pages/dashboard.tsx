@@ -32,6 +32,7 @@ import * as web3 from "@solana/web3.js"
 import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { getTokenPrices } from "../lib/getPrice";
 import { getTokenName } from "../lib/getTokenName";
+const { RestClient } = require('ftx-api');
 
 const drawerWidth = 240;
 
@@ -191,6 +192,20 @@ export const Dashboard: React.FC = () => {
         token.value = token.balance * token.price
       }
     })
+  }
+
+  async function getExchangeBal(apiKey, apiSecret) {
+    //event.preventDefault();
+    const client = new RestClient(apiKey, apiSecret);
+    try {
+      let a = await client.getBalances();
+      const result = a.result
+      const nonZeroBalance = result.filter(account => account.total > 0)
+      console.log(nonZeroBalance)
+      // console.log(a.result[5].total);
+    } catch (e) {
+      console.error('Get balance failed: ', e);
+    }
   }
 
   return (
