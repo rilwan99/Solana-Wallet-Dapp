@@ -16,8 +16,6 @@
   padding-top: 2%;
 }
 
-/*.btngrp {
-} */
 .btn1n2 {
   display: flex;
   flex-direction: row;
@@ -52,16 +50,20 @@
 
 .spanOr {
   color: #ffffff;
+
   position: absolute;
-  padding-left: 1%;
+
   width: 22px;
   height: 20px;
+<<<<<<< HEAD
   left: 18.8%;
+=======
+  left: 17%;
+>>>>>>> 082524e71b790e4cb57a32e6c40c4ebc2fc5ceb3
   top: 107%;
 
   font-weight: 700;
   font-size: 16px;
-  line-height: 125%;
 }
 
 .h1 {
@@ -188,4 +190,14 @@
   font-size: 16px;
   border: 0;
   font-family: "Roboto", sans-serif;
+}
+
+.submitText {
+  color: white;
+  text-decoration: solid;
+}
+
+.submit {
+  color: white;
+  margin-top: 5%;
 }
