@@ -31,7 +31,7 @@ import { Card } from "@mui/material";
 import * as web3 from "@solana/web3.js"
 import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { getTokenPrices } from "../lib/getPrice";
-
+const { RestClient } = require('ftx-api');
 const drawerWidth = 240;
 
 export const Dashboard: React.FC = () => {
@@ -64,6 +64,7 @@ export const Dashboard: React.FC = () => {
     }
 
     if (apiKey && apiSecret) {
+      getExchangeBal(apiKey,apiSecret)
 
 
     }
@@ -209,6 +210,20 @@ export const Dashboard: React.FC = () => {
       }
     })
   }
+
+  async function getExchangeBal(apiKey,apiSecret) {
+    //event.preventDefault();
+    const client = new RestClient(apiKey, apiSecret);
+    try {
+        let a = await client.getBalances();
+        const result = a.result
+        const nonZeroBalance = result.filter(account => account.total > 0)
+        console.log(nonZeroBalance)
+        // console.log(a.result[5].total);
+    } catch (e) {
+        console.error('Get balance failed: ', e);
+    }
+}
 
   return (
     <Box sx={{ display: "flex" }}>

@@ -113,7 +113,7 @@ const Homepage: React.FC = () => {
                 position="right center">
                 <div>
                   <form >
-                    <label htmlFor="ApiKey">API Key:</label>
+                    <label htmlFor="ApiKey">Enter read-only API Key:</label>
                     <input
                       type="text"
                       name="ApiKey"
@@ -125,7 +125,7 @@ const Homepage: React.FC = () => {
                       }
                     />
 
-                    <label htmlFor="ApiSecret"> API Secret:</label>
+                    <label htmlFor="ApiSecret">Enter read-only API Secret:</label>
                     <input
                       type="text"
                       name="ApiSecret"
