@@ -32,6 +32,7 @@ import * as web3 from "@solana/web3.js"
 import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { getTokenPrices } from "../lib/getPrice";
 import { getTokenName } from "../lib/getTokenName";
+import { DefaultLogger } from "ftx-api";
 const { RestClient } = require('ftx-api');
 
 const drawerWidth = 240;
@@ -75,7 +76,7 @@ export const Dashboard: React.FC = () => {
 
       setApiKey(userApiKey)
       setApiSecret(userApiSecret)
-
+      getExchangeBal(apiKey,apiSecret)
       // Insert Function to populate component using fetched data
     }
   }, [])
