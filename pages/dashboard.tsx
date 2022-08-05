@@ -39,13 +39,12 @@ export const Dashboard: React.FC = () => {
 
   const [rows, setRows] = React.useState([])
   const [loading, setLoading] = React.useState(false)
+  const [address, setAddress] = React.useState("")
+  const [apiKey, setApiKey] = React.useState("")
+  const [apiSecret, setApiSecret] = React.useState("")
 
   const router = useRouter();
-  const query = router.query;
-
-  const address = query.address;
-  const apiKey = query.apiKey;
-  const apiSecret = query.apiSecret
+  const pathNameChecker = router.asPath.slice(11, 18)
 
   function createData(
     assetName: string,
@@ -59,13 +58,24 @@ export const Dashboard: React.FC = () => {
 
   React.useEffect(() => {
 
-    if (address) {
-      submitAddress(address)
+    if (pathNameChecker === "address") {
+      const userAddress = router.asPath.slice(19)
+      setAddress(userAddress)
+      console.log("HIT 2")
+      submitAddress(userAddress)
     }
 
-    if (apiKey && apiSecret) {
+    else {
+      const stop = router.asPath.indexOf("&")
+      const userApiKey = router.asPath.slice(18, stop)
 
+      const secretStart = stop + 11
+      const userApiSecret = router.asPath.slice(secretStart)
 
+      setApiKey(userApiKey)
+      setApiSecret(userApiSecret)
+
+      // Insert Function to populate component using fetched data
     }
   }, [])
 
@@ -139,42 +149,35 @@ export const Dashboard: React.FC = () => {
 
     // Filter for token accounts with non-zero balances
     const currentTokenAccounts = tokenMetaList.filter(e => e.amount > 0)
-    console.log(currentTokenAccounts)
-
-    const existingRows = []
+    const existingRows = rows ? [] : rows
 
     // Ierate through list of token accounts with non-zero balances
     for (let i = 0; i < currentTokenAccounts.length; i++) {
 
       // Find the mint address
       const mintAddress = new web3.PublicKey(currentTokenAccounts[i].mint).toString()
-      // console.log(`Mint: ` + mintAddress)
 
       // Call Solanafm API
       const tokenMeta = await getTokenName(mintAddress)
 
       // Find the token account balance 
-      // getTokenAccountBalance() -> Return inconsistent values for amount & decimals
-      // currentTokenAccounts.amount -> Returns only amount(n) w/o decimals
       const tokenPubKey = tokenAccounts.value[i].pubkey
       const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey, "finalized")).value
       const decimals = Math.pow(10, tokenBalanceData.decimals)
       const balance = Number(currentTokenAccounts[i].amount) / decimals
 
-
       console.log("------------------------------------")
       existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0))
+      // setRows(existingRows)
     }
-
-    console.log(existingRows)
     setRows(existingRows)
+
   }
 
 
   async function getPrices() {
     let tokenSymbols: string[] = []
     rows.forEach(tokenInfo => tokenSymbols.push(tokenInfo.symbol))
-    console.log("calling get Price function")
     // Calling Coingecko API
     const tokenPrices: Number[] = await getTokenPrices(tokenSymbols)
     for (let i = 0; i < tokenPrices.length; i++) {
@@ -238,7 +241,7 @@ export const Dashboard: React.FC = () => {
         {address ? <h1 className={styles.text}>Good Morning {address}</h1> : <div></div>}
         {apiSecret && apiKey ? <h1 className={styles.text}>Good Morning {apiSecret} {apiKey}</h1> : <div></div>}
         <h3 className={styles.text}>Porfolio overview</h3>
-        <div className={styles.cardContainer0}>
+        {/* <div className={styles.cardContainer0}>
           <Card
             sx={{
               minWidth: 275,
@@ -262,8 +265,8 @@ export const Dashboard: React.FC = () => {
               <p> USD </p>
             </CardContent>
           </Card>
-        </div>
-
+        </div> */}
+        {/* 
         <div className={styles.cardContainer1}>
           <Card
             sx={{
@@ -289,8 +292,8 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div>
-
+        </div> */}
+        {/* 
         <div className={styles.cardContainer2}>
           <Card
             sx={{
@@ -315,9 +318,9 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
 
-        <div className={styles.cardConainer3}>
+        {/* <div className={styles.cardConainer3}>
           <Card
             sx={{
               width: 208,
@@ -335,9 +338,9 @@ export const Dashboard: React.FC = () => {
                 color="text.secondary"
                 gutterBottom>
                 Assets Distributions
-              </Typography>
+              </Typography> */}
 
-              <div className={styles.piechartContainer}>
+        {/* <div className={styles.piechartContainer}>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   <img
                     className={styles.piechartImg}
@@ -369,10 +372,10 @@ export const Dashboard: React.FC = () => {
                     </div>
                   </div>
                 </Typography>
-              </div>
-            </CardContent>
+              </div> */}
+        {/* </CardContent>
           </Card>
-        </div>
+        </div> */}
 
         <br />
 
