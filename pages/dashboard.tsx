@@ -31,7 +31,9 @@ import { Card } from "@mui/material";
 import * as web3 from "@solana/web3.js"
 import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { getTokenPrices } from "../lib/getPrice";
+import { getTokenName } from "../lib/getTokenName";
 const { RestClient } = require('ftx-api');
+
 const drawerWidth = 240;
 
 export const Dashboard: React.FC = () => {
@@ -43,7 +45,6 @@ export const Dashboard: React.FC = () => {
   const query = router.query;
 
   const address = query.address;
-
   const apiKey = query.apiKey;
   const apiSecret = query.apiSecret
 
@@ -70,13 +71,14 @@ export const Dashboard: React.FC = () => {
     }
   }, [])
 
+  //
+
   async function submitAddress(address) {
 
     setLoading(true)
 
     const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/"
     const connection = new web3.Connection(rpcEndpoint);
-    // const connection = new Connection(clusterApiUrl('mainnet-beta'));
 
     // Check for a valid SOL address provided and store in userInput
     // Fetch all the token accounts owned by the specified account 
@@ -150,12 +152,8 @@ export const Dashboard: React.FC = () => {
       const mintAddress = new web3.PublicKey(currentTokenAccounts[i].mint).toString()
       // console.log(`Mint: ` + mintAddress)
 
-      // Find the token name, symbol using the mint address
-      // const tokenMeta = await getTokenName(mintAddress)
+      // Call Solanafm API
       const tokenMeta = await getTokenName(mintAddress)
-      // console.log('token meta is ' + JSON.stringify(tokenMeta))
-      // console.log('Token name is ' + tokenMeta.name)
-      // console.log('Token symbol is ' + tokenMeta.abbreviation)
 
       // Find the token account balance 
       // getTokenAccountBalance() -> Return inconsistent values for amount & decimals
@@ -164,39 +162,22 @@ export const Dashboard: React.FC = () => {
       const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey, "finalized")).value
       const decimals = Math.pow(10, tokenBalanceData.decimals)
       const balance = Number(currentTokenAccounts[i].amount) / decimals
-      // console.log(`Decimals: ` + tokenBalanceData.decimals)
-      // console.log(`Amount: ` + currentTokenAccounts[i].amount)
-      // console.log('Balance: ' + balance)
+
 
       console.log("------------------------------------")
       existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0))
     }
 
+    console.log(existingRows)
     setRows(existingRows)
-    console.log(rows)
   }
 
-  // Call Solanafm's endpoint to retrieve token name, symbol, etc
-  async function getTokenName(mintName: String): Promise<any> {
-    const url = 'https://hyper.solana.fm/v2/search/tokens/' + mintName
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        mode: "cors",
-        headers: {}
-      })
-      const result = await response.json()
-      // Return tokens name, abbreviation, network, hash, etc
-      return result.Tokens[0]
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
 
   async function getPrices() {
     let tokenSymbols: string[] = []
     rows.forEach(tokenInfo => tokenSymbols.push(tokenInfo.symbol))
+    console.log("calling get Price function")
+    // Calling Coingecko API
     const tokenPrices: Number[] = await getTokenPrices(tokenSymbols)
     for (let i = 0; i < tokenPrices.length; i++) {
       rows[i].price = tokenPrices[i]
