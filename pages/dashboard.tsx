@@ -256,7 +256,7 @@ export const Dashboard: React.FC = () => {
         {address ? <h1 className={styles.text}>Good Morning {address}</h1> : <div></div>}
         {apiSecret && apiKey ? <h1 className={styles.text}>Good Morning {apiSecret} {apiKey}</h1> : <div></div>}
         <h3 className={styles.text}>Porfolio overview</h3>
-        {/* <div className={styles.cardContainer0}>
+        <div className={styles.cardContainer0}>
           <Card
             sx={{
               minWidth: 275,
@@ -280,8 +280,8 @@ export const Dashboard: React.FC = () => {
               <p> USD </p>
             </CardContent>
           </Card>
-        </div> */}
-        {/* 
+        </div>
+
         <div className={styles.cardContainer1}>
           <Card
             sx={{
@@ -307,8 +307,8 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div> */}
-        {/* 
+        </div>
+
         <div className={styles.cardContainer2}>
           <Card
             sx={{
@@ -333,9 +333,9 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div> */}
+        </div>
 
-        {/* <div className={styles.cardConainer3}>
+        <div className={styles.cardConainer3}>
           <Card
             sx={{
               width: 208,
@@ -353,9 +353,9 @@ export const Dashboard: React.FC = () => {
                 color="text.secondary"
                 gutterBottom>
                 Assets Distributions
-              </Typography> */}
+              </Typography>
 
-        {/* <div className={styles.piechartContainer}>
+              <div className={styles.piechartContainer}>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   <img
                     className={styles.piechartImg}
@@ -387,10 +387,10 @@ export const Dashboard: React.FC = () => {
                     </div>
                   </div>
                 </Typography>
-              </div> */}
-        {/* </CardContent>
+              </div>
+            </CardContent>
           </Card>
-        </div> */}
+        </div>
 
         <br />
 
