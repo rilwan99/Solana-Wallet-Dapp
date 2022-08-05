@@ -12,6 +12,7 @@ import LoginIcon from '@mui/icons-material/Login';
 
 import * as web3 from '@solana/web3.js'
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
+//import { RestClient } from "./ftx-api";
 
 // function someFunction(event, abc) {
 //   console.log(event);
@@ -25,9 +26,30 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 //   console.log('handleClick 👉️', message);
 // };
 
+class inputForm {
+    id = ''
+    apikey: string;
+    apisecret: string;
+  }
+
 function validateFormWithJS() {
-  // const name = document.querySelector('#ApiKey').value
-  // const rollNumber = document.querySelector('#ApiSecret').value
+    event.preventDefault()
+    const key = document.getElementById('ApiKey') as HTMLInputElement;
+    const secret = document.getElementById('ApiSecret') as HTMLInputElement;
+    console.log(key);
+    console.log(secret);
+
+    if (key.value.length ===0  ||  secret .value.length ===0) {
+        alert("Please Fill All Required Fields");
+        return false;
+    }
+    else {
+        let client = new inputForm();
+        client.apikey = key.value;
+        client.apisecret = secret.value;
+        console.log(client);
+        return client;
+    }
 
   // if (!name) {
   //   alert('Please enter your API Key.')

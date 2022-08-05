@@ -183,7 +183,7 @@ export const BasicTable: FC = () => {
         console.log("test")
         const key = '';//'pmifmOL7FE3vorsIIEj93KdJNmyyiwPfdKQVj1T_';
         const secret = ''; //'dq_kHcKIatP-O0r1WByAvSMr3tX7yhTix4R7P91I';
-        const client = new RestClient(key, secret);
+        //const client = new RestClient(key, secret);
         try {
             //console.log('getBalances: ',  await client.getBalances());
             let a = await client.getBalances();
