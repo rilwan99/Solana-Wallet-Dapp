@@ -12,7 +12,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import Image from "next/image";
 import styles from "../styles/Dashboard.module.css";
-import { Card } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -25,6 +25,10 @@ import Paper from "@mui/material/Paper";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
 import { CenterFocusStrong, PieChart } from "@mui/icons-material";
 import { style } from "@mui/system";
 
@@ -53,9 +57,7 @@ export const Dashboard: React.FC = () => {
     <Box
       component="span"
       sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    >
-      •
-    </Box>
+    ></Box>
   );
 
   return (
@@ -97,8 +99,8 @@ export const Dashboard: React.FC = () => {
           flexGrow: 1,
           bgcolor: "#242F37",
           p: 3,
-          maxHeight: 1000,
-          height: 900,
+          maxHeight: 900,
+          height: 850,
         }}
       >
         <h1 className={styles.text}>Good Morning John</h1>
@@ -107,8 +109,8 @@ export const Dashboard: React.FC = () => {
           <Card
             sx={{
               minWidth: 275,
-              width: 532,
-              height: 200,
+              width: 432,
+              height: 120,
               bgcolor: "#5EC2B7",
             }}
           >
@@ -116,7 +118,7 @@ export const Dashboard: React.FC = () => {
               <Typography
                 sx={{
                   fontWeight: 700,
-                  fontSize: 20,
+                  fontSize: 15,
                   color: "#ffff",
                 }}
                 variant="h5"
@@ -125,14 +127,13 @@ export const Dashboard: React.FC = () => {
                 Total Assets
               </Typography>
               <Typography variant="body2">
-                <div className={styles.totalAmount}>
-                  <span className={styles.dollarIcon}>$</span>1,234,567.90
-                  <span className={styles.currencyIcon}>USD</span>
-                </div>
+                <p className={styles.dollarIcon}>$</p>
+                <p className={styles.amount}> 1,234,567.90 </p>
+                <p className={styles.currencyIcon}>USD</p>
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Learn More</Button>
+              <Button size="small"></Button>
             </CardActions>
           </Card>
         </div>
@@ -140,7 +141,7 @@ export const Dashboard: React.FC = () => {
           <Card
             sx={{
               minWidth: 275,
-              height: 200,
+              height: 120,
               bgcolor: "#5D55A6",
             }}
           >
@@ -157,23 +158,22 @@ export const Dashboard: React.FC = () => {
                 Tokens
               </Typography>
               <Typography variant="body2">
-                <div className={styles.tokensAmount}>
-                  3,000<span className={styles.tokensFont}>Tokens</span>
-                </div>
+                <p className={styles.tokensAmount}> 3,000 </p>
+                <p className={styles.tokensFont}>Tokens</p>
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Learn More</Button>
+              <Button size="small"></Button>
             </CardActions>
           </Card>
         </div>
         <div className={styles.cardConainer2}>
           <Card
             sx={{
-              width: 50,
-              height: 200,
+              width: 25,
+              height: 120,
               bgcolor: "#E46E7E",
-              minWidth: 205,
+              minWidth: 145,
             }}
           >
             <CardContent>
@@ -189,19 +189,19 @@ export const Dashboard: React.FC = () => {
                 Portfolios
               </Typography>
               <Typography variant="body2">
-                <div className={styles.portfolioFont}>10</div>
+                <p className={styles.portfolioFont}>10</p>
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Learn More</Button>
+              <Button size="small"></Button>
             </CardActions>
           </Card>
         </div>
         <div className={styles.cardConainer3}>
           <Card
             sx={{
-              width: 208,
-              height: 416,
+              width: 108,
+              height: 248,
               bgcolor: "#364652",
               minWidth: 431,
             }}
@@ -227,28 +227,30 @@ export const Dashboard: React.FC = () => {
                   />
                 </Typography>
                 <Typography variant="body2">
-                  <div className={styles.disDiscription}>
-                    <div className={styles.solContainer}>
-                      <img className={styles.solImg} src="/sol.png" alt="sol" />
-                      <p className={styles.solFont}> 50% - SOL</p>
-                    </div>
-                    <div className={styles.solContainer}>
-                      <img className={styles.solImg} src="/btc.png" alt="sol" />
-                      <p className={styles.solFont}> 30% - BTC</p>
-                    </div>
-                    <div className={styles.solContainer}>
-                      <img className={styles.solImg} src="/eth.png" alt="sol" />
-                      <p className={styles.solFont}> 15% - ETH</p>
-                    </div>
-                    <div className={styles.solContainer}>
-                      <img
-                        className={styles.solImg}
-                        src="/other.png"
-                        alt="sol"
-                      />
-                      <p className={styles.solFont}> 5% - others</p>
-                    </div>
-                  </div>
+                  {/* <p className={styles.solFonts}>
+                    <img className={styles.solImg} src="/sol.png" alt="sol" />
+                    <p className={styles.solFont}> 50% - SOL </p>
+                  </p> */}
+                  <p className={styles.solFont}>
+                    <img className={styles.solImg} src="/sol.png" alt="sol" />
+                    50% - SOL
+                  </p>
+                  <p className={styles.solFont2}>
+                    <img className={styles.solImg} src="/btc.png" alt="sol" />
+                    30% - BTC
+                  </p>
+                  <p className={styles.solFont3}>
+                    <img className={styles.solImg} src="/eth.png" alt="sol" />
+                    15% - ETH
+                  </p>
+                  <p className={styles.solFont4}>
+                    <img
+                      className={styles.solImg2}
+                      src="/other.png"
+                      alt="sol"
+                    />
+                    5% - Others
+                  </p>
                 </Typography>
               </div>
             </CardContent>
@@ -259,11 +261,12 @@ export const Dashboard: React.FC = () => {
         </div>
         <br />
         <div className={styles.TableContainer}>
+          <p className={styles.tableAsset}>Assets Detail</p>
           <TableContainer component={Paper}>
             <Table
               sx={{
                 bgcolor: "#364652",
-                minWidth: 975,
+                minWidth: 870,
               }}
               aria-label="simple table"
             >
@@ -318,6 +321,29 @@ export const Dashboard: React.FC = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          <Grid>
+            {/* <Grid sx={{ pl: 2, pt: 1 }}>
+              <FirstPageIcon />
+              <KeyboardArrowLeftIcon />
+            </Grid> */}
+            <Grid className={styles.arrowFun}>
+              <FirstPageIcon />
+              <KeyboardArrowLeftIcon />
+              <Typography>
+                <p className={styles.numberPage}>1</p>
+                <p className={styles.numberPage2}>of</p>
+                <p className={styles.numberPage3}>500</p>
+              </Typography>
+              <Grid className={styles.arrowIcon}>
+                <ChevronRightIcon />
+                <LastPageIcon />
+              </Grid>
+            </Grid>
+            {/* <Grid sx={{ pl: 22 }}>
+              <ChevronRightIcon />
+              <LastPageIcon />
+            </Grid> */}
+          </Grid>
         </div>
       </Box>
     </Box>
