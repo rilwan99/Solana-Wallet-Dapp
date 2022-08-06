@@ -106,10 +106,16 @@ export const Dashboard: React.FC = () => {
     // Deserialize token data in AccountInfo<Buffer> and store in tokenMetaList 
     const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
 
-    await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
+    // populate row[] with asset name, symbol and balance
+    const processedRows = await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
 
-    getTokenValue();
+    // populate row[] with price
+    const updatedRows = await getPrices(processedRows);
 
+    // Populate row[] with balance
+    const finalRows = getTokenValue(updatedRows);
+
+    setRows(finalRows)
     setLoading(false)
   }
 
@@ -137,14 +143,7 @@ export const Dashboard: React.FC = () => {
     // T: Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}
     const tokenAccounts: { pubkey: web3.PublicKey; account: web3.AccountInfo<Buffer>; }[] = tokenAccountArray.value
 
-    // export interface RawAccount {
-    //     mint: PublicKey;
-    //     owner: PublicKey;
-    //     amount: bigint;
-    //     ...
-    // }
     const tokenMetaList: RawAccount[] = []
-
     // Deserialize token account and store in tokenMetaList
     tokenAccounts.forEach((e) => {
       tokenMetaList.push(AccountLayout.decode(e.account.data))
@@ -180,9 +179,7 @@ export const Dashboard: React.FC = () => {
       // setRows(existingRows)
     }
 
-    // Need to debug how to differentiate between tokens of the same symbol
-    const updatedRows = await getPrices(existingRows);
-    setRows(updatedRows)
+    return existingRows
   }
 
   async function getPrices(rows: TokenInfo[]) {
@@ -196,12 +193,13 @@ export const Dashboard: React.FC = () => {
     return rows
   }
 
-  function getTokenValue() {
+  function getTokenValue(rows: TokenInfo[]) {
     rows.forEach(token => {
       if (token.balance !== 0 && token.price !== 0) {
         token.value = token.balance * token.price
       }
     })
+    return rows
   }
 
   async function getExchangeBal(apiKey, apiSecret) {
