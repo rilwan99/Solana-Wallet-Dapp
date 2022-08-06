@@ -32,6 +32,8 @@ import * as web3 from "@solana/web3.js"
 import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { getTokenPrices } from "../lib/getPrice";
 import { getTokenName } from "../lib/getTokenName";
+import { DefaultLogger } from "ftx-api";
+const { RestClient } = require('ftx-api');
 
 const drawerWidth = 240;
 
@@ -74,7 +76,7 @@ export const Dashboard: React.FC = () => {
 
       setApiKey(userApiKey)
       setApiSecret(userApiSecret)
-
+      getExchangeBal(apiKey,apiSecret)
       // Insert Function to populate component using fetched data
     }
   }, [])
@@ -193,6 +195,20 @@ export const Dashboard: React.FC = () => {
     })
   }
 
+  async function getExchangeBal(apiKey, apiSecret) {
+    //event.preventDefault();
+    const client = new RestClient(apiKey, apiSecret);
+    try {
+      let a = await client.getBalances();
+      const result = a.result
+      const nonZeroBalance = result.filter(account => account.total > 0)
+      console.log(nonZeroBalance)
+      // console.log(a.result[5].total);
+    } catch (e) {
+      console.error('Get balance failed: ', e);
+    }
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
 
@@ -241,7 +257,7 @@ export const Dashboard: React.FC = () => {
         {address ? <h1 className={styles.text}>Good Morning {address}</h1> : <div></div>}
         {apiSecret && apiKey ? <h1 className={styles.text}>Good Morning {apiSecret} {apiKey}</h1> : <div></div>}
         <h3 className={styles.text}>Porfolio overview</h3>
-        {/* <div className={styles.cardContainer0}>
+        <div className={styles.cardContainer0}>
           <Card
             sx={{
               minWidth: 275,
@@ -265,8 +281,8 @@ export const Dashboard: React.FC = () => {
               <p> USD </p>
             </CardContent>
           </Card>
-        </div> */}
-        {/* 
+        </div>
+
         <div className={styles.cardContainer1}>
           <Card
             sx={{
@@ -292,8 +308,8 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div> */}
-        {/* 
+        </div>
+
         <div className={styles.cardContainer2}>
           <Card
             sx={{
@@ -318,9 +334,9 @@ export const Dashboard: React.FC = () => {
               </Typography>
             </CardContent>
           </Card>
-        </div> */}
+        </div>
 
-        {/* <div className={styles.cardConainer3}>
+        <div className={styles.cardConainer3}>
           <Card
             sx={{
               width: 208,
@@ -338,9 +354,9 @@ export const Dashboard: React.FC = () => {
                 color="text.secondary"
                 gutterBottom>
                 Assets Distributions
-              </Typography> */}
+              </Typography>
 
-        {/* <div className={styles.piechartContainer}>
+              <div className={styles.piechartContainer}>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   <img
                     className={styles.piechartImg}
@@ -372,10 +388,10 @@ export const Dashboard: React.FC = () => {
                     </div>
                   </div>
                 </Typography>
-              </div> */}
-        {/* </CardContent>
+              </div>
+            </CardContent>
           </Card>
-        </div> */}
+        </div>
 
         <br />
 
