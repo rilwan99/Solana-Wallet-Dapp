@@ -34,6 +34,14 @@ import { style } from "@mui/system";
 
 const drawerWidth = 240;
 
+interface TokenInfo {
+  assetName: string;
+  symbol: string;
+  balance: number;
+  price: number;
+  value: number;
+}
+
 export const Dashboard: React.FC = () => {
   function createData(
     name: string,
@@ -53,12 +61,164 @@ export const Dashboard: React.FC = () => {
     createData("Gingerbread", 356, 16.0, 49, 3.9),
   ];
 
+<<<<<<< HEAD
   const bull = (
     <Box
       component="span"
       sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
     ></Box>
   );
+=======
+    if (pathNameChecker === "address") {
+      const userAddress = router.asPath.slice(19)
+      setAddress(userAddress)
+      console.log("HIT 2")
+      submitAddress(userAddress)
+    }
+
+    else {
+      const stop = router.asPath.indexOf("&")
+      const userApiKey = router.asPath.slice(18, stop)
+
+      const secretStart = stop + 11
+      const userApiSecret = router.asPath.slice(secretStart)
+
+      setApiKey(userApiKey)
+      setApiSecret(userApiSecret)
+      getExchangeBal(apiKey, apiSecret)
+      // Insert Function to populate component using fetched data
+    }
+  }, [])
+
+  //
+
+  async function submitAddress(address) {
+
+    setLoading(true)
+
+    const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/"
+    const connection = new web3.Connection(rpcEndpoint);
+
+    // Check for a valid SOL address provided and store in userInput
+    // Fetch all the token accounts owned by the specified account 
+    const userInput = address
+    const tokenAccountArray = await getTokenAccount(connection, userInput);
+
+    // Deserialize token data in AccountInfo<Buffer> and store in tokenMetaList 
+    const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
+
+    await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
+
+    getTokenValue();
+
+    setLoading(false)
+  }
+
+  async function getTokenAccount(connection: web3.Connection, walletAddress: string) {
+
+    try {
+      // returns RpcResponseAndContext<Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}>>
+      const pubKey = new web3.PublicKey(walletAddress)
+      const tokenAccountArray = await connection.getTokenAccountsByOwner(
+        pubKey,
+        {
+          programId: TOKEN_PROGRAM_ID,
+        }
+      );
+      return tokenAccountArray
+    } catch (err) {
+      console.log(err)
+      window.alert(err)
+    }
+  }
+
+  function deserializeTokenAccounts(tokenAccountArray): RawAccount[] {
+
+    // type RPCResponseAndContext<T> = { context: Context, value: T}
+    // T: Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}
+    const tokenAccounts: { pubkey: web3.PublicKey; account: web3.AccountInfo<Buffer>; }[] = tokenAccountArray.value
+
+    // export interface RawAccount {
+    //     mint: PublicKey;
+    //     owner: PublicKey;
+    //     amount: bigint;
+    //     ...
+    // }
+    const tokenMetaList: RawAccount[] = []
+
+    // Deserialize token account and store in tokenMetaList
+    tokenAccounts.forEach((e) => {
+      tokenMetaList.push(AccountLayout.decode(e.account.data))
+    })
+    return tokenMetaList;
+  }
+
+  async function processTokenAccounts(connection: web3.Connection, tokenMetaList: RawAccount[], tokenAccounts) {
+
+    // Filter for token accounts with non-zero balances
+    const currentTokenAccounts = tokenMetaList.filter(e => e.amount > 0)
+    const existingRows: TokenInfo[] = []
+    console.log("bump")
+    console.log(currentTokenAccounts)
+
+    // Ierate through list of token accounts with non-zero balances
+    for (let i = 0; i < currentTokenAccounts.length; i++) {
+
+      // Find the mint address
+      const mintAddress = new web3.PublicKey(currentTokenAccounts[i].mint).toString()
+
+      // Call Solanafm API
+      const tokenMeta = await getTokenName(mintAddress)
+
+      // Find the token account balance 
+      const tokenPubKey = tokenAccounts.value[i].pubkey
+      const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey, "finalized")).value
+      const decimals = Math.pow(10, tokenBalanceData.decimals)
+      const balance = Number(currentTokenAccounts[i].amount) / decimals
+
+      console.log("------------------------------------")
+      existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0))
+      // setRows(existingRows)
+    }
+
+    // Need to debug how to differentiate between tokens of the same symbol
+    const updatedRows = await getPrices(existingRows);
+    setRows(updatedRows)
+  }
+
+  async function getPrices(rows: TokenInfo[]) {
+    let tokenSymbols: string[] = []
+    rows.forEach(tokenInfo => tokenSymbols.push(tokenInfo.symbol))
+    // Calling Coingecko API
+    const tokenPrices: number[] = await getTokenPrices(tokenSymbols)
+    for (let i = 0; i < tokenPrices.length; i++) {
+      rows[i].price = tokenPrices[i]
+    }
+    return rows
+  }
+
+  function getTokenValue() {
+    rows.forEach(token => {
+      if (token.balance !== 0 && token.price !== 0) {
+        token.value = token.balance * token.price
+      }
+    })
+  }
+
+  async function getExchangeBal(apiKey, apiSecret) {
+    //event.preventDefault();
+    const client = new RestClient(apiKey, apiSecret);
+    try {
+      let a = await client.getBalances();
+      const result = a.result
+      const nonZeroBalance = result.filter(account => account.total > 0)
+      console.log(nonZeroBalance)
+      // console.log(a.result[5].total);
+    } catch (e) {
+      console.error('Get balance failed: ', e);
+    }
+  }
+>>>>>>> ab85d08e0223b7c8605c2672a565830949d9d51e
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -137,7 +297,12 @@ export const Dashboard: React.FC = () => {
             </CardActions>
           </Card>
         </div>
+<<<<<<< HEAD
         <div className={styles.cardConainer1}>
+=======
+
+        <div className={styles.cardContainer1}>
+>>>>>>> ab85d08e0223b7c8605c2672a565830949d9d51e
           <Card
             sx={{
               minWidth: 275,
@@ -167,7 +332,12 @@ export const Dashboard: React.FC = () => {
             </CardActions>
           </Card>
         </div>
+<<<<<<< HEAD
         <div className={styles.cardConainer2}>
+=======
+
+        <div className={styles.cardContainer2}>
+>>>>>>> ab85d08e0223b7c8605c2672a565830949d9d51e
           <Card
             sx={{
               width: 25,
@@ -197,6 +367,10 @@ export const Dashboard: React.FC = () => {
             </CardActions>
           </Card>
         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ab85d08e0223b7c8605c2672a565830949d9d51e
         <div className={styles.cardConainer3}>
           <Card
             sx={{
@@ -218,6 +392,10 @@ export const Dashboard: React.FC = () => {
               >
                 Assets Distributions
               </Typography>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ab85d08e0223b7c8605c2672a565830949d9d51e
               <div className={styles.piechartContainer}>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   <img
@@ -254,11 +432,17 @@ export const Dashboard: React.FC = () => {
                 </Typography>
               </div>
             </CardContent>
+<<<<<<< HEAD
             <CardActions>
               <Button size="small">Learn More</Button>
             </CardActions>
           </Card>
         </div>
+=======
+          </Card>
+        </div>
+
+>>>>>>> ab85d08e0223b7c8605c2672a565830949d9d51e
         <br />
         <div className={styles.TableContainer}>
           <p className={styles.tableAsset}>Assets Detail</p>
