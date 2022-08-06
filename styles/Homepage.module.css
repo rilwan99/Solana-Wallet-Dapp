@@ -6,8 +6,8 @@
   position: absolute;
   width: 142.52px;
   height: 36px;
-  left: 36px;
-  top: 31px;
+  left: 5%;
+  top: 5%;
 }
 
 .wallet {
@@ -27,7 +27,7 @@
   width: 420px;
   height: 48px;
   left: 3.2%;
-  top: 100%;
+  top: 95%;
 }
 
 .buttons {
@@ -55,7 +55,7 @@
 
   width: 22px;
   height: 20px;
-  left: 17%;
+  left: 18.8%;
   top: 107%;
 
   font-weight: 700;
@@ -67,8 +67,8 @@
   color: white;
   width: 580px;
   height: 160px;
-  left: 64px;
-  top: 168px;
+  left: 5%;
+  top: 30%;
   font-weight: 700;
   font-size: 64px;
   line-height: 80%;
@@ -80,8 +80,8 @@
   position: absolute;
   width: 580px;
   height: 78px;
-  left: 64px;
-  top: 388px;
+  left: 5%;
+  top: 65%;
 
   font-style: normal;
   font-weight: 600;
@@ -159,7 +159,7 @@
   position: absolute;
   display: flex;
   left: 5%;
-  top: 112%;
+  top: 110%;
 }
 
 .loading {
