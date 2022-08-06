@@ -184,28 +184,28 @@ export const BasicTable: FC = () => {
         const key = '';//'pmifmOL7FE3vorsIIEj93KdJNmyyiwPfdKQVj1T_';
         const secret = ''; //'dq_kHcKIatP-O0r1WByAvSMr3tX7yhTix4R7P91I';
         //const client = new RestClient(key, secret);
-        try {
-            //console.log('getBalances: ',  await client.getBalances());
-            let a = await client.getBalances();
-            console.log(a);
-            // interface MyObj {
-            //     t_bool: boolean;
-            //     t_res: string;
-            // }
+        // try {
+        //console.log('getBalances: ',  await client.getBalances());
+        // let a = await client.getBalances();
+        // console.log(a);
+        // interface MyObj {
+        //     t_bool: boolean;
+        //     t_res: string;
+        // }
 
-            // let obj: MyObj = JSON.parse(a);
-            // console.log(obj.t_bool);
-            // console.log(obj.t_res);
-            //console.log(obj); 
-            //console.log('testing:',await a);
-            //             console.log('testing: ', client.getBalances())
-            //             arrayOfObjects.sort((a, b) => (a.propertyToSortBy > b.propertyToSortBy ? -1 : 1));
-            //             test = tests.sort((a, b) => (a.nome > b.nome ? -1 : 1));
-            // testsSortedByCognome = tests.sort((a, b) => (a.cognome > b.cognome ? -1 : 1));
+        // let obj: MyObj = JSON.parse(a);
+        // console.log(obj.t_bool);
+        // console.log(obj.t_res);
+        //console.log(obj); 
+        //console.log('testing:',await a);
+        //             console.log('testing: ', client.getBalances())
+        //             arrayOfObjects.sort((a, b) => (a.propertyToSortBy > b.propertyToSortBy ? -1 : 1));
+        //             test = tests.sort((a, b) => (a.nome > b.nome ? -1 : 1));
+        // testsSortedByCognome = tests.sort((a, b) => (a.cognome > b.cognome ? -1 : 1));
 
-        } catch (e) {
-            console.error('Get balance failed: ', e);
-        }
+        // } catch (e) {
+        //     console.error('Get balance failed: ', e);
+        // }
     }
 
     // function parseObject(obj) {
