@@ -14,7 +14,6 @@
 }
 
 .disDiscription {
-  position: absolute;
   width: 125px;
   height: 20px;
   left: 275px;
@@ -50,23 +49,40 @@
   color: white;
 }
 
-.cardContainer0 {
-  position: absolute;
+.div0 {
   font-weight: 700;
   width: 444px;
   height: 532px;
+  display: flex;
+  flex-direction: row;
+}
+
+.diva1 {
+  font-weight: 700;
+  width: 444px;
+  height: 532px;
+  display: flex;
+  flex-direction: column;
+}
+
+.div3 {
+  font-weight: 700;
+  width: 444px;
+  height: 532px;
+  display: flex;
+  flex-direction: row;
 }
 
 .cardContainer1 {
-  position: absolute;
   width: 310px;
   height: 200px;
   left: 17.5%;
   top: 368px;
+  display: flex;
+  flex-direction: row;
 }
 
 .cardContainer2 {
-  position: absolute;
   width: 50px;
   height: 200px;
   left: 39%;
@@ -74,52 +90,34 @@
 }
 
 .cardConainer3 {
-  position: absolute;
   width: 533px;
   height: 424px;
   left: 53.5%;
   top: 21%;
 }
 
-.totalAmount {
+.totalassetContainer {
   color: #ffff;
-  padding: 10px;
-  padding-top: 20px;
-  width: 334px;
-  height: 70px;
-  font-weight: 700;
-  font-size: 56px;
-  line-height: 165%;
-  font-size: 50px;
+  display: flex;
+  font-size: 25px;
+  flex-direction: column;
+  flex-wrap: wrap-reverse;
+}
+
+.totalAsset {
+  font-size: 25px;
+}
+
+.totalAmount {
 }
 
 .dollarIcon {
-  width: 14px;
-  height: 30px;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 125%;
 }
 
 .currencyIcon {
-  width: 47px;
-  height: 30px;
-
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 125%;
 }
 
 .tokensAmount {
-  color: #ffff;
-  padding: 10px;
-  padding-top: 20px;
-  width: 123px;
-  height: 60px;
-
-  font-weight: 700;
-  font-size: 56px;
-  line-height: 125%;
 }
 
 .tokensFont {
@@ -143,7 +141,6 @@
 }
 
 .TableContainer {
-  position: absolute;
   top: 598px;
 }
 
