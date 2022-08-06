@@ -76,7 +76,7 @@ export const Dashboard: React.FC = () => {
 
       setApiKey(userApiKey)
       setApiSecret(userApiSecret)
-      getExchangeBal(apiKey,apiSecret)
+      getExchangeBal(apiKey, apiSecret)
       // Insert Function to populate component using fetched data
     }
   }, [])
@@ -254,8 +254,7 @@ export const Dashboard: React.FC = () => {
           height: 900,
         }}
       >
-        {address ? <h1 className={styles.text}>Good Morning {address}</h1> : <div></div>}
-        {apiSecret && apiKey ? <h1 className={styles.text}>Good Morning {apiSecret} {apiKey}</h1> : <div></div>}
+        <h1 className={styles.text}>Good Morning {address}</h1>
         <h3 className={styles.text}>Porfolio overview</h3>
         <div className={styles.cardContainer0}>
           <Card
