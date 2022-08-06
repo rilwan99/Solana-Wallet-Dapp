@@ -254,8 +254,8 @@ export const Dashboard: React.FC = () => {
           height: 900,
         }}
       >
-        <h1 className={styles.text}>Good Morning {address}</h1>
-        <h3 className={styles.text}>Porfolio overview</h3>
+        {address ? <h1 className={styles.text}>Good Morning {address}</h1> : <div></div>}
+        {apiSecret && apiKey ? <h1 className={styles.text}>Good Morning {apiSecret} {apiKey}</h1> : <div></div>}
         <div className={styles.cardContainer0}>
           <Card
             sx={{
