@@ -34,14 +34,6 @@ import { style } from "@mui/system";
 
 const drawerWidth = 240;
 
-interface TokenInfo {
-  assetName: string;
-  symbol: string;
-  balance: number;
-  price: number;
-  value: number;
-}
-
 export const Dashboard: React.FC = () => {
   function createData(
     name: string,
@@ -85,7 +77,7 @@ export const Dashboard: React.FC = () => {
 
       setApiKey(userApiKey)
       setApiSecret(userApiSecret)
-      getExchangeBal(apiKey, apiSecret)
+      getExchangeBal(apiKey,apiSecret)
       // Insert Function to populate component using fetched data
     }
   }, [])
@@ -108,6 +100,9 @@ export const Dashboard: React.FC = () => {
     const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
 
     await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
+
+    // Need to debug how to differentiate between tokens of the same symbol
+    await getPrices();
 
     getTokenValue();
 
@@ -157,9 +152,7 @@ export const Dashboard: React.FC = () => {
 
     // Filter for token accounts with non-zero balances
     const currentTokenAccounts = tokenMetaList.filter(e => e.amount > 0)
-    const existingRows: TokenInfo[] = []
-    console.log("bump")
-    console.log(currentTokenAccounts)
+    const existingRows = rows ? [] : rows
 
     // Ierate through list of token accounts with non-zero balances
     for (let i = 0; i < currentTokenAccounts.length; i++) {
@@ -180,21 +173,19 @@ export const Dashboard: React.FC = () => {
       existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0))
       // setRows(existingRows)
     }
+    setRows(existingRows)
 
-    // Need to debug how to differentiate between tokens of the same symbol
-    const updatedRows = await getPrices(existingRows);
-    setRows(updatedRows)
   }
 
-  async function getPrices(rows: TokenInfo[]) {
+
+  async function getPrices() {
     let tokenSymbols: string[] = []
     rows.forEach(tokenInfo => tokenSymbols.push(tokenInfo.symbol))
     // Calling Coingecko API
-    const tokenPrices: number[] = await getTokenPrices(tokenSymbols)
+    const tokenPrices: Number[] = await getTokenPrices(tokenSymbols)
     for (let i = 0; i < tokenPrices.length; i++) {
       rows[i].price = tokenPrices[i]
     }
-    return rows
   }
 
   function getTokenValue() {
