@@ -217,14 +217,3 @@
 .imgLanding {
   width: 10%;
 }
-
-.selectWalletButton {
-  display: flex;
-  flex-direction: row;
-  background: #512da8;
-  color: white;
-}
-
-.selectWalletButton:hover {
-  background: #1a1f2e;
-}

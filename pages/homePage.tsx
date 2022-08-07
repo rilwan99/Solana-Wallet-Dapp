@@ -2,7 +2,7 @@ import styles from "../styles/Homepage.module.css";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Image from "next/image";
 import { style } from "@mui/system";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
@@ -17,20 +17,6 @@ import * as web3 from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
 
-//import { RestClient } from "./ftx-api";
-
-// function someFunction(event, abc) {
-//   console.log(event);
-//   alert(event.className);
-// }
-
-// const handleClick = event => {
-//   event.preventDefault();
-
-//   // 👇️ value of input field
-//   console.log('handleClick 👉️', message);
-// };
-
 class inputForm {
   id = "";
   apikey: string;
@@ -38,31 +24,14 @@ class inputForm {
 }
 
 const Homepage: React.FC = () => {
-  // function validateFormWithJS(event) {
-
-  //     event.preventDefault()
-  //     const key = event.target.ApiKey.value
-  //     const secret = event.target.ApiSecret.value
-
-  //     if (key.length ===0  ||  secret.length ===0) {
-  //         alert("Please Fill All Required Fields");
-  //         return false;
-  //     }
-  //     else {
-  //         client.apikey = key.value;
-  //         client.apisecret = secret.value;
-  //         console.log(client);
-  //         return client;
-  //     }
-
-  //   console.log("test")
-  // }
 
   const [data, setData] = useState({ address: "" });
   const [cexData1, setCexData1] = useState({ apiKey: "" });
   const [cexData2, setCexData2] = useState({ apiSecret: "" });
-
   const [loading, setLoading] = useState(false);
+  const [connected, setConnected] = useState(false)
+
+
 
   async function submitAddress(event) {
     event.preventDefault();
@@ -79,16 +48,6 @@ const Homepage: React.FC = () => {
       window.alert(err);
     }
   }
-
-  // NEED TO CHECK FOR VALID SOL ADDRESS
-  // const SubmitButton = React.forwardRef(({ onClick, href }, ref) => {
-  //   const address = data
-  //   return (
-  //     <a href={href} onClick={onClick} ref={ref} className={styles.submitText}>
-  //       Click Me
-  //     </a>
-  //   )
-  // })
 
   return (
     <div className={styles.mainContainer}>
@@ -107,14 +66,10 @@ const Homepage: React.FC = () => {
 
           <div className={styles.walletContainer}>
             <div className={styles.btn1n2}>
-              <div className={styles.selectWalletButton}>
-                <AccountBalanceWalletIcon />
-                <WalletMultiButton />
-              </div>
+              <WalletMultiButton />
               <Popup
                 trigger={
                   <button className={styles.buttons2}>
-                    <CurrencyExchangeIcon />
                     {" "}
                     Select Exchange{" "}
                   </button>
