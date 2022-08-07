@@ -47,11 +47,13 @@ interface TokenInfo {
 export const Dashboard: React.FC = () => {
   const [rows, setRows] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  // Track user Inputs
   const [address, setAddress] = React.useState("");
   const [apiKey, setApiKey] = React.useState("");
   const [apiSecret, setApiSecret] = React.useState("");
 
   const router = useRouter();
+  // Track the route taken the user (Input Address or CEX wallet)
   const pathNameChecker = router.asPath.slice(11, 18);
 
   function createData(
@@ -65,12 +67,16 @@ export const Dashboard: React.FC = () => {
   }
 
   React.useEffect(() => {
+
+    // User enters via entering address in input box 
     if (pathNameChecker === "address") {
       const userAddress = router.asPath.slice(19);
       setAddress(userAddress);
-      console.log("HIT 2");
       submitAddress(userAddress);
-    } else {
+    }
+
+    // User enters via CEX wallet button
+    else {
       const stop = router.asPath.indexOf("&");
       const userApiKey = router.asPath.slice(18, stop);
 
@@ -79,18 +85,16 @@ export const Dashboard: React.FC = () => {
 
       setApiKey(userApiKey);
       setApiSecret(userApiSecret);
-      getExchangeBal(apiKey, apiSecret);
       // Insert Function to populate component using fetched data
+      getExchangeBal(apiKey, apiSecret);
     }
   }, []);
 
-  //
 
   async function submitAddress(address) {
     setLoading(true);
 
-    const rpcEndpoint =
-      "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/";
+    const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/";
     const connection = new web3.Connection(rpcEndpoint);
 
     // Check for a valid SOL address provided and store in userInput
@@ -99,15 +103,10 @@ export const Dashboard: React.FC = () => {
     const tokenAccountArray = await getTokenAccount(connection, userInput);
 
     // Deserialize token data in AccountInfo<Buffer> and store in tokenMetaList
-    const tokenMetaList: RawAccount[] =
-      deserializeTokenAccounts(tokenAccountArray);
+    const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
 
     // populate row[] with asset name, symbol and balance
-    const processedRows = await processTokenAccounts(
-      connection,
-      tokenMetaList,
-      tokenAccountArray
-    );
+    const processedRows = await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
 
     // populate row[] with price
     const updatedRows = await getPrices(processedRows);
@@ -119,10 +118,7 @@ export const Dashboard: React.FC = () => {
     setLoading(false);
   }
 
-  async function getTokenAccount(
-    connection: web3.Connection,
-    walletAddress: string
-  ) {
+  async function getTokenAccount(connection: web3.Connection, walletAddress: string) {
     try {
       // returns RpcResponseAndContext<Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}>>
       const pubKey = new web3.PublicKey(walletAddress);
@@ -155,45 +151,39 @@ export const Dashboard: React.FC = () => {
     return tokenMetaList;
   }
 
-  async function processTokenAccounts(
-    connection: web3.Connection,
-    tokenMetaList: RawAccount[],
-    tokenAccounts
-  ) {
-    // Filter for token accounts with non-zero balances
+  async function processTokenAccounts(connection: web3.Connection, tokenMetaList: RawAccount[], tokenAccounts) {
 
+    // Filter for token accounts with non-zero balances
     const currentTokenAccounts = tokenMetaList.filter((e) => e.amount > 0);
     const existingRows: TokenInfo[] = [];
 
     // Ierate through list of token accounts with non-zero balances
     for (let i = 0; i < currentTokenAccounts.length; i++) {
-      // Find the mint address
-      const mintAddress = new web3.PublicKey(
-        currentTokenAccounts[i].mint
-      ).toString();
 
-      // Call Solanafm API
+      // Find the mint address
+      const mintAddress = new web3.PublicKey(currentTokenAccounts[i].mint).toString();
+
+      // Call Solanafm API to fetch token name and symbol
       const tokenMeta = await getTokenName(mintAddress);
 
-      // Find the token account balance
+      // Calculate the balance in the token account
       const tokenPubKey = tokenAccounts.value[i].pubkey;
-      const tokenBalanceData = (
-        await connection.getTokenAccountBalance(tokenPubKey, "finalized")
-      ).value;
+      const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey, "finalized")).value;
       const decimals = Math.pow(10, tokenBalanceData.decimals);
       const balance = Number(currentTokenAccounts[i].amount) / decimals;
 
       console.log("------------------------------------");
-      existingRows.push(
-        createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0)
-      );
+      existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0));
     }
     return existingRows;
   }
 
+  // Fetch the price of each token in row[]
   async function getPrices(rows: TokenInfo[]) {
+
     let tokenSymbols: string[] = [];
     rows.forEach((tokenInfo) => tokenSymbols.push(tokenInfo.symbol));
+
     // Calling Coingecko API
     const tokenPrices: number[] = await getTokenPrices(tokenSymbols);
     for (let i = 0; i < tokenPrices.length; i++) {
@@ -202,6 +192,7 @@ export const Dashboard: React.FC = () => {
     return rows;
   }
 
+  // Calculate the value for each token using price and value
   function getTokenValue(rows: TokenInfo[]) {
     rows.forEach((token) => {
       if (token.balance !== 0 && token.price !== 0) {
@@ -231,7 +222,7 @@ export const Dashboard: React.FC = () => {
       let amt = await client.getFills();
       const result = amt.result;
       console.log(result);
-    } catch(e){
+    } catch (e) {
       console.error("Get history failed: ", e);
     }
   }
