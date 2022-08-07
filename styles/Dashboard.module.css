@@ -5,34 +5,42 @@
 
 .piechartContainer {
   /* background: blue; */
+  display: flex;
+  width: 10px;
   margin-top: 50px;
 }
 
 .piechartImg {
-  width: 240px;
-  height: 240px;
+  width: 200px;
+  height: 200px;
 }
 
 .disDiscription {
-  width: 125px;
-  height: 20px;
+  /* background: red; */
+  margin-top: 20px;
+  /* width: 125px;
+  height: 200px;
   left: 275px;
   top: 125px;
 
   font-weight: 700;
   font-size: 12px;
-  line-height: 125%;
+  line-height: 125%; */
 }
 
 .solContainer {
   /* background: green; */
   display: flex;
-  padding-top: 5px;
+  width: 150px;
+
+  padding-top: -5px;
+  padding-left: 80px;
 }
 
 .solImg {
-  width: 30px;
-  height: 30px;
+  margin-top: 5px;
+  width: 20px;
+  height: 20px;
 }
 
 .solFont {
@@ -59,65 +67,81 @@
 
 .diva1 {
   font-weight: 700;
+  /* padding: 10px; */
   width: 444px;
-  height: 532px;
+  height: 632px;
   display: flex;
   flex-direction: column;
 }
 
 .div3 {
   font-weight: 700;
+  margin-top: 10px;
   width: 444px;
   height: 532px;
   display: flex;
   flex-direction: row;
 }
 
-.cardContainer1 {
-  width: 310px;
-  height: 200px;
-  left: 17.5%;
-  top: 368px;
-  display: flex;
-  flex-direction: row;
-}
-
-.cardContainer2 {
-  width: 50px;
-  height: 200px;
-  left: 39%;
-  top: 368px;
+.portfolioCont {
+  margin-left: 10px;
 }
 
 .cardConainer3 {
   width: 533px;
-  height: 424px;
-  left: 53.5%;
-  top: 21%;
+  height: 124px;
+  margin-left: 55px;
 }
 
-.totalassetContainer {
+/* .totalassetContainer {
+  background: red;
   color: #ffff;
   display: flex;
-  font-size: 25px;
+  font-size: 5px;
   flex-direction: column;
   flex-wrap: wrap-reverse;
+} */
+
+.para1 {
+  /* background: red; */
+  color: #ffff;
+  margin-top: -20px;
+  height: 0px;
 }
 
 .totalAsset {
+  /* background: red; */
+  color: #ffff;
   font-size: 25px;
-}
-
-.totalAmount {
+  padding-top: 5px;
+  padding-left: 20px;
+  margin-top: 10px;
 }
 
 .dollarIcon {
+  width: 78px;
+  height: 30px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 125%;
 }
 
 .currencyIcon {
+  width: 78px;
+  height: 30px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 125%;
+}
+
+.totalAmount {
+  font-size: 50px;
 }
 
 .tokensAmount {
+  color: #ffff;
+  font-size: 50px;
+  font-weight: 700;
 }
 
 .tokensFont {
@@ -130,18 +154,24 @@
 
 .portfolioFont {
   color: #ffff;
-  padding: 10px;
-  padding-top: 20px;
+  /* padding: 10px; */
+  /* padding-top: 20px;
   width: 56px;
   height: 60px;
 
   font-weight: 900;
   font-size: 48px;
-  line-height: 125%;
+  line-height: 125%; */
+  color: #ffff;
+  font-size: 50px;
+  font-weight: 700;
 }
 
 .TableContainer {
-  top: 598px;
+  /* background: red; */
+  width: 1025px;
+  margin-top: -100px;
+  margin-bottom: 1000px;
 }
 
 .tableRow {
@@ -150,4 +180,13 @@
 
 .loading {
   margin-top: 20%;
+}
+
+.assetDTitle {
+  /* background: red; */
+  color: #ffff;
+  margin-top: -100px;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 50px;
 }

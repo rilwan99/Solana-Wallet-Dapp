@@ -2,15 +2,15 @@ import styles from "../styles/Homepage.module.css";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Image from "next/image";
 import { style } from "@mui/system";
-import { useState } from 'react';
-import React from 'react';
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
+import { useState } from "react";
+import React from "react";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 import Link from "next/link";
 
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
 
-import * as web3 from '@solana/web3.js'
+import * as web3 from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 //import { RestClient } from "./ftx-api";
 
@@ -27,14 +27,12 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 // };
 
 class inputForm {
-  id = ''
+  id = "";
   apikey: string;
   apisecret: string;
 }
 
-
 const Homepage: React.FC = () => {
-
   // function validateFormWithJS(event) {
 
   //     event.preventDefault()
@@ -59,23 +57,21 @@ const Homepage: React.FC = () => {
   const [cexData1, setCexData1] = useState({ apiKey: "" });
   const [cexData2, setCexData2] = useState({ apiSecret: "" });
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   async function submitAddress(event) {
-
-    event.preventDefault()
-    setLoading(true)
+    event.preventDefault();
+    setLoading(true);
     try {
-      const userInput = event.target.value
-      console.log(userInput)
-      const pubKey = new web3.PublicKey(userInput)
-      console.log(pubKey)
-      setData({ address: event.target.value })
-      setLoading(false)
-    }
-    catch (err) {
+      const userInput = event.target.value;
+      console.log(userInput);
+      const pubKey = new web3.PublicKey(userInput);
+      console.log(pubKey);
+      setData({ address: event.target.value });
+      setLoading(false);
+    } catch (err) {
       // console.log(err)
-      window.alert(err)
+      window.alert(err);
     }
   }
 
@@ -93,9 +89,7 @@ const Homepage: React.FC = () => {
     <div className={styles.mainContainer}>
       <div className={styles.AppHeader}>
         <img className={styles.tableFi} src="/TableFi_Logo.svg" alt="" />
-        <div className={styles.wallet}>
-          <WalletMultiButton />
-        </div>
+        <WalletMultiButton />
       </div>
 
       <div className={styles.div1}>
@@ -106,13 +100,20 @@ const Homepage: React.FC = () => {
             make your life easier.
           </p>
 
-          <div>
+          <div className={styles.walletContainer}>
             <div className={styles.btn1n2}>
-              <button className={styles.buttons}> Connect Wallet</button>
-              <Popup trigger={<button className={styles.buttons2}> Connect Exchange </button>}
-                position="right center">
+              <button className={styles.buttons}>Connect Wallet</button>
+              <Popup
+                trigger={
+                  <button className={styles.buttons2}>
+                    {" "}
+                    Connect Exchange{" "}
+                  </button>
+                }
+                position="right center"
+              >
                 <div>
-                  <form >
+                  <form>
                     <label htmlFor="ApiKey">Enter read-only API Key:</label>
                     <input
                       type="text"
@@ -125,7 +126,9 @@ const Homepage: React.FC = () => {
                       }
                     />
 
-                    <label htmlFor="ApiSecret">Enter read-only API Secret:</label>
+                    <label htmlFor="ApiSecret">
+                      Enter read-only API Secret:
+                    </label>
                     <input
                       type="text"
                       name="ApiSecret"
@@ -138,13 +141,18 @@ const Homepage: React.FC = () => {
                     />
 
                     {/* <button type="submit">Submit</button> */}
-                    <Link href={{
-                      pathname: "/dashboard",
-                      query: { apiKey: cexData1.apiKey, apiSecret: cexData2.apiSecret }, // the data
-                    }} passHref >
-                      <a > Submit </a>
+                    <Link
+                      href={{
+                        pathname: "/dashboard",
+                        query: {
+                          apiKey: cexData1.apiKey,
+                          apiSecret: cexData2.apiSecret,
+                        }, // the data
+                      }}
+                      passHref
+                    >
+                      <a> Submit </a>
                     </Link>
-
                   </form>
                 </div>
               </Popup>
@@ -153,7 +161,6 @@ const Homepage: React.FC = () => {
             <p className={styles.spanOr}> OR </p>
 
             <div className={styles.standard}>
-
               <form>
                 <p className={styles.para2}>Enter Account Address:</p>
                 <br />
@@ -170,29 +177,31 @@ const Homepage: React.FC = () => {
                 />
 
                 <div className={styles.submit}>
-                  <Link href={{
-                    pathname: "/dashboard",
-                    query: data, // the data
-                  }} passHref >
-                    <a className={styles.submitText}> Submit </a>
+                  <Link
+                    href={{
+                      pathname: "/dashboard",
+                      query: data, // the data
+                    }}
+                    passHref
+                  >
+                    <a className={styles.submitText}>
+                      {" "}
+                      Submit
+                      <LoginIcon />{" "}
+                    </a>
                   </Link>
-                  <LoginIcon />
-
                 </div>
-
               </form>
-
             </div>
-
           </div>
-
         </div>
 
-        <img className={styles.pic3} src="/pic3.svg" />
-        <img className={styles.pic2} src="/pic2.svg" />
-        <img className={styles.pic1} src="/pic1.svg" />
+        <div className={styles.imgLanding}>
+          <img className={styles.pic3} src="/pic3.svg" />
+          <img className={styles.pic2} src="/pic2.svg" />
+          <img className={styles.pic1} src="/pic1.svg" />
+        </div>
       </div>
-
     </div>
   );
 };

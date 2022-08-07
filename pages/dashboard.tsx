@@ -276,8 +276,8 @@ export const Dashboard: React.FC = () => {
           flexGrow: 1,
           bgcolor: "#242F37",
           p: 3,
-          maxHeight: 1000,
-          height: 900,
+          maxHeight: 950,
+          height: 700,
         }}
       >
         {address ? (
@@ -297,87 +297,92 @@ export const Dashboard: React.FC = () => {
           <div className={styles.diva1}>
             <Card
               sx={{
-                minWidth: 275,
-                width: 532,
+                minWidth: 475,
+                width: 488,
                 height: 200,
                 bgcolor: "#5EC2B7",
               }}
             >
+              <p className={styles.totalAsset}> Total Assets </p>
               <CardContent>
                 <div className={styles.totalassetContainer}>
-                  <p> Total Assets </p>
-                  <p>
+                  <p className={styles.para1}>
                     {" "}
-                    <span> $ </span> <span> 1,234,567.90 </span>{" "}
-                    <span> USD </span>{" "}
+                    <span className={styles.currencyIcon}> $ </span>{" "}
+                    <span className={styles.totalAmount}> 1,234,567.90 </span>{" "}
+                    <span className={styles.dollarIcon}> USD </span>{" "}
                   </p>
                 </div>
               </CardContent>
             </Card>
 
             <div className={styles.div3}>
-              <Card
-                sx={{
-                  minWidth: 275,
-                  height: 200,
-                  bgcolor: "#5D55A6",
-                }}
-              >
-                <CardContent>
-                  <Typography
-                    sx={{
-                      fontWeight: 700,
-                      fontSize: 20,
-                      color: "#ffff",
-                    }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Tokens
-                  </Typography>
-                  <Typography variant="body2">
-                    <div className={styles.tokensAmount}>
-                      3,000<span className={styles.tokensFont}>Tokens</span>
-                    </div>
-                  </Typography>
-                </CardContent>
-              </Card>
+              <div className={styles.tokenCont}>
+                <Card
+                  sx={{
+                    minWidth: 275,
+                    height: 150,
+                    bgcolor: "#5D55A6",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: 20,
+                        color: "#ffff",
+                      }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Tokens
+                    </Typography>
+                    <Typography variant="body2">
+                      <div className={styles.tokensAmount}>
+                        3,000<span className={styles.tokensFont}>Tokens</span>
+                      </div>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
 
-              <Card
-                sx={{
-                  width: 50,
-                  height: 200,
-                  bgcolor: "#E46E7E",
-                  minWidth: 205,
-                }}
-              >
-                <CardContent>
-                  <Typography
-                    sx={{
-                      fontWeight: 700,
-                      fontSize: 20,
-                      color: "#ffff",
-                    }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Portfolios
-                  </Typography>
-                  <Typography variant="body2">
-                    <div className={styles.portfolioFont}>10</div>
-                  </Typography>
-                </CardContent>
-              </Card>
+              <div className={styles.portfolioCont}>
+                <Card
+                  sx={{
+                    width: 50,
+                    height: 150,
+                    bgcolor: "#E46E7E",
+                    minWidth: 205,
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: 20,
+                        color: "#ffff",
+                      }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Portfolios
+                    </Typography>
+                    <Typography variant="body2">
+                      <div className={styles.portfolioFont}>10</div>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
 
           <div className={styles.cardConainer3}>
             <Card
               sx={{
-                width: 208,
-                height: 416,
+                width: 308,
+                height: 330,
                 bgcolor: "#364652",
-                minWidth: 431,
+                minWidth: 531,
               }}
             >
               <CardContent>
@@ -443,17 +448,16 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <br />
-
         {loading ? (
           <img className={styles.loading} src="/loading.gif" />
         ) : (
           <div className={styles.TableContainer}>
+            <div className={styles.assetDTitle}>Asset Details</div>
             <TableContainer component={Paper}>
               <Table
                 sx={{
                   bgcolor: "#364652",
-                  minWidth: 975,
+                  minWidth: 405,
                 }}
                 aria-label="simple table"
               >
