@@ -35,7 +35,7 @@
 }
 
 .buttons {
-  background: #5ec2b7;
+  background: #8b80f9;
   border: none;
   border-radius: 5px;
   width: 200px;
@@ -44,12 +44,20 @@
 }
 
 .buttons2 {
-  background: #8b80f9;
+  background: #5ec2b7;
+  color: white;
   border: none;
   border-radius: 5px;
   width: 200px;
   height: 48px;
   margin-left: 20px;
+  font-weight: bold;
+  font-size: medium;
+  padding-bottom: 2%;
+}
+
+.buttons2:hover {
+  background: #254e49;
 }
 
 .spanOr {
@@ -208,4 +216,15 @@
 
 .imgLanding {
   width: 10%;
+}
+
+.selectWalletButton {
+  display: flex;
+  flex-direction: row;
+  background: #512da8;
+  color: white;
+}
+
+.selectWalletButton:hover {
+  background: #1a1f2e;
 }

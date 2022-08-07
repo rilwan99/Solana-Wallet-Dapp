@@ -9,9 +9,14 @@ import "reactjs-popup/dist/index.css";
 import Link from "next/link";
 
 import LoginIcon from "@mui/icons-material/Login";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+
 
 import * as web3 from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
+
+
 //import { RestClient } from "./ftx-api";
 
 // function someFunction(event, abc) {
@@ -102,12 +107,16 @@ const Homepage: React.FC = () => {
 
           <div className={styles.walletContainer}>
             <div className={styles.btn1n2}>
-              <button className={styles.buttons}>Connect Wallet</button>
+              <div className={styles.selectWalletButton}>
+                <AccountBalanceWalletIcon />
+                <WalletMultiButton />
+              </div>
               <Popup
                 trigger={
                   <button className={styles.buttons2}>
+                    <CurrencyExchangeIcon />
                     {" "}
-                    Connect Exchange{" "}
+                    Select Exchange{" "}
                   </button>
                 }
                 position="right center"
