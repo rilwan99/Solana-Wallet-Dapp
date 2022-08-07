@@ -67,8 +67,7 @@ export const Dashboard: React.FC = () => {
   }
 
   React.useEffect(() => {
-
-    // User enters via entering address in input box 
+    // User enters via entering address in input box
     if (pathNameChecker === "address") {
       const userAddress = router.asPath.slice(19);
       setAddress(userAddress);
@@ -90,11 +89,11 @@ export const Dashboard: React.FC = () => {
     }
   }, []);
 
-
   async function submitAddress(address) {
     setLoading(true);
 
-    const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/";
+    const rpcEndpoint =
+      "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/";
     const connection = new web3.Connection(rpcEndpoint);
 
     // Check for a valid SOL address provided and store in userInput
@@ -103,10 +102,15 @@ export const Dashboard: React.FC = () => {
     const tokenAccountArray = await getTokenAccount(connection, userInput);
 
     // Deserialize token data in AccountInfo<Buffer> and store in tokenMetaList
-    const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
+    const tokenMetaList: RawAccount[] =
+      deserializeTokenAccounts(tokenAccountArray);
 
     // populate row[] with asset name, symbol and balance
-    const processedRows = await processTokenAccounts(connection, tokenMetaList, tokenAccountArray);
+    const processedRows = await processTokenAccounts(
+      connection,
+      tokenMetaList,
+      tokenAccountArray
+    );
 
     // populate row[] with price
     const updatedRows = await getPrices(processedRows);
@@ -118,7 +122,10 @@ export const Dashboard: React.FC = () => {
     setLoading(false);
   }
 
-  async function getTokenAccount(connection: web3.Connection, walletAddress: string) {
+  async function getTokenAccount(
+    connection: web3.Connection,
+    walletAddress: string
+  ) {
     try {
       // returns RpcResponseAndContext<Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}>>
       const pubKey = new web3.PublicKey(walletAddress);
@@ -151,37 +158,49 @@ export const Dashboard: React.FC = () => {
     return tokenMetaList;
   }
 
-  async function processTokenAccounts(connection: web3.Connection, tokenMetaList: RawAccount[], tokenAccounts) {
-
+  async function processTokenAccounts(
+    connection: web3.Connection,
+    tokenMetaList: RawAccount[],
+    tokenAccounts
+  ) {
     // Filter for token accounts with non-zero balances
     const currentTokenAccounts = tokenMetaList.filter((e) => e.amount > 0);
     const existingRows: TokenInfo[] = [];
 
     // Ierate through list of token accounts with non-zero balances
     for (let i = 0; i < currentTokenAccounts.length; i++) {
-
       // Find the mint address
-      const mintAddress = new web3.PublicKey(currentTokenAccounts[i].mint).toString();
+      const mintAddress = new web3.PublicKey(
+        currentTokenAccounts[i].mint
+      ).toString();
 
       // Call Solanafm API to fetch token name and symbol
       const tokenMeta = await getTokenName(mintAddress);
 
       // Calculate the balance in the token account
       const tokenPubKey = tokenAccounts.value[i].pubkey;
-      const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey, "finalized")).value;
+      const tokenBalanceData = (
+        await connection.getTokenAccountBalance(tokenPubKey, "finalized")
+      ).value;
       const decimals = Math.pow(10, tokenBalanceData.decimals);
       const balance = Number(currentTokenAccounts[i].amount) / decimals;
 
+<<<<<<< Updated upstream
       if (tokenMeta) {
         existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0));
       }
+=======
+      console.log("------------------------------------");
+      existingRows.push(
+        createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0)
+      );
+>>>>>>> Stashed changes
     }
     return existingRows;
   }
 
   // Fetch the price of each token in row[]
   async function getPrices(rows: TokenInfo[]) {
-
     let tokenSymbols: string[] = [];
     rows.forEach((tokenInfo) => tokenSymbols.push(tokenInfo.symbol));
 
@@ -263,13 +282,12 @@ export const Dashboard: React.FC = () => {
       </Drawer>
 
       <Box
-        component="main"
         sx={{
           flexGrow: 1,
           bgcolor: "#242F37",
           p: 3,
           maxHeight: 950,
-          height: 1000,
+          height: 950,
         }}
       >
         {address ? (
@@ -449,7 +467,7 @@ export const Dashboard: React.FC = () => {
               <Table
                 sx={{
                   bgcolor: "#364652",
-                  minWidth: 1025,
+                  minWidth: 725,
                 }}
                 aria-label="simple table"
               >

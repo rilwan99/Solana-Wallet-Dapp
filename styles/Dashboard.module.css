@@ -171,7 +171,7 @@
   /* background: red; */
   display: flex;
   flex-direction: column;
-  /* width: 1025px; */
+  width: 1025px;
   margin-top: -50px;
   margin-bottom: 1000px;
 }
