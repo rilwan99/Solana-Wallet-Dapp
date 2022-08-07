@@ -52,8 +52,8 @@ export const Dashboard: React.FC = () => {
   const [apiKey, setApiKey] = React.useState("");
   const [apiSecret, setApiSecret] = React.useState("");
 
-  const [totalTokens, setTotalTokens] = React.useState(0)
-  const [totalAssets, setTotalAssets] = React.useState(0)
+  const [totalTokens, setTotalTokens] = React.useState(0);
+  const [totalAssets, setTotalAssets] = React.useState(0);
 
   const router = useRouter();
   // Track the route taken the user (Input Address or CEX wallet)
@@ -122,10 +122,10 @@ export const Dashboard: React.FC = () => {
     const finalRows = getTokenValue(updatedRows);
 
     // Set the total number of tokens in card component
-    getTotalTokens(finalRows)
+    getTotalTokens(finalRows);
 
     //Set the total value of tokens in card component
-    getTotalAssets(finalRows)
+    getTotalAssets(finalRows);
 
     setRows(finalRows);
     setLoading(false);
@@ -134,17 +134,17 @@ export const Dashboard: React.FC = () => {
   function getTotalTokens(rows: TokenInfo[]) {
     let num = 0;
     rows.forEach((tokenInfo) => {
-      num += tokenInfo.balance
-    })
-    setTotalTokens(num)
+      num += tokenInfo.balance;
+    });
+    setTotalTokens(num);
   }
 
   function getTotalAssets(rows: TokenInfo[]) {
     let num = 0;
     rows.forEach((tokenInfo) => {
-      num += tokenInfo.value
-    })
-    setTotalAssets(num)
+      num += tokenInfo.value;
+    });
+    setTotalAssets(num);
   }
 
   async function getTokenAccount(
@@ -344,7 +344,10 @@ export const Dashboard: React.FC = () => {
                   <p className={styles.para1}>
                     {" "}
                     <span className={styles.currencyIcon}> $ </span>{" "}
-                    <span className={styles.totalAmount}> {totalAssets.toFixed(5)} </span>{" "}
+                    <span className={styles.totalAmount}>
+                      {" "}
+                      {totalAssets.toFixed(5)}{" "}
+                    </span>{" "}
                     <span className={styles.dollarIcon}> USD </span>{" "}
                   </p>
                 </div>
@@ -374,7 +377,8 @@ export const Dashboard: React.FC = () => {
                     </Typography>
                     <Typography variant="body2">
                       <div className={styles.tokensAmount}>
-                        {totalTokens.toFixed(5)} {" "}<span className={styles.tokensFont}>Tokens</span>
+                        {totalTokens.toFixed(5)}{" "}
+                        <span className={styles.tokensFont}>Tokens</span>
                       </div>
                     </Typography>
                   </CardContent>
@@ -487,71 +491,78 @@ export const Dashboard: React.FC = () => {
         {loading ? <img className={styles.loading} src="/loading.gif" /> : ""}
 
         {/* If loading is completed but user wallet has no assets */}
-        {!loading && rows.length === 0 ? <h1 className={styles.nullAsset}>You have 0 assets on Mainnet</h1> : ""}
+        {!loading && rows.length === 0 ? (
+          <h1 className={styles.nullAsset}>You have 0 assets on Mainnet</h1>
+        ) : (
+          ""
+        )}
 
         {/* If loading is completed and user wallet has existing assets */}
-        {!loading && rows.length > 0 ? <div className={styles.TableContainer}>
-          <div className={styles.assetDTitle}>Asset Details</div>
-          <TableContainer component={Paper}>
-            <Table
-              sx={{
-                height: "100%",
-                bgcolor: "#364652",
-                minWidth: 725,
-              }}
-              aria-label="simple table"
-            >
-              <TableHead>
-                <TableRow className={styles.tableRow}>
-                  <TableCell className={styles.tableRow}>
-                    Asset Name
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Symbol
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Balance
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Price (USD)
-                  </TableCell>
-                  <TableCell className={styles.tableRow} align="right">
-                    Value
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.assetName}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell
-                      className={styles.tableRow}
-                      component="th"
-                      scope="row"
-                    >
-                      {row.assetName}
-                    </TableCell>
-                    <TableCell className={styles.symbol} align="right">
-                      {row.symbol}
+        {!loading && rows.length > 0 ? (
+          <div className={styles.TableContainer}>
+            <div className={styles.assetDTitle}>Asset Details</div>
+            <TableContainer component={Paper}>
+              <Table
+                sx={{
+                  height: "100%",
+                  bgcolor: "#364652",
+                  minWidth: 725,
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow className={styles.tableRow}>
+                    <TableCell className={styles.tableRow}>
+                      Asset Name
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      {row.balance !== 0 ? row.balance.toFixed(10) : "-"}
+                      Symbol
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      {row.price !== 0 ? row.price.toFixed(5) : "-"}
+                      Balance
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      {row.value !== 0 ? "$ " + row.value.toFixed(10) : "-"}
+                      Price (USD)
+                    </TableCell>
+                    <TableCell className={styles.tableRow} align="right">
+                      Value
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div> : ""}
-
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.assetName}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell
+                        className={styles.tableRow}
+                        component="th"
+                        scope="row"
+                      >
+                        {row.assetName}
+                      </TableCell>
+                      <TableCell className={styles.symbol} align="right">
+                        {row.symbol}
+                      </TableCell>
+                      <TableCell className={styles.tableRow} align="right">
+                        {row.balance !== 0 ? row.balance.toFixed(10) : "-"}
+                      </TableCell>
+                      <TableCell className={styles.tableRow} align="right">
+                        {row.price !== 0 ? row.price.toFixed(5) : "-"}
+                      </TableCell>
+                      <TableCell className={styles.tableRow} align="right">
+                        {row.value !== 0 ? "$ " + row.value.toFixed(10) : "-"}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        ) : (
+          ""
+        )}
       </Box>
     </Box>
   );
