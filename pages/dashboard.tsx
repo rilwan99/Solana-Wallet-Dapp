@@ -95,8 +95,7 @@ export const Dashboard: React.FC = () => {
   async function submitAddress(address) {
     setLoading(true);
 
-    const rpcEndpoint =
-      "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/";
+    const rpcEndpoint = "https://purple-late-paper.solana-mainnet.discover.quiknode.pro/c0f65b73def73af9ebbfdd6ebf4d8fd8c7473e6b/";
     const connection = new web3.Connection(rpcEndpoint);
 
     // Check for a valid SOL address provided and store in userInput
@@ -105,8 +104,7 @@ export const Dashboard: React.FC = () => {
     const tokenAccountArray = await getTokenAccount(connection, userInput);
 
     // Deserialize token data in AccountInfo<Buffer> and store in tokenMetaList
-    const tokenMetaList: RawAccount[] =
-      deserializeTokenAccounts(tokenAccountArray);
+    const tokenMetaList: RawAccount[] = deserializeTokenAccounts(tokenAccountArray);
 
     // populate row[] with asset name, symbol and balance
     const processedRows = await processTokenAccounts(
@@ -131,26 +129,7 @@ export const Dashboard: React.FC = () => {
     setLoading(false);
   }
 
-  function getTotalTokens(rows: TokenInfo[]) {
-    let num = 0;
-    rows.forEach((tokenInfo) => {
-      num += tokenInfo.balance
-    })
-    setTotalTokens(num)
-  }
-
-  function getTotalAssets(rows: TokenInfo[]) {
-    let num = 0;
-    rows.forEach((tokenInfo) => {
-      num += tokenInfo.value
-    })
-    setTotalAssets(num)
-  }
-
-  async function getTokenAccount(
-    connection: web3.Connection,
-    walletAddress: string
-  ) {
+  async function getTokenAccount(connection: web3.Connection, walletAddress: string) {
     try {
       // returns RpcResponseAndContext<Array<{pubkey: PublicKey; account: AccountInfo<Buffer>;}>>
       const pubKey = new web3.PublicKey(walletAddress);
@@ -160,6 +139,7 @@ export const Dashboard: React.FC = () => {
           programId: TOKEN_PROGRAM_ID,
         }
       );
+      console.log(JSON.stringify(tokenAccountArray.value))
       return tokenAccountArray;
     } catch (err) {
       console.log(err);
@@ -186,29 +166,35 @@ export const Dashboard: React.FC = () => {
   async function processTokenAccounts(
     connection: web3.Connection,
     tokenMetaList: RawAccount[],
-    tokenAccounts
+    tokenAccounts: web3.RpcResponseAndContext<{ pubkey: web3.PublicKey; account: web3.AccountInfo<Buffer>; }>[]
   ) {
-    // Filter for token accounts with non-zero balances
-    const currentTokenAccounts = tokenMetaList.filter((e) => e.amount > 0);
+    // Filter for non-zero token accounts and save to validAmountAccts
+    const validAmountAccts = tokenMetaList.map((val, index) => {
+      return { value: val, index: index }
+    }).filter((e) => e.value.amount > 0)
+
+    const validAmountTokenAccounts = validAmountAccts.map((e) => tokenAccounts.value[e.index]);
+    const currentTokenAccounts = validAmountAccts.map((e) => e.value);
     const existingRows: TokenInfo[] = [];
 
     // Ierate through list of token accounts with non-zero balances
     for (let i = 0; i < currentTokenAccounts.length; i++) {
       // Find the mint address
-      const mintAddress = new web3.PublicKey(
-        currentTokenAccounts[i].mint
-      ).toString();
+      const mintAddress = new web3.PublicKey(currentTokenAccounts[i].mint).toString();
 
       // Call Solanafm API to fetch token name and symbol
       const tokenMeta = await getTokenName(mintAddress);
 
       // Calculate the balance in the token account
-      const tokenPubKey = tokenAccounts.value[i].pubkey;
-      const tokenBalanceData = (
-        await connection.getTokenAccountBalance(tokenPubKey, "finalized")
-      ).value;
+      const tokenPubKey = validAmountTokenAccounts[i].pubkey;
+      const tokenBalanceData = (await connection.getTokenAccountBalance(tokenPubKey)).value;
+      console.log("decimals is from " + tokenBalanceData.decimals)
       const decimals = Math.pow(10, tokenBalanceData.decimals);
+
       const balance = Number(currentTokenAccounts[i].amount) / decimals;
+      console.log("Amount is from " + currentTokenAccounts[i].amount)
+
+      console.log("---------Next Token---------")
 
       if (tokenMeta) {
         existingRows.push(
@@ -240,6 +226,22 @@ export const Dashboard: React.FC = () => {
       }
     });
     return rows;
+  }
+
+  function getTotalTokens(rows: TokenInfo[]) {
+    let num = 0;
+    rows.forEach((tokenInfo) => {
+      num += tokenInfo.balance
+    })
+    setTotalTokens(num)
+  }
+
+  function getTotalAssets(rows: TokenInfo[]) {
+    let num = 0;
+    rows.forEach((tokenInfo) => {
+      num += tokenInfo.value
+    })
+    setTotalAssets(num)
   }
 
   async function getExchangeBal(apiKey, apiSecret) {
