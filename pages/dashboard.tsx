@@ -243,7 +243,12 @@ export const Dashboard: React.FC = () => {
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        height: "100%",
+        display: "flex",
+      }}
+    >
       <Drawer
         sx={{
           width: drawerWidth,
@@ -277,12 +282,12 @@ export const Dashboard: React.FC = () => {
       </Drawer>
 
       <Box
+        // component="main"
         sx={{
+          height: "100%",
           flexGrow: 1,
           bgcolor: "#242F37",
           p: 3,
-          maxHeight: 950,
-          height: 950,
         }}
       >
         {address ? (
@@ -461,6 +466,7 @@ export const Dashboard: React.FC = () => {
             <TableContainer component={Paper}>
               <Table
                 sx={{
+                  height: "100%",
                   bgcolor: "#364652",
                   minWidth: 725,
                 }}
