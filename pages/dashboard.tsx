@@ -268,7 +268,7 @@ export const Dashboard: React.FC = () => {
           bgcolor: "#242F37",
           p: 3,
           maxHeight: 950,
-          height: 700,
+          height: 1000,
         }}
       >
         {address ? (
@@ -448,7 +448,7 @@ export const Dashboard: React.FC = () => {
               <Table
                 sx={{
                   bgcolor: "#364652",
-                  minWidth: 405,
+                  minWidth: 1025,
                 }}
                 aria-label="simple table"
               >
