@@ -7,13 +7,14 @@ import React from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Link from "next/link";
+import Router from "next/router";
 
 import LoginIcon from "@mui/icons-material/Login";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 
 import * as web3 from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import { useWallet } from "@solana/wallet-adapter-react";
+
 
 class inputForm {
   id = "";
@@ -26,7 +27,20 @@ const Homepage: React.FC = () => {
   const [cexData1, setCexData1] = useState({ apiKey: "" });
   const [cexData2, setCexData2] = useState({ apiSecret: "" });
   const [loading, setLoading] = useState(false);
-  const [connected, setConnected] = useState(false);
+  const [connected, setConnected] = useState(false)
+
+  const { publicKey } = useWallet()
+
+  useEffect(() => {
+    if (publicKey) {
+      const userAddress = publicKey.toString()
+      const url = "/dashboard?address=" + userAddress
+      Router.push(url)
+    }
+
+  }, [publicKey])
+
+
 
   async function submitAddress(event) {
     event.preventDefault();

@@ -52,6 +52,9 @@ export const Dashboard: React.FC = () => {
   const [apiKey, setApiKey] = React.useState("");
   const [apiSecret, setApiSecret] = React.useState("");
 
+  const [totalTokens, setTotalTokens] = React.useState(0)
+  const [totalAssets, setTotalAssets] = React.useState(0)
+
   const router = useRouter();
   // Track the route taken the user (Input Address or CEX wallet)
   const pathNameChecker = router.asPath.slice(11, 18);
@@ -67,7 +70,7 @@ export const Dashboard: React.FC = () => {
   }
 
   React.useEffect(() => {
-    // User enters via entering address in input box
+    // User enters via entering address in input box OR phantom wallet
     if (pathNameChecker === "address") {
       const userAddress = router.asPath.slice(19);
       setAddress(userAddress);
@@ -118,8 +121,30 @@ export const Dashboard: React.FC = () => {
     // Populate row[] with balance
     const finalRows = getTokenValue(updatedRows);
 
+    // Set the total number of tokens in card component
+    getTotalTokens(finalRows)
+
+    //Set the total value of tokens in card component
+    getTotalAssets(finalRows)
+
     setRows(finalRows);
     setLoading(false);
+  }
+
+  function getTotalTokens(rows: TokenInfo[]) {
+    let num = 0;
+    rows.forEach((tokenInfo) => {
+      num += tokenInfo.balance
+    })
+    setTotalTokens(num)
+  }
+
+  function getTotalAssets(rows: TokenInfo[]) {
+    let num = 0;
+    rows.forEach((tokenInfo) => {
+      num += tokenInfo.value
+    })
+    setTotalAssets(num)
   }
 
   async function getTokenAccount(
@@ -319,7 +344,7 @@ export const Dashboard: React.FC = () => {
                   <p className={styles.para1}>
                     {" "}
                     <span className={styles.currencyIcon}> $ </span>{" "}
-                    <span className={styles.totalAmount}> 1,234,567.90 </span>{" "}
+                    <span className={styles.totalAmount}> {totalAssets.toFixed(5)} </span>{" "}
                     <span className={styles.dollarIcon}> USD </span>{" "}
                   </p>
                 </div>
@@ -349,7 +374,7 @@ export const Dashboard: React.FC = () => {
                     </Typography>
                     <Typography variant="body2">
                       <div className={styles.tokensAmount}>
-                        3,000<span className={styles.tokensFont}>Tokens</span>
+                        {totalTokens.toFixed(5)} {" "}<span className={styles.tokensFont}>Tokens</span>
                       </div>
                     </Typography>
                   </CardContent>
@@ -378,7 +403,7 @@ export const Dashboard: React.FC = () => {
                       Portfolios
                     </Typography>
                     <Typography variant="body2">
-                      <div className={styles.portfolioFont}>10</div>
+                      <div className={styles.portfolioFont}>1</div>
                     </Typography>
                   </CardContent>
                 </Card>
@@ -458,71 +483,75 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {loading ? (
-          <img className={styles.loading} src="/loading.gif" />
-        ) : (
-          <div className={styles.TableContainer}>
-            <div className={styles.assetDTitle}>Asset Details</div>
-            <TableContainer component={Paper}>
-              <Table
-                sx={{
-                  height: "100%",
-                  bgcolor: "#364652",
-                  minWidth: 725,
-                }}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow className={styles.tableRow}>
-                    <TableCell className={styles.tableRow}>
-                      Asset Name
+        {/* Show loading gif when user wallet data is still being fetched */}
+        {loading ? <img className={styles.loading} src="/loading.gif" /> : ""}
+
+        {/* If loading is completed but user wallet has no assets */}
+        {!loading && rows.length === 0 ? <h1 className={styles.nullAsset}>You have 0 assets on Mainnet</h1> : ""}
+
+        {/* If loading is completed and user wallet has existing assets */}
+        {!loading && rows.length > 0 ? <div className={styles.TableContainer}>
+          <div className={styles.assetDTitle}>Asset Details</div>
+          <TableContainer component={Paper}>
+            <Table
+              sx={{
+                height: "100%",
+                bgcolor: "#364652",
+                minWidth: 725,
+              }}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow className={styles.tableRow}>
+                  <TableCell className={styles.tableRow}>
+                    Asset Name
+                  </TableCell>
+                  <TableCell className={styles.tableRow} align="right">
+                    Symbol
+                  </TableCell>
+                  <TableCell className={styles.tableRow} align="right">
+                    Balance
+                  </TableCell>
+                  <TableCell className={styles.tableRow} align="right">
+                    Price (USD)
+                  </TableCell>
+                  <TableCell className={styles.tableRow} align="right">
+                    Value
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.assetName}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      className={styles.tableRow}
+                      component="th"
+                      scope="row"
+                    >
+                      {row.assetName}
+                    </TableCell>
+                    <TableCell className={styles.symbol} align="right">
+                      {row.symbol}
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      Symbol
+                      {row.balance !== 0 ? row.balance.toFixed(10) : "-"}
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      Balance
+                      {row.price !== 0 ? row.price.toFixed(5) : "-"}
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      Price (USD)
-                    </TableCell>
-                    <TableCell className={styles.tableRow} align="right">
-                      Value
+                      {row.value !== 0 ? "$ " + row.value.toFixed(10) : "-"}
                     </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.assetName}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell
-                        className={styles.tableRow}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.assetName}
-                      </TableCell>
-                      <TableCell className={styles.symbol} align="right">
-                        {row.symbol}
-                      </TableCell>
-                      <TableCell className={styles.tableRow} align="right">
-                        {row.balance !== 0 ? row.balance : "-"}
-                      </TableCell>
-                      <TableCell className={styles.tableRow} align="right">
-                        {row.price !== 0 ? row.price : "-"}
-                      </TableCell>
-                      <TableCell className={styles.tableRow} align="right">
-                        {row.value !== 0 ? "$ " + row.value : "-"}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        )}
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div> : ""}
+
       </Box>
     </Box>
   );
