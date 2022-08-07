@@ -173,7 +173,7 @@
   flex-direction: column;
   width: 1025px;
   margin-top: -50px;
-  margin-bottom: 1000px;
+  margin-bottom: 25px;
 }
 
 .tableRow {
@@ -181,7 +181,7 @@
 }
 
 .loading {
-  background: red;
+  /* background: red; */
   width: 30%;
   margin-left: 30%;
 }
