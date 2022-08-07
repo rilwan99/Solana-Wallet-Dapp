@@ -458,7 +458,7 @@ export const Dashboard: React.FC = () => {
                     <TableCell className={styles.tableRow}>
                       Asset Name
                     </TableCell>
-                    <TableCell className={styles.tableRow}>Symbol</TableCell>
+                    <TableCell className={styles.tableRow} align="right">Symbol</TableCell>
                     <TableCell className={styles.tableRow} align="right">
                       Balance
                     </TableCell>

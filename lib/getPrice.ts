@@ -21,10 +21,10 @@ export async function getTokenPrices(symbols: string[]): Promise<number[]> {
       (element) => element.symbol === tokenSymbols[i]
     );
 
-    // Finding the coingecko ID of the desired token
-    const requiredTokenId = requiredTokenObject.id;
+    if (requiredTokenObject) {
+      // Finding the coingecko ID of the desired token
+      const requiredTokenId = requiredTokenObject.id;
 
-    if (requiredTokenId) {
       // Fetching token information using coingecko API
       const tokenInfo = await CoinGeckoClient.coins.fetch(requiredTokenId, {
         tickers: false,
