@@ -169,6 +169,7 @@
 
 .TableContainer {
   /* background: red; */
+  color: #ffff;
   display: flex;
   flex-direction: column;
   width: 1025px;
@@ -180,6 +181,10 @@
   color: #ffff;
 }
 
+.symbol {
+  color: #ffff;
+}
+
 .loading {
   /* background: red; */
   width: 30%;
@@ -188,7 +193,6 @@
 
 .assetDTitle {
   /* background: red; */
-  color: #ffff;
   margin-top: -100px;
   padding: 10px;
   font-weight: 700;
