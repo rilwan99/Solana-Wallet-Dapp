@@ -9,13 +9,11 @@ import "reactjs-popup/dist/index.css";
 import Link from "next/link";
 
 import LoginIcon from "@mui/icons-material/Login";
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 
 import * as web3 from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-
 
 class inputForm {
   id = "";
@@ -24,14 +22,11 @@ class inputForm {
 }
 
 const Homepage: React.FC = () => {
-
   const [data, setData] = useState({ address: "" });
   const [cexData1, setCexData1] = useState({ apiKey: "" });
   const [cexData2, setCexData2] = useState({ apiSecret: "" });
   const [loading, setLoading] = useState(false);
-  const [connected, setConnected] = useState(false)
-
-
+  const [connected, setConnected] = useState(false);
 
   async function submitAddress(event) {
     event.preventDefault();
@@ -66,13 +61,12 @@ const Homepage: React.FC = () => {
 
           <div className={styles.walletContainer}>
             <div className={styles.btn1n2}>
-              <WalletMultiButton />
+              <div className={styles.buttons3}>
+                <WalletMultiButton />
+              </div>
               <Popup
                 trigger={
-                  <button className={styles.buttons2}>
-                    {" "}
-                    Select Exchange{" "}
-                  </button>
+                  <button className={styles.buttons2}> Select Exchange </button>
                 }
                 position="right center"
               >

@@ -30,8 +30,8 @@
   padding: 0px;
   width: 420px;
   height: 48px;
-  left: 3.2%;
-  top: 95%;
+  /* left: 3.2%; */
+  /* top: 95%; */
 }
 
 .buttons {
@@ -47,13 +47,21 @@
   background: #5ec2b7;
   color: white;
   border: none;
+  padding-top: 10px;
   border-radius: 5px;
-  width: 200px;
+  width: 150px;
   height: 48px;
   margin-left: 20px;
+  margin-right: 100px;
   font-weight: bold;
-  font-size: medium;
+  font-size: 15px;
   padding-bottom: 2%;
+}
+
+.buttons3 {
+  /* background: red; */
+  width: 150px;
+  height: 48px;
 }
 
 .buttons2:hover {
@@ -65,7 +73,7 @@
 
   width: 22px;
   height: 20px;
-  margin-left: 200px;
+  margin-left: 150px;
   top: 107%;
 
   font-weight: 700;
