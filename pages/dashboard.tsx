@@ -185,16 +185,11 @@ export const Dashboard: React.FC = () => {
       const decimals = Math.pow(10, tokenBalanceData.decimals);
       const balance = Number(currentTokenAccounts[i].amount) / decimals;
 
-<<<<<<< Updated upstream
       if (tokenMeta) {
-        existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0));
+        existingRows.push(
+          createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0)
+        );
       }
-=======
-      console.log("------------------------------------");
-      existingRows.push(
-        createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0)
-      );
->>>>>>> Stashed changes
     }
     return existingRows;
   }
@@ -476,7 +471,9 @@ export const Dashboard: React.FC = () => {
                     <TableCell className={styles.tableRow}>
                       Asset Name
                     </TableCell>
-                    <TableCell className={styles.tableRow} align="right">Symbol</TableCell>
+                    <TableCell className={styles.tableRow} align="right">
+                      Symbol
+                    </TableCell>
                     <TableCell className={styles.tableRow} align="right">
                       Balance
                     </TableCell>
