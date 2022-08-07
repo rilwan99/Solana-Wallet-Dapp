@@ -225,6 +225,17 @@ export const Dashboard: React.FC = () => {
     }
   }
 
+  async function getOrderHistory(apiKey, apiSecret) {
+    const client = new RestClient(apiKey, apiSecret);
+    try {
+      let amt = await client.getFills();
+      const result = amt.result;
+      console.log(result);
+    } catch(e){
+      console.error("Get history failed: ", e);
+    }
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
