@@ -172,8 +172,9 @@ export const Dashboard: React.FC = () => {
       const decimals = Math.pow(10, tokenBalanceData.decimals);
       const balance = Number(currentTokenAccounts[i].amount) / decimals;
 
-      console.log("------------------------------------");
-      existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0));
+      if (tokenMeta) {
+        existingRows.push(createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0));
+      }
     }
     return existingRows;
   }

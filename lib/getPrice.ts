@@ -23,24 +23,27 @@ export async function getTokenPrices(symbols: string[]): Promise<number[]> {
 
     // Finding the coingecko ID of the desired token
     const requiredTokenId = requiredTokenObject.id;
-    // console.log(requiredTokenId);
 
-    // Fetching token information using coingecko API
-    const tokenInfo = await CoinGeckoClient.coins.fetch(requiredTokenId, {
-      tickers: false,
-      community_data: false,
-      developer_data: false,
-      localization: false,
-    });
-    // Retrieving market data of the desired token
-    const priceInfo = tokenInfo.data.market_data;
+    if (requiredTokenId) {
+      // Fetching token information using coingecko API
+      const tokenInfo = await CoinGeckoClient.coins.fetch(requiredTokenId, {
+        tickers: false,
+        community_data: false,
+        developer_data: false,
+        localization: false,
+      });
+      // Retrieving market data of the desired token
+      const priceInfo = tokenInfo.data.market_data;
 
-    // Fetching Price(USD) of the desired token
-    const priceInfoUsd = priceInfo.current_price.usd;
-    // console.log(JSON.stringify(priceInfoUsd));
-    // console.log(priceInfoUsd);
+      // Fetching Price(USD) of the desired token
+      const priceInfoUsd = priceInfo.current_price.usd;
+      // console.log(JSON.stringify(priceInfoUsd));
+      // console.log(priceInfoUsd);
 
-    tokenPrices.push(priceInfoUsd);
+      tokenPrices.push(priceInfoUsd);
+    } else {
+      tokenPrices.push(0);
+    }
   }
   return tokenPrices;
 }
