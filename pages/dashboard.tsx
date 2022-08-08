@@ -118,6 +118,7 @@ export const Dashboard: React.FC = () => {
 
     // Populate row[] with balance
     const finalRows = getTokenValue(updatedRows);
+    console.log("This is finalRows", finalRows);
 
     // Set the total number of tokens in card component
     getTotalTokens(finalRows);
@@ -236,7 +237,16 @@ export const Dashboard: React.FC = () => {
     rows.forEach((tokenInfo) => {
       num += tokenInfo.balance
     })
-    setTotalTokens(num)
+    setTotalTokens(num);
+  }
+
+  function getCexTotalTokens(rows: TokenInfo[]) {
+    let num = 0;
+    rows.forEach((tokenInfo) => {
+      console.log(tokenInfo)
+      //num += tokenInfo.total;
+    })
+    //setTotalTokens(num)
   }
 
   function getTotalAssets(rows: TokenInfo[]) {
@@ -250,11 +260,29 @@ export const Dashboard: React.FC = () => {
   async function getExchangeBal(apiKey, apiSecret) {
     //event.preventDefault();
     const client = new RestClient(apiKey, apiSecret);
+    const existingRows: TokenInfo[] = [];
     try {
       let a = await client.getBalances();
       const result = a.result;
       const nonZeroBalance = result.filter((account) => account.total > 0);
       console.log(nonZeroBalance);
+      for (let i = 0; i < nonZeroBalance.length; i++) {
+        existingRows.push(
+          createData(nonZeroBalance[i].coin, nonZeroBalance[i].coin, nonZeroBalance[i].total, nonZeroBalance[i].usdValue / nonZeroBalance[i].total,
+          nonZeroBalance[i].usdValue)
+        );
+        //console.log(existingRows);
+    }
+
+     // Set the total number of tokens in card component
+      getTotalTokens(existingRows);
+
+      //Set the total value of tokens in card component
+      getTotalAssets(existingRows);
+      
+
+      setRows(existingRows);
+      setLoading(false);
       // console.log(a.result[5].total);
     } catch (e) {
       console.error("Get balance failed: ", e);
