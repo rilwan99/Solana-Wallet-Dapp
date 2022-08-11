@@ -269,17 +269,17 @@ export const Dashboard: React.FC = () => {
       for (let i = 0; i < nonZeroBalance.length; i++) {
         existingRows.push(
           createData(nonZeroBalance[i].coin, nonZeroBalance[i].coin, nonZeroBalance[i].total, nonZeroBalance[i].usdValue / nonZeroBalance[i].total,
-          nonZeroBalance[i].usdValue)
+            nonZeroBalance[i].usdValue)
         );
         //console.log(existingRows);
-    }
+      }
 
-     // Set the total number of tokens in card component
+      // Set the total number of tokens in card component
       getTotalTokens(existingRows);
 
       //Set the total value of tokens in card component
       getTotalAssets(existingRows);
-      
+
 
       setRows(existingRows);
       setLoading(false);
@@ -408,12 +408,10 @@ export const Dashboard: React.FC = () => {
                     >
                       Tokens
                     </Typography>
-                    <Typography variant="body2">
-                      <div className={styles.tokensAmount}>
-                        {totalTokens.toFixed(5)}{" "}
-                        <span className={styles.tokensFont}>Tokens</span>
-                      </div>
-                    </Typography>
+                    <div className={styles.tokensAmount}>
+                      {totalTokens.toFixed(5)}{" "}
+                      <span className={styles.tokensFont}>Tokens</span>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -439,8 +437,15 @@ export const Dashboard: React.FC = () => {
                     >
                       Portfolios
                     </Typography>
-                    <Typography variant="body2">
-                      <div className={styles.portfolioFont}>1</div>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: 50,
+                        color: "#ffff",
+                      }}
+                    >
+                      1
                     </Typography>
                   </CardContent>
                 </Card>
@@ -461,7 +466,7 @@ export const Dashboard: React.FC = () => {
                 <Typography
                   sx={{
                     fontWeight: 700,
-                    fontSize: 20,
+                    fontSize: 25,
                     color: "#ffff",
                   }}
                   color="text.secondary"
@@ -471,49 +476,45 @@ export const Dashboard: React.FC = () => {
                 </Typography>
 
                 <div className={styles.piechartContainer}>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    <img
-                      className={styles.piechartImg}
-                      src="/pieChart.png"
-                      alt="pieChart"
-                    />
-                  </Typography>
-                  <Typography variant="body2">
-                    <div className={styles.disDiscription}>
-                      <div className={styles.solContainer}>
-                        <img
-                          className={styles.solImg}
-                          src="/sol.png"
-                          alt="sol"
-                        />
-                        <p className={styles.solFont}> 50% - SOL</p>
-                      </div>
-                      <div className={styles.solContainer}>
-                        <img
-                          className={styles.solImg}
-                          src="/btc.png"
-                          alt="sol"
-                        />
-                        <p className={styles.solFont}> 30% - BTC</p>
-                      </div>
-                      <div className={styles.solContainer}>
-                        <img
-                          className={styles.solImg}
-                          src="/eth.png"
-                          alt="sol"
-                        />
-                        <p className={styles.solFont}> 15% - ETH</p>
-                      </div>
-                      <div className={styles.solContainer}>
-                        <img
-                          className={styles.solImg}
-                          src="/other.png"
-                          alt="sol"
-                        />
-                        <p className={styles.solFont}> 5% - others</p>
-                      </div>
+                  <img
+                    className={styles.piechartImg}
+                    src="/pieChart.png"
+                    alt="pieChart"
+                  />
+                  <div className={styles.disDiscription}>
+                    <div className={styles.solContainer}>
+                      <img
+                        className={styles.solImg}
+                        src="/sol.png"
+                        alt="sol"
+                      />
+                      <p className={styles.solFont}> 50% - SOL</p>
                     </div>
-                  </Typography>
+                    <div className={styles.solContainer}>
+                      <img
+                        className={styles.solImg}
+                        src="/btc.png"
+                        alt="sol"
+                      />
+                      <p className={styles.solFont}> 30% - BTC</p>
+                    </div>
+                    <div className={styles.solContainer}>
+                      <img
+                        className={styles.solImg}
+                        src="/eth.png"
+                        alt="sol"
+                      />
+                      <p className={styles.solFont}> 15% - ETH</p>
+                    </div>
+                    <div className={styles.solContainer}>
+                      <img
+                        className={styles.solImg}
+                        src="/other.png"
+                        alt="sol"
+                      />
+                      <p className={styles.solFont}> 5% - others</p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
