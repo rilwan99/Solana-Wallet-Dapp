@@ -5,7 +5,8 @@ import { style } from "@mui/system";
 import { useState, useEffect } from "react";
 import React from "react";
 import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
+import { PopupProps } from "reactjs-popup/dist/types";
+import { PopupActions } from "reactjs-popup/dist/types";
 import Link from "next/link";
 import Router from "next/router";
 
@@ -14,7 +15,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import * as web3 from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
-
 
 class inputForm {
   id = "";
@@ -27,20 +27,17 @@ const Homepage: React.FC = () => {
   const [cexData1, setCexData1] = useState({ apiKey: "" });
   const [cexData2, setCexData2] = useState({ apiSecret: "" });
   const [loading, setLoading] = useState(false);
-  const [connected, setConnected] = useState(false)
+  const [connected, setConnected] = useState(false);
 
-  const { publicKey } = useWallet()
+  const { publicKey } = useWallet();
 
   useEffect(() => {
     if (publicKey) {
-      const userAddress = publicKey.toString()
-      const url = "/dashboard?address=" + userAddress
-      Router.push(url)
+      const userAddress = publicKey.toString();
+      const url = "/dashboard?address=" + userAddress;
+      Router.push(url);
     }
-
-  }, [publicKey])
-
-
+  }, [publicKey]);
 
   async function submitAddress(event) {
     event.preventDefault();
@@ -78,56 +75,61 @@ const Homepage: React.FC = () => {
               <div className={styles.buttons3}>
                 <WalletMultiButton />
               </div>
-              <Popup
-                trigger={
-                  <button className={styles.buttons2}> Select Exchange </button>
-                }
-                position="right center"
-              >
-                <div>
-                  <form>
-                    <label htmlFor="ApiKey">Enter read-only API Key:</label>
-                    <input
-                      type="text"
-                      name="ApiKey"
-                      id="ApiKey"
-                      onChange={(event) =>
-                        setCexData1({
-                          apiKey: event.target.value,
-                        })
-                      }
-                    />
+              <div>
+                <Popup
+                  trigger={
+                    <button className={styles.buttons2}>
+                      {" "}
+                      Select Exchange{" "}
+                    </button>
+                  }
+                  position="right center"
+                >
+                  <div className={styles.formA}>
+                    <form>
+                      <label htmlFor="ApiKey">Enter read-only API Key:</label>
+                      <input
+                        type="text"
+                        name="ApiKey"
+                        id="ApiKey"
+                        onChange={(event) =>
+                          setCexData1({
+                            apiKey: event.target.value,
+                          })
+                        }
+                      />
 
-                    <label htmlFor="ApiSecret">
-                      Enter read-only API Secret:
-                    </label>
-                    <input
-                      type="text"
-                      name="ApiSecret"
-                      id="ApiSecret"
-                      onChange={(event) =>
-                        setCexData2({
-                          apiSecret: event.target.value,
-                        })
-                      }
-                    />
+                      <label htmlFor="ApiSecret">
+                        Enter read-only API Secret:
+                      </label>
+                      <input
+                        type="text"
+                        name="ApiSecret"
+                        id="ApiSecret"
+                        onChange={(event) =>
+                          setCexData2({
+                            apiSecret: event.target.value,
+                          })
+                        }
+                      />
 
-                    {/* <button type="submit">Submit</button> */}
-                    <Link
-                      href={{
-                        pathname: "/dashboard",
-                        query: {
-                          apiKey: cexData1.apiKey,
-                          apiSecret: cexData2.apiSecret,
-                        }, // the data
-                      }}
-                      passHref
-                    >
-                      <a> Submit </a>
-                    </Link>
-                  </form>
-                </div>
-              </Popup>
+                      {/* <button type="submit">Submit</button> */}
+                      <Link
+                        href={{
+                          pathname: "/dashboard",
+                          query: {
+                            apiKey: cexData1.apiKey,
+                            apiSecret: cexData2.apiSecret,
+                          }, // the data
+                        }}
+                        passHref
+                      >
+                        <a> Submit </a>
+                      </Link>
+                    </form>
+                  </div>
+                </Popup>
+              </div>
             </div>
 
             <p className={styles.spanOr}> OR </p>
