@@ -99,7 +99,7 @@ export const Invest: React.FC = () => {
           p: 3,
         }}
       >
-        <h1>Invest Page</h1>
+        <h1 className={styles.textH1}>Investment</h1>
         <h3 className={styles.text}>Investment overview</h3>
         <div className={styles.div0}>
           <div className={styles.diva1}>
@@ -215,8 +215,9 @@ export const Invest: React.FC = () => {
 
                 <div>
                   <p className={styles.paraRtrade}>Frequency</p>
-                  <FormControl sx={{ minWidth: 420 }}>
+                  <FormControl sx={{ color: "white", minWidth: 420 }}>
                     <Select
+                      sx={{ color: "white" }}
                       className={styles.borderDropdown}
                       displayEmpty
                       inputProps={{ "aria-label": "Without label" }}
@@ -233,7 +234,7 @@ export const Invest: React.FC = () => {
                 </div>
                 <div>
                   <p className={styles.paraRtrade}>Frequency</p>
-                  <FormControl sx={{ minWidth: 420 }}>
+                  <FormControl sx={{ color: "white", minWidth: 420 }}>
                     <Select
                       className={styles.borderDropdown}
                       displayEmpty
@@ -251,7 +252,7 @@ export const Invest: React.FC = () => {
                 </div>
                 <div>
                   <div>
-                    <p>Amount</p>
+                    <p className={styles.paraRtrade}>Amount</p>
 
                     <div className={styles.amountUsdc}>
                       <p className={styles.usdcPara}>10USDC</p>
@@ -264,14 +265,17 @@ export const Invest: React.FC = () => {
                     <p className={styles.paraRtrade}>Trade Cycle</p>
                     <div>
                       <div className={styles.tradeCcontainer}>
-                        <p className={styles.maxPara}>0</p>
-                        <p className={styles.maxPara}>MAX</p>
+                        <span className={styles.maxPara}>
+                          0 <span className={styles.maxParaB}>MAX</span>
+                        </span>
+                        {/* <p className={styles.maxPara}>MAX</p> */}
                       </div>
                     </div>
                   </div>
                 </div>
+                <p></p>
                 <div>
-                  <p className={styles.confirmBtn}>Confirm</p>
+                  <span className={styles.confirmBtn}>Confirm</span>
                 </div>
               </CardContent>
             </Card>
