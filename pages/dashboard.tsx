@@ -14,6 +14,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import SettingsIcon from '@mui/icons-material/Settings';
+import InsightsIcon from '@mui/icons-material/Insights';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -314,6 +316,11 @@ export const Dashboard: React.FC = () => {
     }
   }
 
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push("/invest")
+  }
+
   return (
     <Box
       sx={{
@@ -339,16 +346,40 @@ export const Dashboard: React.FC = () => {
           <Divider />
 
           <List>
-            {["DASHBOARD", "PORTFOLIO", "SETTING"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon className={styles.menuItem}>
-                    {index % 2 === 0 ? <DashboardIcon /> : <LocalMallIcon />}
-                  </ListItemIcon>
-                  <ListItemText className={styles.menuItem} primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+
+            <ListItem key='DASHBOARD' disablePadding>
+              <ListItemButton>
+                <ListItemIcon className={styles.menuItem}>
+                  <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText className={styles.menuItem} primary='DASHBOARD' />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key='PORTFOLIO' disablePadding>
+              <ListItemButton>
+                <ListItemIcon className={styles.menuItem}>
+                  <LocalMallIcon />
+                </ListItemIcon>
+                <ListItemText className={styles.menuItem} primary='PORTFOLIO' />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key='INVESTMENT' disablePadding>
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon className={styles.menuItem}>
+                  <InsightsIcon />
+                </ListItemIcon>
+                <ListItemText className={styles.menuItem} primary='INVESTMENT' />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key='SETTINGS' disablePadding>
+              <ListItemButton>
+                <ListItemIcon className={styles.menuItem}>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText className={styles.menuItem} primary='SETTINGS' />
+              </ListItemButton>
+            </ListItem>
+
           </List>
         </div>
       </Drawer>

@@ -3,6 +3,202 @@
   height: 100%;
 }
 
+.piechartContainer {
+  /* background: blue; */
+  display: flex;
+  width: 10px;
+  margin-top: 50px;
+}
+
+.piechartImg {
+  width: 200px;
+  height: 200px;
+}
+
+.disDiscription {
+  /* background: red; */
+  margin-top: 20px;
+  /* width: 125px;
+  height: 200px;
+  left: 275px;
+  top: 125px;
+
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 125%; */
+}
+
+.solContainer {
+  /* background: green; */
+  display: flex;
+  width: 150px;
+
+  padding-top: -5px;
+  padding-left: 80px;
+}
+
+.solImg {
+  margin-top: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.solFont {
+  margin-left: 10px;
+  margin-top: 6px;
+  /* background: red; */
+}
+
 .menuItem {
+  color: white;
+}
+
+.text {
+  color: white;
+}
+
+.div0 {
+  font-weight: 700;
+  width: 444px;
+  height: 532px;
+  display: flex;
+  flex-direction: row;
+}
+
+.diva1 {
+  font-weight: 700;
+  /* padding: 10px; */
+  width: 444px;
+  height: 632px;
+  display: flex;
+  flex-direction: column;
+}
+
+.div3 {
+  font-weight: 700;
+  margin-top: 10px;
+  width: 444px;
+  height: 532px;
+  display: flex;
+  flex-direction: row;
+}
+
+.portfolioCont {
+  margin-left: 10px;
+}
+
+.cardConainer3 {
+  width: 533px;
+  height: 124px;
+  margin-left: 55px;
+}
+
+/* .totalassetContainer {
+  background: red;
+  color: #ffff;
+  display: flex;
+  font-size: 5px;
+  flex-direction: column;
+  flex-wrap: wrap-reverse;
+} */
+
+.para1 {
+  /* background: red; */
+  color: #ffff;
+  margin-top: -20px;
+  height: 0px;
+}
+
+.totalAsset {
+  /* background: red; */
+  color: #ffff;
+  font-size: 25px;
+  padding-top: 5px;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.dollarIcon {
+  width: 78px;
+  height: 30px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 125%;
+}
+
+.currencyIcon {
+  width: 78px;
+  height: 30px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 125%;
+}
+
+.totalAmount {
+  font-size: 50px;
+}
+
+.tokensAmount {
+  color: #ffff;
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.tokensFont {
+  width: 78px;
+  height: 30px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 125%;
+}
+
+.portfolioFont {
+  color: #ffff;
+  /* padding: 10px; */
+  /* padding-top: 20px;
+  width: 56px;
+  height: 60px;
+
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 125%; */
+  color: #ffff;
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.TableContainer {
+  /* background: red; */
+  color: #ffff;
+  display: flex;
+  flex-direction: column;
+  width: 1025px;
+  margin-top: -50px;
+  margin-bottom: 10%;
+}
+
+.tableRow {
+  color: #ffff;
+}
+
+.symbol {
+  color: #ffff;
+}
+
+.loading {
+  /* background: red; */
+  width: 30%;
+  margin-left: 30%;
+}
+
+.assetDTitle {
+  /* background: red; */
+  margin-top: -100px;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 50px;
+}
+
+.nullAsset {
   color: white;
 }
