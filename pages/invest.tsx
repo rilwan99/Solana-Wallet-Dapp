@@ -25,289 +25,316 @@ import Paper from "@mui/material/Paper";
 import { Card } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+
 const drawerWidth = 240;
 
 function createData(
-    token: string,
-    freqeuncy: number,
-    amount: number,
-    balance: number,
+  token: string,
+  freqeuncy: number,
+  amount: number,
+  balance: number
 ) {
-    return { token, freqeuncy, amount, balance };
+  return { token, freqeuncy, amount, balance };
 }
 
 const rows = [
-    createData('Bitcoin (BTC)', "Weekly", 100, 0.004332),
-    createData('Etheruem (ETH)', "Weekly", 100, 0.004332),
-    createData('Solana (SOL)', "Weekly", 100, 0.004332),
-    createData('Bitcoin (BTC)', "Weekly", 100, 0.004332),
-    createData('Bitcoin (BTC)', "Weekly", 100, 0.004332),
+  createData("Bitcoin (BTC)", "Weekly", 100, 0.004332),
+  createData("Etheruem (ETH)", "Weekly", 100, 0.004332),
+  createData("Solana (SOL)", "Weekly", 100, 0.004332),
+  createData("Bitcoin (BTC)", "Weekly", 100, 0.004332),
+  createData("Bitcoin (BTC)", "Weekly", 100, 0.004332),
 ];
 
 export const Invest: React.FC = () => {
+  return (
+    <Box
+      sx={{
+        height: "100%",
+        display: "flex",
+      }}
+    >
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <div className={styles.div1}>
+          <Image src="/TableFi_Logo.svg" height={50} width={200} />
+          <br />
+          <Divider />
 
+          <List>
+            {["DASHBOARD", "PORTFOLIO", "SETTING"].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon className={styles.menuItem}>
+                    {index % 2 === 0 ? <DashboardIcon /> : <LocalMallIcon />}
+                  </ListItemIcon>
+                  <ListItemText className={styles.menuItem} primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </div>
+      </Drawer>
 
-    return (
-        <Box
-            sx={{
+      <Box
+        // component="main"
+        sx={{
+          height: "100%",
+          flexGrow: 1,
+          bgcolor: "#242F37",
+          p: 3,
+        }}
+      >
+        <h1>Invest Page</h1>
+        <h3 className={styles.text}>Investment overview</h3>
+        <div className={styles.div0}>
+          <div className={styles.diva1}>
+            <Card
+              sx={{
+                minWidth: 475,
+                width: 488,
+                height: 150,
+                bgcolor: "#5EC2B7",
+              }}
+            >
+              <p className={styles.totalAsset}> Total Amount Invest</p>
+              <CardContent>
+                <div className={styles.totalassetContainer}>
+                  <p className={styles.para1}>
+                    {" "}
+                    <span className={styles.currencyIcon}> $ </span>{" "}
+                    <span className={styles.totalAmount}> 1234</span>{" "}
+                    <span className={styles.dollarIcon}> USD </span>{" "}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className={styles.div3}>
+              <div className={styles.tokenCont}>
+                <Card
+                  sx={{
+                    minWidth: 475,
+                    width: 488,
+                    height: 150,
+                    bgcolor: "#5D55A6",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: 20,
+                        color: "#ffff",
+                      }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      USDC Balance
+                    </Typography>
+                    <div className={styles.tokensAmount}>
+                      12333443
+                      <span className={styles.tokensFont}>Tokens</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className={styles.portfolioCont}>
+                <Card
+                  sx={{
+                    minWidth: 475,
+                    width: 488,
+                    height: 150,
+                    bgcolor: "#E46E7E",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: 20,
+                        color: "#ffff",
+                      }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Ongoing Trade
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: 50,
+                        color: "#ffff",
+                      }}
+                    >
+                      1
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.cardConainer3}>
+            <Card
+              sx={{
+                width: 308,
+                height: 459,
+                bgcolor: "#364652",
+                minWidth: 531,
+              }}
+            >
+              <CardContent>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: 25,
+                    color: "#ffff",
+                  }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Recurring Trade
+                </Typography>
+
+                <div>
+                  <p className={styles.paraRtrade}>Frequency</p>
+                  <FormControl sx={{ minWidth: 420 }}>
+                    <Select
+                      className={styles.borderDropdown}
+                      displayEmpty
+                      inputProps={{ "aria-label": "Without label" }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                    {/* <FormHelperText>Without label</FormHelperText> */}
+                  </FormControl>
+                </div>
+                <div>
+                  <p className={styles.paraRtrade}>Frequency</p>
+                  <FormControl sx={{ minWidth: 420 }}>
+                    <Select
+                      className={styles.borderDropdown}
+                      displayEmpty
+                      inputProps={{ "aria-label": "Without label" }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                    {/* <FormHelperText>Without label</FormHelperText> */}
+                  </FormControl>
+                </div>
+                <div>
+                  <div>
+                    <p>Amount</p>
+
+                    <div className={styles.amountUsdc}>
+                      <p className={styles.usdcPara}>10USDC</p>
+                      <p className={styles.usdcPara}>50USDC</p>
+                      <p className={styles.usdcPara}>100USDC</p>
+                      <p className={styles.usdcPara2}>1000USDC</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className={styles.paraRtrade}>Trade Cycle</p>
+                    <div>
+                      <div className={styles.tradeCcontainer}>
+                        <p className={styles.maxPara}>0</p>
+                        <p className={styles.maxPara}>MAX</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p className={styles.confirmBtn}>Confirm</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+        <p></p>
+
+        <div className={styles.TableContainer}>
+          <div className={styles.assetDTitle}>Investment Details</div>
+          <TableContainer component={Paper}>
+            <Table
+              sx={{
                 height: "100%",
-                display: "flex",
-            }}>
-
-            <Drawer
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    "& .MuiDrawer-paper": {
-                        width: drawerWidth,
-                        boxSizing: "border-box",
-                    },
-                }}
-                variant="permanent"
-                anchor="left"
+                bgcolor: "#364652",
+                minWidth: 725,
+              }}
+              aria-label="simple table"
             >
-                <div className={styles.div1}>
-                    <Image src="/TableFi_Logo.svg" height={50} width={200} />
-                    <br />
-                    <Divider />
-
-                    <List>
-                        {["DASHBOARD", "PORTFOLIO", "SETTING"].map((text, index) => (
-                            <ListItem key={text} disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon className={styles.menuItem}>
-                                        {index % 2 === 0 ? <DashboardIcon /> : <LocalMallIcon />}
-                                    </ListItemIcon>
-                                    <ListItemText className={styles.menuItem} primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </div>
-            </Drawer>
-
-
-            <Box
-                // component="main"
-                sx={{
-                    height: "100%",
-                    flexGrow: 1,
-                    bgcolor: "#242F37",
-                    p: 3,
-                }}
-            >
-                <h1>Invest Page</h1>
-                <h3 className={styles.text}>Investment overview</h3>
-                <div className={styles.div0}>
-                    <div className={styles.diva1}>
-                        <Card
-                            sx={{
-                                minWidth: 475,
-                                width: 488,
-                                height: 200,
-                                bgcolor: "#5EC2B7",
-                            }}
-                        >
-                            <p className={styles.totalAsset}> Total Amount Invest</p>
-                            <CardContent>
-                                <div className={styles.totalassetContainer}>
-                                    <p className={styles.para1}>
-                                        {" "}
-                                        <span className={styles.currencyIcon}> $ </span>{" "}
-                                        <span className={styles.totalAmount}>
-                                            {" "}
-                                            1234
-                                        </span>{" "}
-                                        <span className={styles.dollarIcon}> USD </span>{" "}
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <div className={styles.div3}>
-                            <div className={styles.tokenCont}>
-                                <Card
-                                    sx={{
-                                        minWidth: 275,
-                                        height: 150,
-                                        bgcolor: "#5D55A6",
-                                    }}
-                                >
-                                    <CardContent>
-                                        <Typography
-                                            sx={{
-                                                fontWeight: 700,
-                                                fontSize: 20,
-                                                color: "#ffff",
-                                            }}
-                                            color="text.secondary"
-                                            gutterBottom
-                                        >
-                                            USDC Balance
-                                        </Typography>
-                                        <div className={styles.tokensAmount}>
-                                            12333443
-                                            <span className={styles.tokensFont}>Tokens</span>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-
-                            <div className={styles.portfolioCont}>
-                                <Card
-                                    sx={{
-                                        width: 50,
-                                        height: 150,
-                                        bgcolor: "#E46E7E",
-                                        minWidth: 205,
-                                    }}
-                                >
-                                    <CardContent>
-                                        <Typography
-                                            sx={{
-                                                fontWeight: 700,
-                                                fontSize: 20,
-                                                color: "#ffff",
-                                            }}
-                                            color="text.secondary"
-                                            gutterBottom
-                                        >
-                                            Ongoing Trade
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                fontWeight: 700,
-                                                fontSize: 50,
-                                                color: "#ffff",
-                                            }}
-                                        >
-                                            1
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.cardConainer3}>
-                        <Card
-                            sx={{
-                                width: 308,
-                                height: 330,
-                                bgcolor: "#364652",
-                                minWidth: 531,
-                            }}
-                        >
-                            <CardContent>
-                                <Typography
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: 25,
-                                        color: "#ffff",
-                                    }}
-                                    color="text.secondary"
-                                    gutterBottom
-                                >
-                                    Assets Distributions
-                                </Typography>
-
-                                <div className={styles.piechartContainer}>
-                                    <img
-                                        className={styles.piechartImg}
-                                        src="/pieChart.png"
-                                        alt="pieChart"
-                                    />
-                                    <div className={styles.disDiscription}>
-                                        <div className={styles.solContainer}>
-                                            <img className={styles.solImg} src="/sol.png" alt="sol" />
-                                            <p className={styles.solFont}> 50% - SOL</p>
-                                        </div>
-                                        <div className={styles.solContainer}>
-                                            <img className={styles.solImg} src="/btc.png" alt="sol" />
-                                            <p className={styles.solFont}> 30% - BTC</p>
-                                        </div>
-                                        <div className={styles.solContainer}>
-                                            <img className={styles.solImg} src="/eth.png" alt="sol" />
-                                            <p className={styles.solFont}> 15% - ETH</p>
-                                        </div>
-                                        <div className={styles.solContainer}>
-                                            <img
-                                                className={styles.solImg}
-                                                src="/other.png"
-                                                alt="sol"
-                                            />
-                                            <p className={styles.solFont}> 5% - others</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-
-
-
-                <div className={styles.TableContainer}>
-                    <div className={styles.assetDTitle}>Investment Details</div>
-                    <TableContainer component={Paper}>
-                        <Table
-                            sx={{
-                                height: "100%",
-                                bgcolor: "#364652",
-                                minWidth: 725,
-                            }}
-                            aria-label="simple table"
-                        >
-                            <TableHead>
-                                <TableRow className={styles.tableRow}>
-                                    <TableCell className={styles.tableRow}>
-                                        Token
-                                    </TableCell>
-                                    <TableCell className={styles.tableRow} align="right">
-                                        Frequency
-                                    </TableCell>
-                                    <TableCell className={styles.tableRow} align="right">
-                                        Amount (in USDC)
-                                    </TableCell>
-                                    <TableCell className={styles.tableRow} align="right">
-                                        Balance
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.map((row) => (
-                                    <TableRow
-                                        key={row.token}
-                                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                                    >
-                                        <TableCell
-                                            className={styles.tableRow}
-                                            component="th"
-                                            scope="row"
-                                        >
-                                            {row.token}
-                                        </TableCell>
-                                        <TableCell className={styles.symbol} align="right">
-                                            {row.frequency}
-                                        </TableCell>
-                                        <TableCell className={styles.tableRow} align="right">
-                                            {row.amount}
-                                        </TableCell>
-                                        <TableCell className={styles.tableRow} align="right">
-                                            {row.balance}
-                                        </TableCell>
-                                        =
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
-
-            </Box>
-
-        </Box>
-    )
-}
+              <TableHead>
+                <TableRow className={styles.tableRow}>
+                  <TableCell className={styles.tableRow}>Token</TableCell>
+                  <TableCell className={styles.tableRow} align="right">
+                    Frequency
+                  </TableCell>
+                  <TableCell className={styles.tableRow} align="right">
+                    Amount (in USDC)
+                  </TableCell>
+                  <TableCell className={styles.tableRow} align="right">
+                    Balance
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.token}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      className={styles.tableRow}
+                      component="th"
+                      scope="row"
+                    >
+                      {row.token}
+                    </TableCell>
+                    <TableCell className={styles.symbol} align="right">
+                      {row.frequency}
+                    </TableCell>
+                    <TableCell className={styles.tableRow} align="right">
+                      {row.amount}
+                    </TableCell>
+                    <TableCell className={styles.tableRow} align="right">
+                      {row.balance}
+                    </TableCell>
+                    =
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </Box>
+    </Box>
+  );
+};
 export default Invest;

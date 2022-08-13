@@ -80,11 +80,12 @@
   width: 444px;
   height: 532px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .portfolioCont {
-  margin-left: 10px;
+  width: 444px;
+  margin-top: 10px;
 }
 
 .cardConainer3 {
@@ -173,8 +174,72 @@
   display: flex;
   flex-direction: column;
   width: 1025px;
-  margin-top: -50px;
+  /* margin-top: -10px; */
   margin-bottom: 10%;
+}
+
+.paraRtrade {
+  font-size: 15px;
+}
+
+/* usdc styling */
+.amountUsdc {
+  display: flex;
+  flex-direction: row;
+}
+
+.usdcPara {
+  background: #79848c;
+  border-radius: 16px;
+  text-align: center;
+  width: 80px;
+  height: 25px;
+  margin: 5px;
+}
+.usdcPara2 {
+  background: #79848c;
+  border-radius: 16px;
+  text-align: center;
+  width: 100px;
+  height: 25px;
+  margin: 5px;
+}
+
+.maxPara {
+  font-size: 15px;
+}
+
+.tradeCcontainer {
+  display: flex;
+  flex-direction: row;
+  background: red;
+  border-radius: 8px;
+  padding: 10px;
+  width: 420px;
+  height: 30px;
+  border: 2px solid;
+}
+
+.borderDropdown {
+  border: 2px solid white;
+  color: #ffff;
+  height: 30px;
+}
+
+.confirmBtn {
+  background: #5ec2b7;
+  text-align: center;
+  padding: 5px;
+  width: 98px;
+  height: 30px;
+  color: #ffff;
+  border-radius: 8px;
+  margin-left: 300px;
+  cursor: pointer;
+}
+
+.confirmBtn:hover {
+  background: #5fb1a7;
 }
 
 .tableRow {
