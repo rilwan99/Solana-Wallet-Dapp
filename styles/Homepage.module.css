@@ -11,7 +11,9 @@
 } */
 
 .formA {
-  background: #8b80f9;
+  display: flex;
+  flex-direction: column;
+  background: darkgray;
   width: 25%;
   padding: 10px;
   border-radius: 5px;
@@ -219,6 +221,16 @@
   padding-left: 10px;
   width: 100px;
   height: 40px;
+}
+
+.buttonSubmit {
+  background: #5d55a6;
+  text-decoration: none;
+  /* border: 1px solid red; */
+  /* margin: 10px; */
+  border-radius: 5px;
+  padding: 5px;
+  color: #ffffff;
 }
 
 .submit {

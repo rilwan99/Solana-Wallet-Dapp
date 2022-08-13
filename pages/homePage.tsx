@@ -112,6 +112,7 @@ const Homepage: React.FC = () => {
                           })
                         }
                       />
+                      <p></p>
 
                       {/* <button type="submit">Submit</button> */}
                       <Link
@@ -124,7 +125,7 @@ const Homepage: React.FC = () => {
                         }}
                         passHref
                       >
-                        <a> Submit </a>
+                        <a className={styles.buttonSubmit}> Submit </a>
                       </Link>
                     </form>
                   </div>
