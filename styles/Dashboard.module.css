@@ -66,16 +66,12 @@
   width: 444px;
   height: 532px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-.diva1 {
-  font-weight: 700;
-  /* padding: 10px; */
-  width: 444px;
-  height: 632px;
+.secondary {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .div3 {
@@ -86,25 +82,6 @@
   display: flex;
   flex-direction: row;
 }
-
-.portfolioCont {
-  margin-left: 10px;
-}
-
-.cardConainer3 {
-  width: 533px;
-  height: 124px;
-  margin-left: 55px;
-}
-
-/* .totalassetContainer {
-  background: red;
-  color: #ffff;
-  display: flex;
-  font-size: 5px;
-  flex-direction: column;
-  flex-wrap: wrap-reverse;
-} */
 
 .para1 {
   /* background: red; */

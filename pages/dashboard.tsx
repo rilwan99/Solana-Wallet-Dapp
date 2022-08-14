@@ -31,6 +31,7 @@ import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { getTokenPrices } from "../lib/getPrice";
 import { getTokenName } from "../lib/getTokenName";
 import { DefaultLogger } from "ftx-api";
+import { getAveragePrice } from "../lib/getAveragePrice";
 const { RestClient } = require("ftx-api");
 
 const drawerWidth = 240;
@@ -53,6 +54,7 @@ export const Dashboard: React.FC = () => {
 
   const [totalTokens, setTotalTokens] = React.useState(0);
   const [totalAssets, setTotalAssets] = React.useState(0);
+  const [avgPrice, setAvgPrice] = React.useState([]);
 
   const router = useRouter();
   // Track the route taken the user (Input Address or CEX wallet)
@@ -249,15 +251,6 @@ export const Dashboard: React.FC = () => {
     setTotalTokens(num);
   }
 
-  function getCexTotalTokens(rows: TokenInfo[]) {
-    let num = 0;
-    rows.forEach((tokenInfo) => {
-      console.log(tokenInfo);
-      //num += tokenInfo.total;
-    });
-    //setTotalTokens(num)
-  }
-
   function getTotalAssets(rows: TokenInfo[]) {
     let num = 0;
     rows.forEach((tokenInfo) => {
@@ -267,7 +260,6 @@ export const Dashboard: React.FC = () => {
   }
 
   async function getExchangeBal(apiKey, apiSecret) {
-    //event.preventDefault();
     const client = new RestClient(apiKey, apiSecret);
     const existingRows: TokenInfo[] = [];
     try {
@@ -285,7 +277,6 @@ export const Dashboard: React.FC = () => {
             nonZeroBalance[i].usdValue
           )
         );
-        //console.log(existingRows);
       }
 
       // Set the total number of tokens in card component
@@ -295,6 +286,10 @@ export const Dashboard: React.FC = () => {
       getTotalAssets(existingRows);
 
       setRows(existingRows);
+
+      const apiResult = await getAveragePrice(apiKey, apiSecret)
+      setAvgPrice(apiResult)
+
       setLoading(false);
       // console.log(a.result[5].total);
     } catch (e) {
@@ -302,16 +297,6 @@ export const Dashboard: React.FC = () => {
     }
   }
 
-  async function getOrderHistory(apiKey, apiSecret) {
-    const client = new RestClient(apiKey, apiSecret);
-    try {
-      let amt = await client.getFills();
-      const result = amt.result;
-      console.log(result);
-    } catch (e) {
-      console.error("Get history failed: ", e);
-    }
-  }
 
   const handleClickInvestment = (e) => {
     e.preventDefault()
@@ -408,7 +393,8 @@ export const Dashboard: React.FC = () => {
         {apiKey && apiSecret ? (<h3 className={styles.text}>Dashboard (FTX Wallet)</h3>) : ""}
 
         <div className={styles.div0}>
-          <div className={styles.diva1}>
+
+          <div className={styles.secondary}>
             <Card
               sx={{
                 minWidth: 475,
@@ -417,7 +403,7 @@ export const Dashboard: React.FC = () => {
                 bgcolor: "#5EC2B7",
               }}
             >
-              <p className={styles.totalAsset}> Total Assets </p>
+              <p className={styles.totalAsset}> Total Assets Value</p>
               <CardContent>
                 <div className={styles.totalassetContainer}>
                   <p className={styles.para1}>
@@ -433,126 +419,126 @@ export const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <div className={styles.div3}>
-              <div className={styles.tokenCont}>
-                <Card
-                  sx={{
-                    minWidth: 275,
-                    height: 150,
-                    bgcolor: "#5D55A6",
-                  }}
-                >
-                  <CardContent>
-                    <Typography
-                      sx={{
-                        fontWeight: 700,
-                        fontSize: 20,
-                        color: "#ffff",
-                      }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Tokens
-                    </Typography>
-                    <div className={styles.tokensAmount}>
-                      {totalTokens.toFixed(4)}{" "}
-                      <span className={styles.tokensFont}>Tokens</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div className={styles.portfolioCont}>
-                <Card
-                  sx={{
-                    width: 50,
-                    height: 150,
-                    bgcolor: "#E46E7E",
-                    minWidth: 205,
-                  }}
-                >
-                  <CardContent>
-                    <Typography
-                      sx={{
-                        fontWeight: 700,
-                        fontSize: 20,
-                        color: "#ffff",
-                      }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Portfolios
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        fontWeight: 700,
-                        fontSize: 50,
-                        color: "#ffff",
-                      }}
-                    >
-                      1
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.cardConainer3}>
             <Card
               sx={{
-                width: 308,
-                height: 330,
-                bgcolor: "#364652",
-                minWidth: 531,
+                minWidth: 475,
+                width: 488,
+                height: 200,
+                bgcolor: "#5EC2B7",
+              }}
+            >
+              <p className={styles.totalAsset}> Total Investment </p>
+              <CardContent>
+                <div className={styles.totalassetContainer}>
+                  <p className={styles.para1}>
+                    {" "}
+                    <span className={styles.currencyIcon}> $ </span>{" "}
+                    <span className={styles.totalAmount}>
+                      {" "}
+                      {totalAssets.toFixed(5)}{" "}
+                    </span>{" "}
+                    <span className={styles.dollarIcon}> USD </span>{" "}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className={styles.div3}>
+
+            <Card
+              sx={{
+                minWidth: 275,
+                height: 150,
+                bgcolor: "#5D55A6",
               }}
             >
               <CardContent>
                 <Typography
                   sx={{
                     fontWeight: 700,
-                    fontSize: 25,
+                    fontSize: 20,
                     color: "#ffff",
                   }}
                   color="text.secondary"
                   gutterBottom
                 >
-                  Assets Distributions
+                  Tokens
                 </Typography>
-
-                <div className={styles.piechartContainer}>
-                  <img
-                    className={styles.piechartImg}
-                    src="/pieChart.png"
-                    alt="pieChart"
-                  />
-                  <div className={styles.disDiscription}>
-                    <div className={styles.solContainer}>
-                      <img className={styles.solImg} src="/sol.png" alt="sol" />
-                      <p className={styles.solFont}> 50% - SOL</p>
-                    </div>
-                    <div className={styles.solContainer}>
-                      <img className={styles.solImg} src="/btc.png" alt="sol" />
-                      <p className={styles.solFont}> 30% - BTC</p>
-                    </div>
-                    <div className={styles.solContainer}>
-                      <img className={styles.solImg} src="/eth.png" alt="sol" />
-                      <p className={styles.solFont}> 15% - ETH</p>
-                    </div>
-                    <div className={styles.solContainer}>
-                      <img
-                        className={styles.solImg}
-                        src="/other.png"
-                        alt="sol"
-                      />
-                      <p className={styles.solFont}> 5% - others</p>
-                    </div>
-                  </div>
+                <div className={styles.tokensAmount}>
+                  {totalTokens.toFixed(4)}{" "}
+                  <span className={styles.tokensFont}>Tokens</span>
                 </div>
               </CardContent>
             </Card>
+
+            <Card
+              sx={{
+                width: 50,
+                height: 150,
+                bgcolor: "#E46E7E",
+                minWidth: 205,
+              }}
+            >
+              <CardContent>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: 20,
+                    color: "#ffff",
+                  }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Portfolios
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: 50,
+                    color: "#ffff",
+                  }}
+                >
+                  1
+                </Typography>
+              </CardContent>
+            </Card>
+
+            <Card
+              sx={{
+                minWidth: 275,
+                height: 150,
+                bgcolor: "#5D55A6",
+              }}
+            >
+              <CardContent>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: 20,
+                    color: "#ffff",
+                  }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Ongoing Investment
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: 50,
+                    color: "#ffff",
+                  }}
+                >
+                  1
+                </Typography>
+              </CardContent>
+            </Card>
+
           </div>
+
         </div>
 
         {/* Show loading gif when user wallet data is still being fetched */}
@@ -631,6 +617,7 @@ export const Dashboard: React.FC = () => {
         ) : (
           ""
         )}
+
       </Box>
     </Box>
   );
