@@ -87,7 +87,6 @@ export const Dashboard: React.FC = () => {
       setApiKey(userApiKey);
       setApiSecret(userApiSecret);
       // Insert Function to populate component using fetched data
-      console.log(userApiKey, userApiSecret);
       getExchangeBal(userApiKey, userApiSecret);
     }
   }, []);
@@ -314,9 +313,28 @@ export const Dashboard: React.FC = () => {
     }
   }
 
-  const handleClick = (e) => {
+  const handleClickInvestment = (e) => {
     e.preventDefault()
-    router.push("/invest")
+    if (address) {
+      const url = "/invest?address=" + address;
+      router.push(url)
+    }
+    if (apiKey && apiSecret) {
+      const url = "/invest?apiKey=" + apiKey + "&apiSecret=" + apiSecret;
+      router.push(url)
+    }
+  }
+
+  const handleClickPortfolio = (e) => {
+    e.preventDefault()
+    if (address) {
+      const url = "/portfolio?address=" + address;
+      router.push(url)
+    }
+    if (apiKey && apiSecret) {
+      const url = "/portfolio?apiKey=" + apiKey + "&apiSecret=" + apiSecret;
+      router.push(url)
+    }
   }
 
   return (
@@ -347,14 +365,14 @@ export const Dashboard: React.FC = () => {
 
             <ListItem key='DASHBOARD' disablePadding>
               <ListItemButton>
-                <ListItemIcon className={styles.menuItem}>
+                <ListItemIcon className={styles.menuItemPrimary}>
                   <DashboardIcon />
                 </ListItemIcon>
-                <ListItemText className={styles.menuItem} primary='DASHBOARD' />
+                <ListItemText className={styles.menuItemPrimary} primary='DASHBOARD' />
               </ListItemButton>
             </ListItem>
             <ListItem key='PORTFOLIO' disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={handleClickPortfolio}>
                 <ListItemIcon className={styles.menuItem}>
                   <LocalMallIcon />
                 </ListItemIcon>
@@ -362,7 +380,7 @@ export const Dashboard: React.FC = () => {
               </ListItemButton>
             </ListItem>
             <ListItem key='INVESTMENT' disablePadding>
-              <ListItemButton onClick={handleClick}>
+              <ListItemButton onClick={handleClickInvestment}>
                 <ListItemIcon className={styles.menuItem}>
                   <InsightsIcon />
                 </ListItemIcon>
@@ -383,19 +401,12 @@ export const Dashboard: React.FC = () => {
           p: 3,
         }}
       >
-        {address ? (
-          <h1 className={styles.text}>Good Morning {address}</h1>
-        ) : (
-          <div></div>
-        )}
-        {apiSecret && apiKey ? (
-          <h1 className={styles.text}>
-            Good Morning {apiSecret} {apiKey}
-          </h1>
-        ) : (
-          <div></div>
-        )}
-        <h3 className={styles.text}>Porfolio overview</h3>
+
+        <h1 className={styles.text}>Good Morning {address}</h1>
+
+        {address ? (<h3 className={styles.text}>Dashboard (Phantom Wallet)</h3>) : ""}
+        {apiKey && apiSecret ? (<h3 className={styles.text}>Dashboard (FTX Wallet)</h3>) : ""}
+
         <div className={styles.div0}>
           <div className={styles.diva1}>
             <Card

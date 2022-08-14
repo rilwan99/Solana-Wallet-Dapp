@@ -54,13 +54,56 @@ const rows = [
 
 export const Invest: React.FC = () => {
 
+    const [address, setAddress] = React.useState("");
+    const [apiKey, setApiKey] = React.useState("");
+    const [apiSecret, setApiSecret] = React.useState("");
     const router = useRouter()
+    const pathNameChecker = router.asPath.slice(8, 15);
 
-    const handleClick = (e) => {
+    React.useEffect(() => {
+        // User enters via entering address in input box OR phantom wallet
+        if (pathNameChecker === "address") {
+            const userAddress = router.asPath.slice(16);
+            console.log("User address is " + userAddress)
+            setAddress(userAddress);
+        }
+
+        // User enters via CEX wallet button
+        else {
+            const stop = router.asPath.indexOf("&");
+            const userApiKey = router.asPath.slice(15, stop);
+
+            const secretStart = stop + 11;
+            const userApiSecret = router.asPath.slice(secretStart);
+
+            setApiKey(userApiKey);
+            setApiSecret(userApiSecret);
+        }
+    }, []);
+
+    const handleClickPortfolio = (e) => {
         e.preventDefault()
-        router.push("/dashboard")
+        if (address) {
+            const url = "/portfolio?address=" + address;
+            router.push(url)
+        }
+        else if (apiKey && apiSecret) {
+            const url = "/portfolio?apiKey=" + apiKey + "&portfolio=" + apiSecret;
+            router.push(url)
+        }
     }
 
+    const handleClickDashboard = (e) => {
+        e.preventDefault()
+        if (address) {
+            const url = "/dashboard?address=" + address;
+            router.push(url)
+        }
+        else if (apiKey && apiSecret) {
+            const url = "/dashboard?apiKey=" + apiKey + "&apiSecret=" + apiSecret;
+            router.push(url)
+        }
+    }
     return (
         <Box
             sx={{
@@ -88,7 +131,7 @@ export const Invest: React.FC = () => {
                     <List>
 
                         <ListItem key='DASHBOARD' disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={handleClickDashboard}>
                                 <ListItemIcon className={styles.menuItem}>
                                     <DashboardIcon />
                                 </ListItemIcon>
@@ -96,7 +139,7 @@ export const Invest: React.FC = () => {
                             </ListItemButton>
                         </ListItem>
                         <ListItem key='PORTFOLIO' disablePadding>
-                            <ListItemButton onClick={handleClick}>
+                            <ListItemButton onClick={handleClickPortfolio}>
                                 <ListItemIcon className={styles.menuItem}>
                                     <LocalMallIcon />
                                 </ListItemIcon>
@@ -105,10 +148,10 @@ export const Invest: React.FC = () => {
                         </ListItem>
                         <ListItem key='INVESTMENT' disablePadding>
                             <ListItemButton>
-                                <ListItemIcon className={styles.menuItem}>
+                                <ListItemIcon className={styles.menuItemPrimary}>
                                     <InsightsIcon />
                                 </ListItemIcon>
-                                <ListItemText className={styles.menuItem} primary='INVESTMENT' />
+                                <ListItemText className={styles.menuItemPrimary} primary='INVESTMENT' />
                             </ListItemButton>
                         </ListItem>
 
@@ -125,7 +168,7 @@ export const Invest: React.FC = () => {
                     p: 3,
                 }}
             >
-                <h1 className={styles.textH1}>Investment</h1>
+                <h1 className={styles.text}>Investment</h1>
                 <h3 className={styles.text}>Investment overview</h3>
                 <div className={styles.div0}>
                     <div className={styles.diva1}>
