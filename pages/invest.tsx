@@ -27,9 +27,7 @@ import Paper from "@mui/material/Paper";
 import { Card } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
@@ -294,16 +292,15 @@ export const Invest: React.FC = () => {
                                             <MenuItem value="">
                                                 <em>None</em>
                                             </MenuItem>
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value={10}>Daily</MenuItem>
+                                            <MenuItem value={20}>Weekly</MenuItem>
+                                            <MenuItem value={30}>Monthly</MenuItem>
                                         </Select>
-                                        {/* <FormHelperText>Without label</FormHelperText> */}
                                     </FormControl>
                                 </div>
                                 <div>
-                                    <p className={styles.paraRtrade}>Frequency</p>
-                                    <FormControl sx={{ color: "white", minWidth: 420 }}>
+                                    <p className={styles.paraRtrade}>Token</p>
+                                    <FormControl sx={{ color: "secondary", minWidth: 420, maxWidth: 420 }}>
                                         <Select
                                             className={styles.borderDropdown}
                                             displayEmpty
@@ -312,9 +309,9 @@ export const Invest: React.FC = () => {
                                             <MenuItem value="">
                                                 <em>None</em>
                                             </MenuItem>
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value={10} sx={{ maxWidth: 420 }}><img src="/bitcoin.png" className={styles.tokenIcon} />Bitcoin (BTC)</MenuItem>
+                                            <MenuItem value={20} sx={{ maxWidth: 420 }}><img src="/ethereum.png" className={styles.tokenIcon} />Etheruem (ETH)</MenuItem>
+                                            <MenuItem value={30} sx={{ maxWidth: 420 }}><img src="/solana.png" className={styles.tokenIcon} />Solana (SOL)</MenuItem>
                                         </Select>
                                         {/* <FormHelperText>Without label</FormHelperText> */}
                                     </FormControl>

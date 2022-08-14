@@ -303,3 +303,10 @@
 .nullAsset {
   color: white;
 }
+
+.tokenIcon {
+  height: 5%;
+  width: 5%;
+  padding-right: 3%;
+  padding-top: 1%;
+}
