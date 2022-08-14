@@ -372,14 +372,6 @@ export const Dashboard: React.FC = () => {
                 <ListItemText className={styles.menuItem} primary='INVESTMENT' />
               </ListItemButton>
             </ListItem>
-            <ListItem key='SETTINGS' disablePadding>
-              <ListItemButton>
-                <ListItemIcon className={styles.menuItem}>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText className={styles.menuItem} primary='SETTINGS' />
-              </ListItemButton>
-            </ListItem>
 
           </List>
         </div>
