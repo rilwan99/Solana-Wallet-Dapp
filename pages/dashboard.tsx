@@ -14,7 +14,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import InsightsIcon from '@mui/icons-material/Insights';
+import InsightsIcon from "@mui/icons-material/Insights";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -287,8 +287,8 @@ export const Dashboard: React.FC = () => {
 
       setRows(existingRows);
 
-      const apiResult = await getAveragePrice(apiKey, apiSecret)
-      setAvgPrice(apiResult)
+      const apiResult = await getAveragePrice(apiKey, apiSecret);
+      setAvgPrice(apiResult);
 
       setLoading(false);
       // console.log(a.result[5].total);
@@ -297,30 +297,29 @@ export const Dashboard: React.FC = () => {
     }
   }
 
-
   const handleClickInvestment = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (address) {
       const url = "/invest?address=" + address;
-      router.push(url)
+      router.push(url);
     }
     if (apiKey && apiSecret) {
       const url = "/invest?apiKey=" + apiKey + "&apiSecret=" + apiSecret;
-      router.push(url)
+      router.push(url);
     }
-  }
+  };
 
   const handleClickPortfolio = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (address) {
       const url = "/portfolio?address=" + address;
-      router.push(url)
+      router.push(url);
     }
     if (apiKey && apiSecret) {
       const url = "/portfolio?apiKey=" + apiKey + "&apiSecret=" + apiSecret;
-      router.push(url)
+      router.push(url);
     }
-  }
+  };
 
   return (
     <Box
@@ -347,32 +346,36 @@ export const Dashboard: React.FC = () => {
           <Divider />
 
           <List>
-
-            <ListItem key='DASHBOARD' disablePadding>
+            <ListItem key="DASHBOARD" disablePadding>
               <ListItemButton>
                 <ListItemIcon className={styles.menuItemPrimary}>
                   <DashboardIcon />
                 </ListItemIcon>
-                <ListItemText className={styles.menuItemPrimary} primary='DASHBOARD' />
+                <ListItemText
+                  className={styles.menuItemPrimary}
+                  primary="DASHBOARD"
+                />
               </ListItemButton>
             </ListItem>
-            <ListItem key='PORTFOLIO' disablePadding>
+            <ListItem key="PORTFOLIO" disablePadding>
               <ListItemButton onClick={handleClickPortfolio}>
                 <ListItemIcon className={styles.menuItem}>
                   <LocalMallIcon />
                 </ListItemIcon>
-                <ListItemText className={styles.menuItem} primary='PORTFOLIO' />
+                <ListItemText className={styles.menuItem} primary="PORTFOLIO" />
               </ListItemButton>
             </ListItem>
-            <ListItem key='INVESTMENT' disablePadding>
+            <ListItem key="INVESTMENT" disablePadding>
               <ListItemButton onClick={handleClickInvestment}>
                 <ListItemIcon className={styles.menuItem}>
                   <InsightsIcon />
                 </ListItemIcon>
-                <ListItemText className={styles.menuItem} primary='INVESTMENT' />
+                <ListItemText
+                  className={styles.menuItem}
+                  primary="INVESTMENT"
+                />
               </ListItemButton>
             </ListItem>
-
           </List>
         </div>
       </Drawer>
@@ -386,20 +389,26 @@ export const Dashboard: React.FC = () => {
           p: 3,
         }}
       >
-
         <h1 className={styles.text}>Good Morning {address}</h1>
 
-        {address ? (<h3 className={styles.text}>Dashboard (Phantom Wallet)</h3>) : ""}
-        {apiKey && apiSecret ? (<h3 className={styles.text}>Dashboard (FTX Wallet)</h3>) : ""}
+        {address ? (
+          <h3 className={styles.text}>Dashboard (Phantom Wallet)</h3>
+        ) : (
+          ""
+        )}
+        {apiKey && apiSecret ? (
+          <h3 className={styles.text}>Dashboard (FTX Wallet)</h3>
+        ) : (
+          ""
+        )}
 
         <div className={styles.div0}>
-
           <div className={styles.secondary}>
             <Card
               sx={{
                 minWidth: 475,
                 width: 488,
-                height: 200,
+                height: 150,
                 bgcolor: "#5EC2B7",
               }}
             >
@@ -422,9 +431,10 @@ export const Dashboard: React.FC = () => {
             <Card
               sx={{
                 minWidth: 475,
+                ml: 1.5,
                 width: 488,
-                height: 200,
-                bgcolor: "#5EC2B7",
+                height: 150,
+                bgcolor: "#3F817A",
               }}
             >
               <p className={styles.totalAsset}> Total Investment </p>
@@ -445,12 +455,11 @@ export const Dashboard: React.FC = () => {
           </div>
 
           <div className={styles.div3}>
-
             <Card
               sx={{
-                minWidth: 275,
+                minWidth: 312,
                 height: 150,
-                bgcolor: "#5D55A6",
+                bgcolor: "#8B80F9",
               }}
             >
               <CardContent>
@@ -475,9 +484,10 @@ export const Dashboard: React.FC = () => {
             <Card
               sx={{
                 width: 50,
+                ml: 1.5,
                 height: 150,
-                bgcolor: "#E46E7E",
-                minWidth: 205,
+                bgcolor: "#5D55A6",
+                minWidth: 312,
               }}
             >
               <CardContent>
@@ -507,9 +517,10 @@ export const Dashboard: React.FC = () => {
 
             <Card
               sx={{
-                minWidth: 275,
+                minWidth: 312,
+                ml: 1.5,
                 height: 150,
-                bgcolor: "#5D55A6",
+                bgcolor: "#FF7875",
               }}
             >
               <CardContent>
@@ -536,9 +547,7 @@ export const Dashboard: React.FC = () => {
                 </Typography>
               </CardContent>
             </Card>
-
           </div>
-
         </div>
 
         {/* Show loading gif when user wallet data is still being fetched */}
@@ -617,7 +626,6 @@ export const Dashboard: React.FC = () => {
         ) : (
           ""
         )}
-
       </Box>
     </Box>
   );
