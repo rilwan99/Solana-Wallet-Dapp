@@ -37,7 +37,7 @@ const drawerWidth = 240;
 
 function createData(
     token: string,
-    freqeuncy: number,
+    freqeuncy: string,
     amount: number,
     balance: number
 ) {
@@ -348,7 +348,7 @@ export const Invest: React.FC = () => {
                                             {row.token}
                                         </TableCell>
                                         <TableCell className={styles.symbol} align="right">
-                                            {row.frequency}
+                                            {row.freqeuncy}
                                         </TableCell>
                                         <TableCell className={styles.tableRow} align="right">
                                             {row.amount}
@@ -356,7 +356,6 @@ export const Invest: React.FC = () => {
                                         <TableCell className={styles.tableRow} align="right">
                                             {row.balance}
                                         </TableCell>
-                                        =
                                     </TableRow>
                                 ))}
                             </TableBody>

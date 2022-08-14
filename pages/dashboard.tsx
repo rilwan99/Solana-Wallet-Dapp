@@ -14,7 +14,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import SettingsIcon from '@mui/icons-material/Settings';
 import InsightsIcon from '@mui/icons-material/Insights';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -25,8 +24,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import { CenterFocusStrong, PieChart } from "@mui/icons-material";
-import { style } from "@mui/system";
 import { Card } from "@mui/material";
 
 import * as web3 from "@solana/web3.js";
