@@ -90,7 +90,8 @@ export const Dashboard: React.FC = () => {
       setApiKey(userApiKey);
       setApiSecret(userApiSecret);
       // Insert Function to populate component using fetched data
-      getExchangeBal(apiKey, apiSecret);
+      console.log(userApiKey, userApiSecret);
+      getExchangeBal(userApiKey, userApiSecret);
     }
   }, []);
 
