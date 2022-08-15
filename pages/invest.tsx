@@ -326,13 +326,13 @@ export const Invest: React.FC = () => {
                 </div>
                 <div>
                   <div>
-                    <p className={styles.paraRtrade}>Amount</p>
+                    <p className={styles.paraRtrade}>Amount (USDC)</p>
 
                     <div className={styles.amountUsdc}>
-                      <p className={styles.usdcPara}>10USDC</p>
-                      <p className={styles.usdcPara}>50USDC</p>
-                      <p className={styles.usdcPara}>100USDC</p>
-                      <p className={styles.usdcPara2}>1000USDC</p>
+                      <p className={styles.usdcPara}>10</p>
+                      <p className={styles.usdcPara}>50</p>
+                      <p className={styles.usdcPara}>100</p>
+                      <p className={styles.usdcPara2}>1000</p>
                     </div>
                   </div>
                   <div>
