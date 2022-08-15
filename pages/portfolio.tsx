@@ -15,6 +15,8 @@ import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import InsightsIcon from '@mui/icons-material/Insights';
+import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -428,7 +430,7 @@ export const Portfolio: React.FC = () => {
                                 bgcolor: "#5EC2B7",
                             }}
                         >
-                            <p className={styles.totalAsset}> Total Assets </p>
+                            <p className={styles.totalAsset}> Total Portfolio Assets <Tooltip title="Total Value of assets across all accounts"><InfoIcon /></Tooltip> </p>
                             <CardContent>
                                 <div className={styles.totalassetContainer}>
                                     <p className={styles.para1}>
@@ -463,7 +465,7 @@ export const Portfolio: React.FC = () => {
                                             color="text.secondary"
                                             gutterBottom
                                         >
-                                            Tokens
+                                            Token Quantity <Tooltip title="Total number of SPL tokens across all accounts"><InfoIcon /></Tooltip>
                                         </Typography>
                                         <div className={styles.tokensAmount}>
                                             {totalTokens.toFixed(4)}{" "}
@@ -492,7 +494,7 @@ export const Portfolio: React.FC = () => {
                                             color="text.secondary"
                                             gutterBottom
                                         >
-                                            Portfolios
+                                            Portfolios <Tooltip title="Numer of accounts connected"><InfoIcon /></Tooltip>
                                         </Typography>
                                         <Typography
                                             variant="body2"
@@ -529,7 +531,7 @@ export const Portfolio: React.FC = () => {
                                     color="text.secondary"
                                     gutterBottom
                                 >
-                                    Assets Distributions
+                                    Assets Distributions <Tooltip title="Distribution of SPL tokens across all accounts"><InfoIcon /></Tooltip>
                                 </Typography>
 
                                 <div className={styles.piechartContainer}>

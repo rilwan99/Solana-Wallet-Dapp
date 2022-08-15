@@ -15,6 +15,8 @@ import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import InsightsIcon from "@mui/icons-material/Insights";
+import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -426,7 +428,7 @@ export const Dashboard: React.FC = () => {
                 bgcolor: "#5EC2B7",
               }}
             >
-              <p className={styles.totalAsset}> Total Assets Value</p>
+              <p className={styles.totalAsset}> Total Assets Value <Tooltip title="Total Value of all tokens in wallet"><InfoIcon /></Tooltip></p>
               <CardContent>
                 <div className={styles.totalassetContainer}>
                   <p className={styles.para1}>
@@ -451,7 +453,7 @@ export const Dashboard: React.FC = () => {
                 bgcolor: "#3F817A",
               }}
             >
-              <p className={styles.totalAsset}> Total Investment </p>
+              <p className={styles.totalAsset}> Total Investment <Tooltip title="Total Value of all trades via Automated DCA"><InfoIcon /></Tooltip></p>
               <CardContent>
                 <div className={styles.totalassetContainer}>
                   <p className={styles.para1}>
@@ -486,7 +488,7 @@ export const Dashboard: React.FC = () => {
                   color="text.secondary"
                   gutterBottom
                 >
-                  Tokens
+                  Tokens <Tooltip title="Total Number of Tokens in all wallets"><InfoIcon /></Tooltip>
                 </Typography>
                 <div className={styles.tokensAmount}>
                   {totalTokens.toFixed(4)}{" "}
@@ -514,7 +516,7 @@ export const Dashboard: React.FC = () => {
                   color="text.secondary"
                   gutterBottom
                 >
-                  Portfolios
+                  Portfolios <Tooltip title="Number of wallets connected"><InfoIcon /></Tooltip>
                 </Typography>
                 <Typography
                   variant="body2"
@@ -547,7 +549,7 @@ export const Dashboard: React.FC = () => {
                   color="text.secondary"
                   gutterBottom
                 >
-                  Ongoing Investment
+                  Ongoing Investment <Tooltip title="Number of Automated DCA trades left"><InfoIcon /></Tooltip>
                 </Typography>
                 <Typography
                   variant="body2"

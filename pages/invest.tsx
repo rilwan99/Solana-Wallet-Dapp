@@ -15,6 +15,8 @@ import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import InsightsIcon from "@mui/icons-material/Insights";
+import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -175,7 +177,7 @@ export const Invest: React.FC = () => {
                 bgcolor: "#5EC2B7",
               }}
             >
-              <p className={styles.totalAsset}> Total Amount Invest</p>
+              <p className={styles.totalAsset}> Total Investment Amount <Tooltip title="Total Value of all trades executed via Automated DCA"><InfoIcon /></Tooltip></p>
               <CardContent>
                 <div className={styles.totalassetContainer}>
                   <p className={styles.para1}>
@@ -208,11 +210,11 @@ export const Invest: React.FC = () => {
                       color="text.secondary"
                       gutterBottom
                     >
-                      USDC Balance
+                      USDC Balance <Tooltip title="USDC Balance in current account"><InfoIcon /></Tooltip>
                     </Typography>
                     <div className={styles.tokensAmount}>
                       12333443
-                      <span className={styles.tokensFont}>Tokens</span>
+                      {" "}<span className={styles.tokensFont}>USDC</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -237,7 +239,7 @@ export const Invest: React.FC = () => {
                       color="text.secondary"
                       gutterBottom
                     >
-                      Ongoing Trade
+                      Ongoing Investments <Tooltip title="Number of Automated DCA trades left"><InfoIcon /></Tooltip>
                     </Typography>
                     <Typography
                       variant="body2"
@@ -247,7 +249,7 @@ export const Invest: React.FC = () => {
                         color: "#ffff",
                       }}
                     >
-                      1
+                      10
                     </Typography>
                   </CardContent>
                 </Card>
