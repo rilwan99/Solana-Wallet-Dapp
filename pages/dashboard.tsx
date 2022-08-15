@@ -31,7 +31,8 @@ import { RawAccount, TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { getTokenPrices } from "../lib/getPrice";
 import { getTokenName } from "../lib/getTokenName";
 import { DefaultLogger } from "ftx-api";
-import { getAveragePrice } from "../lib/getAveragePrice";
+import { getAveragePriceCex } from "../lib/getAveragePriceCex";
+import { getAveragePriceDex } from "../lib/getAveragePriceDex";
 const { RestClient } = require("ftx-api");
 
 const drawerWidth = 240;
@@ -42,6 +43,7 @@ interface TokenInfo {
   balance: number;
   price: number;
   value: number;
+  costPrice: number
 }
 
 export const Dashboard: React.FC = () => {
@@ -54,7 +56,6 @@ export const Dashboard: React.FC = () => {
 
   const [totalTokens, setTotalTokens] = React.useState(0);
   const [totalAssets, setTotalAssets] = React.useState(0);
-  const [avgPrice, setAvgPrice] = React.useState([]);
 
   const router = useRouter();
   // Track the route taken the user (Input Address or CEX wallet)
@@ -65,9 +66,10 @@ export const Dashboard: React.FC = () => {
     symbol: string,
     balance: number,
     price: number,
-    value: number
+    value: number,
+    costPrice: number,
   ) {
-    return { assetName, symbol, balance, price, value };
+    return { assetName, symbol, balance, price, value, costPrice };
   }
 
   React.useEffect(() => {
@@ -117,11 +119,14 @@ export const Dashboard: React.FC = () => {
     );
 
     // populate row[] with price
-    const updatedRows = await getPrices(processedRows);
+    const updatedRowsPrices = await getPrices(processedRows);
 
     // Populate row[] with balance
-    const finalRows = getTokenValue(updatedRows);
-    console.log("This is finalRows", finalRows);
+    const finalRowsBalances = getTokenValue(updatedRowsPrices);
+
+    // Populate row[] with cost price
+    const apiResult = await getAveragePriceDex(userInput)
+    const finalRows = getCostPrices(finalRowsBalances, apiResult)
 
     // Set the total number of tokens in card component
     getTotalTokens(finalRows);
@@ -146,7 +151,6 @@ export const Dashboard: React.FC = () => {
           programId: TOKEN_PROGRAM_ID,
         }
       );
-      console.log(JSON.stringify(tokenAccountArray.value));
       return tokenAccountArray;
     } catch (err) {
       console.log(err);
@@ -213,7 +217,7 @@ export const Dashboard: React.FC = () => {
 
       if (tokenMeta) {
         existingRows.push(
-          createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0)
+          createData(tokenMeta.name, tokenMeta.abbreviation, balance, 0, 0, 0)
         );
       }
     }
@@ -259,6 +263,17 @@ export const Dashboard: React.FC = () => {
     setTotalAssets(num);
   }
 
+  function getCostPrices(rows: TokenInfo[], apiResult) {
+    rows.forEach((row) => {
+      if (row.symbol in apiResult) {
+        if (apiResult[row.symbol] !== "-") {
+          row.costPrice = apiResult[row.symbol]
+        }
+      }
+    })
+    return rows
+  }
+
   async function getExchangeBal(apiKey, apiSecret) {
     const client = new RestClient(apiKey, apiSecret);
     const existingRows: TokenInfo[] = [];
@@ -266,7 +281,6 @@ export const Dashboard: React.FC = () => {
       let a = await client.getBalances();
       const result = a.result;
       const nonZeroBalance = result.filter((account) => account.total > 0);
-      console.log(nonZeroBalance);
       for (let i = 0; i < nonZeroBalance.length; i++) {
         existingRows.push(
           createData(
@@ -274,7 +288,8 @@ export const Dashboard: React.FC = () => {
             nonZeroBalance[i].coin,
             nonZeroBalance[i].total,
             nonZeroBalance[i].usdValue / nonZeroBalance[i].total,
-            nonZeroBalance[i].usdValue
+            nonZeroBalance[i].usdValue,
+            0
           )
         );
       }
@@ -285,13 +300,12 @@ export const Dashboard: React.FC = () => {
       //Set the total value of tokens in card component
       getTotalAssets(existingRows);
 
-      setRows(existingRows);
+      // Populates the cost price
+      const apiResult = await getAveragePriceCex(apiKey, apiSecret);
+      const finalRows = getCostPrices(existingRows, apiResult)
 
-      const apiResult = await getAveragePrice(apiKey, apiSecret);
-      setAvgPrice(apiResult);
-
+      setRows(finalRows);
       setLoading(false);
-      // console.log(a.result[5].total);
     } catch (e) {
       console.error("Get balance failed: ", e);
     }
@@ -576,19 +590,19 @@ export const Dashboard: React.FC = () => {
                 <TableHead>
                   <TableRow className={styles.tableRow}>
                     <TableCell className={styles.tableRow}>
-                      Asset Name
+                      Token
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      Symbol
+                      Balance (USD)
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      Balance
+                      Quantity
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      Price (USD)
+                      Current Price
                     </TableCell>
                     <TableCell className={styles.tableRow} align="right">
-                      Value
+                      Cost Price
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -603,19 +617,19 @@ export const Dashboard: React.FC = () => {
                         component="th"
                         scope="row"
                       >
-                        {row.assetName}
+                        {row.assetName} <br /> {row.symbol}
                       </TableCell>
                       <TableCell className={styles.symbol} align="right">
-                        {row.symbol}
+                        {row.value !== 0 ? "$ " + row.value.toFixed(10) : "-"}
                       </TableCell>
                       <TableCell className={styles.tableRow} align="right">
                         {row.balance !== 0 ? row.balance.toFixed(10) : "-"}
                       </TableCell>
                       <TableCell className={styles.tableRow} align="right">
-                        {row.price !== 0 ? row.price.toFixed(5) : "-"}
+                        {row.price !== 0 ? "$ " + row.price.toFixed(5) : "-"}
                       </TableCell>
                       <TableCell className={styles.tableRow} align="right">
-                        {row.value !== 0 ? "$ " + row.value.toFixed(10) : "-"}
+                        {row.costPrice !== 0 ? "$ " + row.costPrice : "-"}
                       </TableCell>
                     </TableRow>
                   ))}

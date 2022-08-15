@@ -1,4 +1,4 @@
-export async function getAveragePrice(
+export async function getAveragePriceCex(
   userApiKey: string,
   userApiSecret: string
 ) {
@@ -8,6 +8,6 @@ export async function getAveragePrice(
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log("Error in getAveragePrice.ts:" + err);
+    console.log("Error in getAveragePriceCex.ts:" + err);
   }
 }
