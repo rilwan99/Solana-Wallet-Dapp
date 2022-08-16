@@ -209,13 +209,8 @@ export const Dashboard: React.FC = () => {
       const tokenBalanceData = (
         await connection.getTokenAccountBalance(tokenPubKey)
       ).value;
-      console.log("decimals is from " + tokenBalanceData.decimals);
       const decimals = Math.pow(10, tokenBalanceData.decimals);
-
       const balance = Number(currentTokenAccounts[i].amount) / decimals;
-      console.log("Amount is from " + currentTokenAccounts[i].amount);
-
-      console.log("---------Next Token---------");
 
       if (tokenMeta) {
         existingRows.push(
@@ -304,6 +299,8 @@ export const Dashboard: React.FC = () => {
 
       // Populates the cost price
       const apiResult = await getAveragePriceCex(apiKey, apiSecret);
+      console.log("Printing API Result------")
+      console.log(apiResult)
       const finalRows = getCostPrices(existingRows, apiResult)
 
       setRows(finalRows);
@@ -460,8 +457,7 @@ export const Dashboard: React.FC = () => {
                     {" "}
                     <span className={styles.currencyIcon}> $ </span>{" "}
                     <span className={styles.totalAmount}>
-                      {" "}
-                      {totalAssets.toFixed(5)}{" "}
+                      {apiKey && apiSecret ? 0 : 100}
                     </span>{" "}
                     <span className={styles.dollarIcon}> USD </span>{" "}
                   </p>
@@ -488,7 +484,7 @@ export const Dashboard: React.FC = () => {
                   color="text.secondary"
                   gutterBottom
                 >
-                  Tokens <Tooltip title="Total Number of Tokens in all wallets"><InfoIcon /></Tooltip>
+                  Token Quantity <Tooltip title="Total Number of Tokens in all wallets"><InfoIcon /></Tooltip>
                 </Typography>
                 <div className={styles.tokensAmount}>
                   {totalTokens.toFixed(4)}{" "}
@@ -559,7 +555,7 @@ export const Dashboard: React.FC = () => {
                     color: "#ffff",
                   }}
                 >
-                  1
+                  {apiKey && apiSecret ? 0 : 1}
                 </Typography>
               </CardContent>
             </Card>

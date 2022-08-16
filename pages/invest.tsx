@@ -45,10 +45,8 @@ function createData(
 
 const rows = [
   createData("Bitcoin (BTC)", "Weekly", 100, 0.004332),
-  createData("Etheruem (ETH)", "Weekly", 100, 0.004332),
-  createData("Solana (SOL)", "Weekly", 100, 0.004332),
-  createData("Bitcoin (BTC)", "Weekly", 100, 0.004332),
-  createData("Bitcoin (BTC)", "Weekly", 100, 0.004332),
+  createData("Etheruem (ETH)", "Weekly", 100, 0.7575),
+  createData("Solana (SOL)", "Weekly", 100, 23.3232),
 ];
 
 export const Invest: React.FC = () => {
@@ -183,7 +181,7 @@ export const Invest: React.FC = () => {
                   <p className={styles.para1}>
                     {" "}
                     <span className={styles.currencyIcon}> $ </span>{" "}
-                    <span className={styles.totalAmount}> 1234</span>{" "}
+                    <span className={styles.totalAmount}> 1200.00</span>{" "}
                     <span className={styles.dollarIcon}> USD </span>{" "}
                   </p>
                 </div>
@@ -213,7 +211,7 @@ export const Invest: React.FC = () => {
                       USDC Balance <Tooltip title="USDC Balance in current account"><InfoIcon /></Tooltip>
                     </Typography>
                     <div className={styles.tokensAmount}>
-                      12333443
+                      800
                       {" "}<span className={styles.tokensFont}>USDC</span>
                     </div>
                   </CardContent>
@@ -249,7 +247,7 @@ export const Invest: React.FC = () => {
                         color: "#ffff",
                       }}
                     >
-                      10
+                      1
                     </Typography>
                   </CardContent>
                 </Card>
