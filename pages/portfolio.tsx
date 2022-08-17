@@ -537,29 +537,17 @@ export const Portfolio: React.FC = () => {
                                 <div className={styles.piechartContainer}>
                                     <img
                                         className={styles.piechartImg}
-                                        src="/pieChart.png"
+                                        src="/pieChart2.png"
                                         alt="pieChart"
                                     />
                                     <div className={styles.disDiscription}>
                                         <div className={styles.solContainer}>
                                             <img className={styles.solImg} src="/sol.png" alt="sol" />
-                                            <p className={styles.solFont}> 50% - SOL</p>
+                                            <p className={styles.solFont}> 53% - USDC</p>
                                         </div>
                                         <div className={styles.solContainer}>
                                             <img className={styles.solImg} src="/btc.png" alt="sol" />
-                                            <p className={styles.solFont}> 30% - BTC</p>
-                                        </div>
-                                        <div className={styles.solContainer}>
-                                            <img className={styles.solImg} src="/eth.png" alt="sol" />
-                                            <p className={styles.solFont}> 15% - ETH</p>
-                                        </div>
-                                        <div className={styles.solContainer}>
-                                            <img
-                                                className={styles.solImg}
-                                                src="/other.png"
-                                                alt="sol"
-                                            />
-                                            <p className={styles.solFont}> 5% - others</p>
+                                            <p className={styles.solFont}> 47% - stSOL</p>
                                         </div>
                                     </div>
                                 </div>

@@ -16,12 +16,6 @@ import * as web3 from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
 
-class inputForm {
-  id = "";
-  apikey: string;
-  apisecret: string;
-}
-
 const Homepage: React.FC = () => {
   const [data, setData] = useState({ address: "" });
   const [cexData1, setCexData1] = useState({ apiKey: "" });
@@ -34,7 +28,7 @@ const Homepage: React.FC = () => {
   useEffect(() => {
     if (publicKey) {
       const userAddress = publicKey.toString();
-      const url = "/dashboard?address=" + userAddress;
+      const url = "/dashboard?address=" + "userAddress";
       Router.push(url);
     }
   }, [publicKey]);

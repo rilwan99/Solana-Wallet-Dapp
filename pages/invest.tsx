@@ -17,6 +17,10 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import InsightsIcon from "@mui/icons-material/Insights";
 import InfoIcon from '@mui/icons-material/Info';
 import Tooltip from '@mui/material/Tooltip';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from '@mui/material/Button';
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -31,6 +35,8 @@ import CardContent from "@mui/material/CardContent";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import * as web3 from "@solana/web3.js";
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 const drawerWidth = 240;
 
@@ -55,6 +61,9 @@ export const Invest: React.FC = () => {
   const [apiSecret, setApiSecret] = React.useState("");
   const router = useRouter();
   const pathNameChecker = router.asPath.slice(8, 15);
+  const wallet = useWallet()
+  const { connection } = useConnection()
+
 
   React.useEffect(() => {
     // User enters via entering address in input box OR phantom wallet
@@ -98,6 +107,28 @@ export const Invest: React.FC = () => {
       router.push(url);
     }
   };
+
+  const executeDCA = (e) => {
+
+    e.preventDefault()
+
+    const transaction = new web3.Transaction()
+    const recipientPubKey = new web3.PublicKey("FY8z4UnMDBMRGHbqL8sRtjDEfs5W7J7jYpVvUGVceSTD")
+
+    const sendSolInstruction = web3.SystemProgram.transfer({
+      fromPubkey: wallet.publicKey,
+      toPubkey: recipientPubKey,
+      lamports: web3.LAMPORTS_PER_SOL * 0.1
+    })
+
+    transaction.add(sendSolInstruction);
+    console.log("transaction", transaction)
+    console.log("wallet", wallet)
+    wallet.sendTransaction(transaction, connection).then(sig => {
+      console.log(sig)
+    })
+  }
+
   return (
     <Box
       sx={{
@@ -325,22 +356,26 @@ export const Invest: React.FC = () => {
                   </FormControl>
                 </div>
                 <div>
-                  <div>
+                  <div className={styles.radioButtton}>
                     <p className={styles.paraRtrade}>Amount (USDC)</p>
 
-                    <div className={styles.amountUsdc}>
-                      <p className={styles.usdcPara}>10</p>
-                      <p className={styles.usdcPara}>50</p>
-                      <p className={styles.usdcPara}>100</p>
-                      <p className={styles.usdcPara2}>1000</p>
-                    </div>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel value="10" control={<Radio sx={{ color: "#ffff" }} />} label="10" />
+                      <FormControlLabel value="100" control={<Radio sx={{ color: "#ffff" }} />} label="100" />
+                      <FormControlLabel value="1000" control={<Radio sx={{ color: "#ffff" }} />} label="1000" />
+
+                    </RadioGroup>
                   </div>
                   <div>
                     <p className={styles.paraRtrade}>Trade Cycle</p>
                     <div>
                       <div className={styles.tradeCcontainer}>
                         <span className={styles.maxPara}>
-                          0 <span className={styles.maxParaB}>MAX</span>
+                          <span className={styles.maxParaB}>MAX</span>
                         </span>
                         {/* <p className={styles.maxPara}>MAX</p> */}
                       </div>
@@ -349,7 +384,7 @@ export const Invest: React.FC = () => {
                 </div>
                 <p></p>
                 <div>
-                  <span className={styles.confirmBtn}>Confirm</span>
+                  <Button onClick={executeDCA} variant="contained">submit</Button>
                 </div>
               </CardContent>
             </Card>

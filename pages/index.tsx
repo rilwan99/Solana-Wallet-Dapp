@@ -4,6 +4,7 @@ import WalletContextProvider from '../components/WalletContextProvider'
 import Head from 'next/head'
 import Dashboard from './dashboard'
 import Homepage from './homePage'
+import Invest from "./invest"
 
 const Home: NextPage = (props) => {
 
@@ -17,9 +18,10 @@ const Home: NextPage = (props) => {
         />
       </Head>
 
-      <WalletContextProvider>
-        <Homepage />
-      </WalletContextProvider >
+      {/* <WalletContextProvider> */}
+      <Homepage />
+      {/* </WalletContextProvider > */}
+
     </div>
   );
 }
